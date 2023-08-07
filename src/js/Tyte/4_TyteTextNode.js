@@ -6,18 +6,6 @@
 
 //_____________________________________________________________________________
 //
-//  TyteTextNode private
-//_____________________________________________________________________________
-//
-
-/**
- * @private
- * @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|null}
- */
-TyteTextNode.prototype._root = null;
-
-//_____________________________________________________________________________
-//
 //  TyteTextNode public
 //_____________________________________________________________________________
 //
@@ -62,9 +50,8 @@ TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
 
     if( parent ){
         args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
-        m_updateRootAndParentNodeOfNewChildNodes(
+        m_updateParentOfNewChildNodes(
             args,
-            /** @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} */ (parent._root),
             /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
         );
         args.unshift( m_getMyIndex( this ), 0 );
@@ -96,9 +83,8 @@ TyteTextNode.prototype.setNext = function( ___tyteNodes ){
         childNodes = parent._childNodes;
         insertIndex = m_getMyIndex( this ) + 1;
         args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
-        m_updateRootAndParentNodeOfNewChildNodes(
+        m_updateParentOfNewChildNodes(
             args,
-            /** @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} */ (parent._root),
             /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
         );
 
@@ -124,9 +110,8 @@ TyteTextNode.prototype.swap = function( ___tyteNodes ){
     if( parent ){
         args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
 
-        m_updateRootAndParentNodeOfNewChildNodes(
+        m_updateParentOfNewChildNodes(
             args,
-            /** @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} */ (parent._root),
             /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
         );
 
@@ -134,7 +119,7 @@ TyteTextNode.prototype.swap = function( ___tyteNodes ){
         childNodes = parent._childNodes;
         childNodes.splice.apply( childNodes, args );
 
-        m_updateRootAndParentNode( this, this, null );
+        m_updateParentNode( this, null );
     };
 
     return this;
@@ -148,7 +133,7 @@ TyteTextNode.prototype.remove = function(){
 
     if( parent ){
         parent._childNodes.splice( m_getMyIndex( this ), 1 );
-        m_updateRootAndParentNode( this, this, null );
+        m_updateParentNode( this, null );
     };
 
     return this;
@@ -164,7 +149,7 @@ TyteTextNode.prototype.remove = function(){
  * @return {!TyteElementBase|!TyteTextNode}
  */
 TyteTextNode.prototype.ready = function(){
-    m_updateRootAndParentNode( this, this, null );
+    m_updateParentNode( this, null );
 
     return this;
 };

@@ -77,12 +77,6 @@ function TyteElementBase_init( _instance, Class, _args ){
 
 /**
  * @private
- * @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|null}
- */
-TyteElementBase.prototype._root = null;
-
-/**
- * @private
  * @type {!Attrs|null}
  */
 TyteElementBase.prototype._attrs = null;

@@ -181,33 +181,31 @@ function m_getInstance( instance, Class ){
 
 /**
  * @param {!TyteTextNode|!TyteElementBase} currentNode
- * @param {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} rootNode
  * @param {!TyteElementBase|!TyteDocumentFragment|null} parentNode
  */
-function m_updateRootAndParentNode( currentNode, rootNode, parentNode ){
+function m_updateParentNode( currentNode, parentNode ){
     var currentParent = currentNode.parent;
 
     if( currentParent ){
         currentParent._childNodes.splice( m_getMyIndex( currentNode ), 1 );
     };
-    if( currentNode._root !== rootNode || currentNode.parent !== parentNode ){
-        update( currentNode, rootNode, parentNode );
+    if( currentParent !== parentNode ){
+        update( currentNode, parentNode );
     };
 
-    function update( currentNode, rootNode, parentNode ){
+    function update( currentNode, parentNode ){
         var childNodes = currentNode._childNodes,
             i = 0, l, childNode;
 
-        currentNode._root = rootNode;
         currentNode.parent = parentNode;
         
         if( childNodes ){
             for( l = childNodes.length; i < l; ++i ){
                 childNode = childNodes[ i ];
-                childNode._root = rootNode;
-                childNode.parent = currentNode;
                 if( childNode._childNodes ){
-                    update( /** @type {!TyteElementBase} */ (childNode), rootNode, /** @type {!TyteElementBase|!TyteDocumentFragment} */ (currentNode) );
+                    update( /** @type {!TyteElementBase} */ (childNode), /** @type {!TyteElementBase|!TyteDocumentFragment} */ (currentNode) );
+                } else {
+                    childNode.parent = currentNode;
                 };
             };
         };
@@ -216,15 +214,14 @@ function m_updateRootAndParentNode( currentNode, rootNode, parentNode ){
 
 /**
  * @param {!Array.<!TyteTextNode|!TyteElementBase>} newChildNodes
- * @param {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} rootNode
  * @param {!TyteElementBase|!TyteDocumentFragment} parentNode
  */
-function m_updateRootAndParentNodeOfNewChildNodes( newChildNodes, rootNode, parentNode ){
+function m_updateParentOfNewChildNodes( newChildNodes, parentNode ){
     var i = 0, l = newChildNodes.length, childNode;
     
     for( ; i < l; ++i ){
         childNode = newChildNodes[ i ];
-        m_updateRootAndParentNode( childNode, rootNode, parentNode );
+        m_updateParentNode( childNode, parentNode );
     };
 };
 
