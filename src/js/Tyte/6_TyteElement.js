@@ -13,7 +13,7 @@
 /**
  * 
  * @param {string} tagName 
- * @returns {Class}
+ * @return {Class}
  */
 p_createTyteNodeClass = function( tagName ){
     return TyteElementBase_CLASSES[ tagName ] = TyteElementBase_CLASSES[ tagName ] || TyteElementBase_createClass( tagName );
@@ -33,7 +33,7 @@ var TyteElementBase_CLASSES = {};
 /**
  * 
  * @param {string} tagName 
- * @returns {Class}
+ * @return {Class}
  */
 function TyteElementBase_createClass( tagName ){
     /**
@@ -57,15 +57,17 @@ function TyteElementBase_createClass( tagName ){
  * @param {!TyteElementBase|*} _instance 
  * @param {!Function} Class 
  * @param {!Arguments} _args 
- * @returns 
+ * @return {!TyteElementBase}
  */
 function TyteElementBase_init( _instance, Class, _args ){
     var instance = /** @type {!TyteElementBase} */ (m_getInstance( _instance, Class )),
         args = m_argumentsToArray( _args ),
-        attrs = args[ 0 ];
+        attrs = args[ 0 ], property;
 
     if( attrs && typeof attrs === 'object' && !m_isTyteNode( attrs ) ){
-        instance._attrs = /** @type {!Attrs} */ (attrs);
+        for( property in attrs ){
+            instance.setAttr( property, attrs[ property ] );
+        };
         args.shift();
     };
 
