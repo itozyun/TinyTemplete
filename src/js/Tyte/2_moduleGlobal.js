@@ -10,7 +10,7 @@
  * @param {string} text
  */
 TyteTextNode = function( text ){
-    var instance = m_getInstance( this, TyteTextNode );
+    var instance = /** @type {!TyteTextNode} */ (m_getInstance( this, TyteTextNode ));
 
     instance.text = text;
 
@@ -29,7 +29,7 @@ function TyteElementBase( opt_attrs, ___tyteNodes ){};
  * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
  */
 TyteDocumentFragment = function( ___tyteNodes ){
-    var instance = m_getInstance( this, TyteDocumentFragment );
+    var instance = /** @type {!TyteDocumentFragment} */ (m_getInstance( this, TyteDocumentFragment ));
 
     instance._childNodes = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
 
@@ -173,10 +173,10 @@ function m_walkElements( tyteNode, func ){
  * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment}
  */
 function m_getInstance( instance, Class ){
-    if( !instance || instance.constructor !== TyteDocumentFragment ){
+    if( !instance || instance.constructor !== Class ){
         instance = new Class();
     };
-    return instance;
+    return /** @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} */ (instance);
 };
 
 /**

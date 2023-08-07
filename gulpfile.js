@@ -49,7 +49,7 @@ gulp.task(
                             ],
                             // compilation_level : 'ADVANCED',
                             // compilation_level : 'WHITESPACE_ONLY',
-                            // formatting        : 'PRETTY_PRINT',
+                            formatting        : 'PRETTY_PRINT',
                             warning_level     : 'VERBOSE',
                             // language_in       : 'ECMASCRIPT3',
                             // language_out      : 'ECMASCRIPT3',

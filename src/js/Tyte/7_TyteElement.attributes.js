@@ -8,7 +8,7 @@
  * @param {string} attrName
  * @return {string|number|boolean|null}
  */
-TyteElementBase.prototype.getAttribute = function( attrName ){
+TyteElementBase.prototype.getAttr = function( attrName ){
     var attrs = this._attrs,
         value = attrs ? attrs[ attrName ] : null;
 
@@ -20,7 +20,7 @@ TyteElementBase.prototype.getAttribute = function( attrName ){
  * @param {string|number|boolean} value
  * @return {!TyteElementBase}
  */
-TyteElementBase.prototype.setAttribute = function( attrName, value ){
+TyteElementBase.prototype.setAttr = function( attrName, value ){
     if( attrName === 'style' && typeof value === 'string' ){
         this.setCSSText( value );
     } else {
@@ -39,17 +39,17 @@ TyteElementBase.prototype.setAttribute = function( attrName, value ){
  * @param {string} attrName
  * @return {boolean}
  */
-TyteElementBase.prototype.hasAttribute = function( attrName ){
+TyteElementBase.prototype.hasAttr = function( attrName ){
     var attrs = this._attrs;
 
-    return attrs && attrs[ attrName ] != null;
+    return attrs ? attrs[ attrName ] != null : false;
 };
 
 /**
  * @param {string} attrName
  * @return {!TyteElementBase}
  */
-TyteElementBase.prototype.removeAttribute = function( attrName ){
+TyteElementBase.prototype.removeAttr = function( attrName ){
     var attrs = this._attrs;
 
     attrs && delete attrs[ attrName ];

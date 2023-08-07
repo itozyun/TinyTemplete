@@ -54,7 +54,7 @@ TyteDocumentFragment.prototype.getElementByID = function( id ){
     m_walkElements(
         /** @type {!TyteElementBase|!TyteDocumentFragment} */ (this),
         function( tyteElement ){
-            if( tyteElement.getAttribute( 'id' ) === id ){
+            if( tyteElement.getAttr( 'id' ) === id ){
                 targetElement = tyteElement;
                 return true;
             };
@@ -111,7 +111,7 @@ TyteDocumentFragment.prototype.getElementListByName = function( name ){
     m_walkElements(
         this,
         function( tyteElement ){
-            if( tyteElement.getAttribute( 'name' ) === name ){
+            if( tyteElement.getAttr( 'name' ) === name ){
                 elementList[ ++i ] = tyteElement;
             };
         }

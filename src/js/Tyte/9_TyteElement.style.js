@@ -9,7 +9,7 @@
  * @return {string|number}
  */
 TyteElementBase.prototype.getStyle = function( styleName ){
-    var style = this.getAttribute( 'style' ),
+    var style = this._attrs && this._attrs.style,
         value = style ? style[ styleName ] : '';
 
     return value == null ? '' : value;
@@ -21,10 +21,12 @@ TyteElementBase.prototype.getStyle = function( styleName ){
  * @return {!TyteElementBase}
  */
 TyteElementBase.prototype.setStyle = function( styleName, value ){
-    var style = this.getAttribute( 'style' );
+    var attrs = this._attrs,
+        style = attrs && attrs.style;
 
     if( !style ){
-        this.setAttribute( 'style', style = {} );
+        attrs = this._attrs = attrs || {};
+        attrs.style = {};
     };
     style[ styleName ] = value;
 
@@ -36,7 +38,7 @@ TyteElementBase.prototype.setStyle = function( styleName, value ){
  * @return {!TyteElementBase}
  */
 TyteElementBase.prototype.removeStyle = function( styleName ){
-    var style = this.getAttribute( 'style' );
+    var style = this._attrs && this._attrs.style;
 
     if( style ){
         delete style[ styleName ];
@@ -50,7 +52,8 @@ TyteElementBase.prototype.removeStyle = function( styleName ){
  */
 TyteElementBase.prototype.getCSSText = function(){
     var cssText = [], i = -1,
-        style = this.getAttribute( 'style' ), property;
+        style = this._attrs && this._attrs.style,
+        property;
 
     for( property in style ){
         cssText[ ++i ] = property + ':' + style[ property ];

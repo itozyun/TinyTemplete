@@ -38,7 +38,7 @@ test('clone', (t) => {
     const t_listItem2 = t_listItem.clone(true);
     t.deepEqual( t_listItem2.renderSSR(), '<li class="my-list-item"><i class="ico-twitter"></i>X' );
 
-    t_listItem2.getFirstChild().setAttribute( 'className', 'ico-facebook' );
+    t_listItem2.getFirstChild().setAttr( 'className', 'ico-facebook' );
     t_listItem2.getLastChild().text = 'Facebook';
 
     t.deepEqual( t_listItem2.renderSSR(), '<li class="my-list-item"><i class="ico-facebook"></i>Facebook' );

@@ -60,7 +60,7 @@ function TyteElementBase_createClass( tagName ){
  * @returns 
  */
 function TyteElementBase_init( _instance, Class, _args ){
-    var instance = m_getInstance( _instance, Class ),
+    var instance = /** @type {!TyteElementBase} */ (m_getInstance( _instance, Class )),
         args = m_argumentsToArray( _args ),
         attrs = args[ 0 ];
 
@@ -72,7 +72,7 @@ function TyteElementBase_init( _instance, Class, _args ){
     if( args.length ){
         instance._childNodes = m_stringToTextNodeAndFlattenDocumentFragment( args );
     };
-    return /** @type {!TyteElementBase} */ (instance);
+    return instance;
 };
 
 /**

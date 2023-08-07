@@ -16,7 +16,7 @@ TyteElementBase.prototype.hasClass = function( className ){
  * @return {string}
  */
 TyteElementBase.prototype.getClass = function(){
-    return /** @type {string} */ (this.getAttribute( 'className' )) || '';
+    return /** @type {string} */ (this.getAttr( 'className' )) || '';
 };
 
 /**
@@ -24,7 +24,7 @@ TyteElementBase.prototype.getClass = function(){
  * @return {!TyteElementBase}
  */
 TyteElementBase.prototype.setClass = function( className ){
-    return this.setAttribute( 'className', className );
+    return this.setAttr( 'className', className );
 };
 
 /**
