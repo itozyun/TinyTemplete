@@ -41,7 +41,7 @@ TyteTextNode.prototype.getPrev = function(){
 };
 
 /**
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment)} ___tyteNodes
+ * @param {...!TyteNode} ___tyteNodes
  * @return {!TyteTextNode}
  */
 TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
@@ -72,7 +72,7 @@ TyteTextNode.prototype.getNext = function(){
 };
 
 /**
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment)} ___tyteNodes
+ * @param {...!TyteNode} ___tyteNodes
  * @return {!TyteTextNode}
  */
 TyteTextNode.prototype.setNext = function( ___tyteNodes ){
@@ -146,7 +146,7 @@ TyteTextNode.prototype.remove = function(){
 
 /**
  * @param {boolean=} deepCopy
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} newNode
+ * @return {!TyteNode} newNode
  */
 TyteTextNode.prototype.clone = function( deepCopy ){
     return new TyteTextNode( this.text );;

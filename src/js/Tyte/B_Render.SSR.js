@@ -15,35 +15,40 @@ var EMPTY_ELEMENTS   = {link:!0,meta:!0,br:!0,hr:!0,img:!0,input:!0,area:!0,base
 var RenderSSR_skipHTMLEscape;
 var RenderSSR_noOmitCloseTag;
 
+/**
+ * @param {RenderingContext=} renderingContext
+ * @return {string}
+ */
+function TyteDocumentFragment_renderSSR( renderingContext ){
+    var htmlString = [],
+        childNodes = this._childNodes,
+        i = 0, l;
+
+    if( childNodes ){
+        for( l = childNodes.length; i < l; ++i ){
+            htmlString[ i ] = childNodes[ i ].renderSSR( renderingContext );
+        };
+    };
+
+    return htmlString.join( '' );
+};
+
 if( DEFINE_TYTE__USE_RENDER_SSR ){
     /**
+     * @param {RenderingContext=} renderingContext
      * @return {string}
      */
-    TyteTextNode.prototype.renderSSR = function(){
+    TyteTextNode.prototype.renderSSR = function( renderingContext ){
         return RenderSSR_skipHTMLEscape ? this.text : m_escapeForHTML( this.text );
     };
 
-    /**
-     * @return {string}
-     */
-    TyteDocumentFragment.prototype.renderSSR = function(){
-        var htmlString = [],
-            childNodes = this._childNodes,
-            i = 0, l;
-
-        if( childNodes ){
-            for( l = childNodes.length; i < l; ++i ){
-                htmlString[ i ] = childNodes[ i ].renderSSR();
-            };
-        };
-
-        return htmlString.join( '' );
-    };
+    TyteDocumentFragment.prototype.renderSSR = TyteDocumentFragment_renderSSR;
 
     /**
+     * @param {RenderingContext=} renderingContext
      * @return {string}
      */
-    TyteElementBase.prototype.renderSSR = function(){
+    TyteElementBase.prototype.renderSSR = function TyteDocumentFragment_renderSSR( renderingContext ){
         var tagName = this._tagName,
             htmlString = [ '<', tagName ], i = 1,
             attrs = this._attrs, property, value,
@@ -53,6 +58,9 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
         if( attrs ){
             for( property in attrs ){
                 value = attrs[ property ];
+                if( typeof value === 'function' ){
+                    value = /** @type {!DynamicAttributeFunction} */ (value).call( this, renderingContext, property );
+                };
                 if( value != null ){
                     property = m_RENAME_ATTRIBUTES[ property ] || property;
                     if( ATTRIBUTES_NO_VALUE[ property ] ){
@@ -60,10 +68,10 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
                             htmlString[ ++i ] = ' ' + property;
                         };
                     } else {
-                        if( property === 'style' ){
-                            value = this.getCSSText();
+                        if( property === 'style' && typeof value === 'object' ){
+                            value = m_objToCSSText( value );
                         };
-                        htmlString[ ++i ] = ' ' + property + '="' + m_escapeForAttribute( value ) + '"';
+                        htmlString[ ++i ] = ' ' + property + '="' + m_escapeForAttribute( '' + value ) + '"';
                     };
                 };
             };
@@ -78,7 +86,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
 
         if( this._childNodes ){
             htmlString[ ++i ] = '>';
-            htmlString[ ++i ] = childNodesString = TyteDocumentFragment.prototype.renderSSR.call( this );
+            htmlString[ ++i ] = childNodesString = TyteDocumentFragment.prototype.renderSSR.call( this, renderingContext );
         } else {
             htmlString[ ++i ] = IS_XML_ELEMENT[ tagName ] ? '/>' : '>';
         };
@@ -97,5 +105,22 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
         };
 
         return htmlString.join( '' );
+    };
+
+    /**
+     * @param {RenderingContext=} renderingContext
+     * @return {string}
+     */
+    TyteDynamicNodeBase.prototype.renderSSR = function( renderingContext ){
+        var staticTyteNode = this._compute( renderingContext );
+
+        if( typeof staticTyteNode === 'string' ){
+            return RenderSSR_skipHTMLEscape ? staticTyteNode : m_escapeForHTML( staticTyteNode );
+        } else if( typeof staticTyteNode === 'number' ){
+            return '' + staticTyteNode;
+        } else if( staticTyteNode != null ){
+            return staticTyteNode.renderCSR( renderingContext );
+        };
+        return '';
     };
 };

@@ -6,7 +6,7 @@
 
 /**
  * @param {string} attrName
- * @return {string|number|boolean|null}
+ * @return {string|number|boolean|!DynamicAttributeFunction|null}
  */
 TyteElementBase.prototype.getAttr = function( attrName ){
     var attrs = this._attrs,
@@ -17,7 +17,7 @@ TyteElementBase.prototype.getAttr = function( attrName ){
 
 /**
  * @param {string} attrName
- * @param {string|number|boolean} value
+ * @param {string|number|boolean|!DynamicAttributeFunction} value
  * @return {!TyteElementBase}
  */
 TyteElementBase.prototype.setAttr = function( attrName, value ){

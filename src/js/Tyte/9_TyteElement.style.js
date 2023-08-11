@@ -48,21 +48,6 @@ TyteElementBase.prototype.removeStyle = function( styleName ){
 };
 
 /**
- * @return {string}
- */
-TyteElementBase.prototype.getCSSText = function(){
-    var cssText = [], i = -1,
-        style = this._attrs && this._attrs.style,
-        property;
-
-    for( property in style ){
-        cssText[ ++i ] = property + ':' + style[ property ];
-    };
-
-    return cssText.join( ';' );
-};
-
-/**
  * @param {string} cssText
  * @return {!TyteElementBase}
  */

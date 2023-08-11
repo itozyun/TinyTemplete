@@ -28,8 +28,14 @@ TyteDocumentFragment = function( ___tyteNodes ){
 };
 
 /**
- * @param {function((!TyteTextNode|!TyteElementBase|!TyteDocumentFragment),(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} this
+ * @constructor
+ * @param {...*} ___something
+ */
+TyteDynamicNodeBase = function( ___something ){};
+
+/**
+ * @param {function(!TyteNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @return {!TyteNode} this
  */
 TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDocumentFragment.prototype.walkNodes = function( func ){
     m_walkNodes( this, func );
@@ -38,7 +44,7 @@ TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDoc
 
 /**
  * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} this
+ * @return {!TyteNode} this
  */
 TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes = TyteDocumentFragment.prototype.walkTextNodes = function( func ){
     m_walkTextNodes( this, func );
@@ -47,7 +53,7 @@ TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes =
 
 /**
  * @param {function(!TyteElementBase,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} this
+ * @return {!TyteNode} this
  */
 TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNodes = function( func ){
     m_walkElements( this, func );
@@ -59,6 +65,14 @@ TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNode
 //  ...
 //
 //=============================================================================
+/** @typedef {!function(RenderingContext):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
+var DynamicNodeFunction;
+
+/** @typedef {!function(RenderingContext,string):(string|number|null|undefined)} */
+var DynamicStyleFunction;
+
+/** @typedef {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
+var TyteNode;
 
 /** @const */
 var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
@@ -71,6 +85,21 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 
 /**
  * 
+ * @param {!Object} style 
+ * @return {string} 
+ */
+function m_objToCSSText( style ){
+    var cssText = [], i = -1, property;
+
+    for( property in style ){
+        cssText[ ++i ] = property + ':' + style[ property ]; // TODO function & snake case
+    };
+
+    return cssText.join( ';' );
+};
+
+/**
+ * 
  * @param {*} tyteNode 
  * @return {boolean}
  */
@@ -79,8 +108,8 @@ function m_isTyteNode( tyteNode ){
 };
 
 /**
- * @param {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} tyteNode
- * @param {function((!TyteTextNode|!TyteElementBase|!TyteDocumentFragment),(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!TyteNode} tyteNode
+ * @param {function(!TyteNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  */
 function m_walkNodes( tyteNode, func ){
     if( func( tyteNode ) === true ){
@@ -100,7 +129,7 @@ function m_walkNodes( tyteNode, func ){
 };
 
 /**
- * @param {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} tyteNode
+ * @param {!TyteNode} tyteNode
  * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  */
 function m_walkTextNodes( tyteNode, func ){
@@ -140,14 +169,8 @@ function m_walkElements( tyteNode, func ){
         for( l = childNodes.length; i < l; ++i ){
             childNode = childNodes[ i ];
             if( childNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE ){
-                if( func( /** @type {!TyteElementBase} */ (childNode) ) === true ){
+                if( m_walkElements( /** @type {!TyteElementBase} */ (childNode), func ) ){
                     return true;
-                } else {
-                    if( childNode._childNodes ){
-                        if( m_walkElements( /** @type {!TyteElementBase} */ (childNode), func ) ){
-                            return true;
-                        };
-                    };
                 };
             };
         };
@@ -156,15 +179,15 @@ function m_walkElements( tyteNode, func ){
 
 /**
  * 
- * @param {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|*} instance 
+ * @param {!TyteNode|*} instance 
  * @param {!Class} Class
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment}
+ * @return {!TyteNode}
  */
 function m_getInstance( instance, Class ){
     if( !instance || instance.constructor !== Class ){
         instance = new Class();
     };
-    return /** @type {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} */ (instance);
+    return /** @type {!TyteNode} */ (instance);
 };
 
 /**
@@ -211,7 +234,7 @@ function m_getMyIndex( tyteNode ){
 /**
  * 1. string を TyteTextNode へ
  * 2. DocumentFragment を解除して childNodes を展開
- * @param {!Array.<!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string>} args
+ * @param {!Array.<!TyteNode|string>} args
  * @return {!Array.<!TyteTextNode|!TyteElementBase>}
  */
 function m_stringToTextNodeAndFlattenDocumentFragment( args ){

@@ -29,14 +29,22 @@ var p_createTyteNodeClass;
 var TyteTextNode;
 /** @class */
 var TyteDocumentFragment;
+/** @class */
+var TyteDynamicNodeBase;
 
-/** @typedef {!Object} */
+/** @typedef {*} */
+var RenderingContext;
+
+/** @typedef {!function(RenderingContext,string):(!Object|string|number|null|undefined)} */
+var DynamicAttributeFunction;
+
+/** @typedef {!Object.<string,(string|number|!DynamicAttributeFunction|boolean)>} */
 var TyteAttrs;
 
 /**s
  * @constructor
  * @param {!TyteAttrs=} opt_attrs
- * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
+ * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
  */
 function TyteElementBase( opt_attrs, ___tyteNodes ){};
 

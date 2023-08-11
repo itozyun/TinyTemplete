@@ -145,7 +145,7 @@ TyteDocumentFragment.prototype.getChildNodes = function(){
 //
 
 /**
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} ___tyteNodes
+ * @param {...(!TyteNode|string)} ___tyteNodes
  * @return {!TyteElementBase|!TyteDocumentFragment}
  */
 TyteDocumentFragment.prototype.appendNode = function( ___tyteNodes ){
@@ -161,7 +161,7 @@ TyteDocumentFragment.prototype.appendNode = function( ___tyteNodes ){
 };
 
 /**
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} ___tyteNodes
+ * @param {...(!TyteNode|string)} ___tyteNodes
  * @return {!TyteElementBase|!TyteDocumentFragment}
  */
 TyteDocumentFragment.prototype.prependNode = function( ___tyteNodes ){
@@ -241,7 +241,7 @@ TyteDocumentFragment.prototype.setTextContent = function( textContent ){
 
 /**
  * @param {boolean=} deepCopy
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} newNode
+ * @return {!TyteNode} newNode
  */
 TyteDocumentFragment.prototype.clone = function( deepCopy ){
     var clonedNode = new TyteDocumentFragment();

@@ -45,3 +45,7 @@ if( isNode ){
 gulp js
 npm run test
 ~~~
+
+dynamic node
+dynamic attribute
+dynamic style

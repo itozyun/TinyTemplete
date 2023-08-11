@@ -42,16 +42,16 @@ function TyteElementBase_createClass( tagName ){
      * @param {!TyteAttrs=} opt_attrs
      * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
      */
-    function TyteClass( opt_attrs, ___tyteNodes ){
-        return TyteElementBase_init( this, TyteClass, arguments );
+    function TyteElement( opt_attrs, ___tyteNodes ){
+        return TyteElementBase_init( this, TyteElement, arguments );
     };
 
     var traits = new TyteElementBase;
     traits._tagName    = tagName;
-    traits.constructor = TyteClass;
+    traits.constructor = TyteElement;
 
-    TyteClass.prototype = traits;
-    return TyteClass;
+    TyteElement.prototype = traits;
+    return TyteElement;
 };
 
 /**
@@ -103,7 +103,7 @@ TyteElementBase.prototype._childNodes = null;
 TyteElementBase.prototype.nodeType = TYTE_NODE_TYPE.ELEMENT_NODE;
 
 /**
- * @type {!TyteElementBase|null}
+ * @type {!TyteElementBase|TyteDocumentFragment|null}
  */
 TyteElementBase.prototype.parent = null;
 
@@ -169,7 +169,7 @@ TyteElementBase.prototype.setTextContent = TyteDocumentFragment.prototype.setTex
 
 /**
  * @param {boolean=} deepCopy
- * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} newNode
+ * @return {!TyteNode} newNode
  */
 TyteElementBase.prototype.clone = function( deepCopy ){
     var Class = this.constructor,
