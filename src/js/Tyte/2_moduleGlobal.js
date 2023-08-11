@@ -17,13 +17,6 @@ TyteTextNode = function( text ){
     return instance;
 };
 
-/**s
- * @constructor
- * @param {!Attrs=} opt_attrs
- * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
- */
-function TyteElementBase( opt_attrs, ___tyteNodes ){};
-
 /**
  * @constructor
  * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
@@ -68,9 +61,6 @@ TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNode
 //  ...
 //
 //=============================================================================
-
-/** @typedef {!Object} */
-var Attrs;
 
 /** @const */
 var m_RENAME_ATTRIBUTES = {className:'class',htmlFor:'for'};
@@ -189,7 +179,7 @@ function m_updateParentNode( currentNode, parentNode ){
     if( currentParent ){
         currentParent._childNodes.splice( m_getMyIndex( currentNode ), 1 );
     };
-    if( currentParent !== parentNode ){
+    if( currentParent !== parentNode || !currentParent ){
         update( currentNode, parentNode );
     };
 
@@ -264,10 +254,10 @@ function m_stringToTextNodeAndFlattenDocumentFragment( args ){
 
 /**
  * @param {Arguments} args
- * @return {!Array.<!Attrs|!TyteTextNode|!TyteElementBase|string>}
+ * @return {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|string>}
  */
 function m_argumentsToArray( args ){
-    return /** @type {!Array.<!Attrs|!TyteTextNode|!TyteElementBase|string>} */ (Array.prototype.slice.call( args ));
+    return /** @type {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|string>} */ (Array.prototype.slice.call( args ));
 };
 
 /**

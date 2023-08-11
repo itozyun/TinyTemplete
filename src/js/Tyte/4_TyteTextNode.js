@@ -168,7 +168,7 @@ TyteTextNode.prototype.clone = function( deepCopy ){
 
             if( tyteNode.nodeType === TYTE_NODE_TYPE.TEXT_NODE ){
                 newTyteNpde = new Class( tyteNode.text );
-            } else if( tyteNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE ){
+            } else if( tyteNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && tyteNode._attrs ){
                 newTyteNpde = new Class( m_deepCopy( tyteNode._attrs ) );
             } else {
                 newTyteNpde = new Class(); // TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE
@@ -192,6 +192,7 @@ TyteTextNode.prototype.clone = function( deepCopy ){
                 index = srcNodes.indexOf( tyteNode.parent );
                 if( 0 <= index ){
                     newNodes[ index ]._childNodes.push( newTyteNpde );
+                    newTyteNpde.parent = newNodes[ index ];
                 };
             };
         }

@@ -25,7 +25,20 @@ function p_Tyte( tags ){
 
 var p_createTyteNodeClass;
 
-var TyteTextNode, TyteDocumentFragment;
+/** @class */
+var TyteTextNode;
+/** @class */
+var TyteDocumentFragment;
+
+/** @typedef {!Object} */
+var TyteAttrs;
+
+/**s
+ * @constructor
+ * @param {!TyteAttrs=} opt_attrs
+ * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
+ */
+function TyteElementBase( opt_attrs, ___tyteNodes ){};
 
 if( DEFINE_TYTE__EXPORT ){
     module.exports = p_Tyte;

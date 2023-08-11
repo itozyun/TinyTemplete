@@ -39,7 +39,7 @@ function TyteElementBase_createClass( tagName ){
     /**
      * @constructor
      * @extends TyteElementBase
-     * @param {!Attrs=} opt_attrs
+     * @param {!TyteAttrs=} opt_attrs
      * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
      */
     function TyteClass( opt_attrs, ___tyteNodes ){
@@ -79,7 +79,7 @@ function TyteElementBase_init( _instance, Class, _args ){
 
 /**
  * @private
- * @type {!Attrs|null}
+ * @type {!TyteAttrs|null}
  */
 TyteElementBase.prototype._attrs = null;
 
