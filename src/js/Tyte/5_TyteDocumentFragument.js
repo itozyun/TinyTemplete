@@ -12,7 +12,7 @@
 
 /**
  * @private
- * @type {!Array.<!TyteTextNode|!TyteElementBase>|null}
+ * @type {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>|null}
  */
 TyteDocumentFragment.prototype._childNodes = null;
 
@@ -39,6 +39,7 @@ TyteDocumentFragment.prototype.parent = null;
 //
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {string} id
  * @return {!TyteElementBase|null}
  */
@@ -59,6 +60,7 @@ TyteDocumentFragment.prototype.getElementByID = function( id ){
 };
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {string} tagName
  * @return {!Array.<!TyteElementBase>}
  */
@@ -78,6 +80,7 @@ TyteDocumentFragment.prototype.getElementListByTag = function( tagName ){
 };
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {string} className
  * @return {!Array.<!TyteElementBase>}
  */
@@ -96,6 +99,7 @@ TyteDocumentFragment.prototype.getElementListByClass = function( className ){
 };
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {string} name
  * @return {!Array.<!TyteElementBase>}
  */
@@ -114,7 +118,8 @@ TyteDocumentFragment.prototype.getElementListByName = function( name ){
 };
 
 /**
- * @return {!TyteTextNode|!TyteElementBase|null}
+ * @this {!TyteElementBase|!TyteDocumentFragment}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|null}
  */
 TyteDocumentFragment.prototype.getFirstChild = function(){
     var childNodes = this._childNodes;
@@ -123,7 +128,8 @@ TyteDocumentFragment.prototype.getFirstChild = function(){
 };
 
 /**
- * @return {!TyteTextNode|!TyteElementBase|null}
+ * @this {!TyteElementBase|!TyteDocumentFragment}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|null}
  */
 TyteDocumentFragment.prototype.getLastChild = function(){
     var childNodes = this._childNodes;
@@ -132,7 +138,8 @@ TyteDocumentFragment.prototype.getLastChild = function(){
 };
 
 /**
- * @return {!Array.<!TyteTextNode|!TyteElementBase>|null}
+ * @this {!TyteElementBase|!TyteDocumentFragment}
+ * @return {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>|null}
  */
 TyteDocumentFragment.prototype.getChildNodes = function(){
     return this._childNodes;
@@ -145,33 +152,33 @@ TyteDocumentFragment.prototype.getChildNodes = function(){
 //
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {...(!TyteNode|string)} ___tyteNodes
  * @return {!TyteElementBase|!TyteDocumentFragment}
  */
 TyteDocumentFragment.prototype.appendNode = function( ___tyteNodes ){
     var childNodes = this._childNodes = this._childNodes || [],
-        args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
+        args = m_preprocessInsertNode(
+            m_argumentsToArray( arguments ),
+            /** @type {!TyteElementBase|!TyteDocumentFragment} */ (this)
+        );
 
-    m_updateParentOfNewChildNodes(
-        args,
-        /** @type {!TyteElementBase|!TyteDocumentFragment} */ (this)
-    );
     childNodes.push.apply( childNodes, args );
     return this;
 };
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {...(!TyteNode|string)} ___tyteNodes
  * @return {!TyteElementBase|!TyteDocumentFragment}
  */
 TyteDocumentFragment.prototype.prependNode = function( ___tyteNodes ){
     var childNodes = this._childNodes = this._childNodes || [],
-        args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
+        args = m_preprocessInsertNode(
+            m_argumentsToArray( arguments ),
+            /** @type {!TyteElementBase|!TyteDocumentFragment} */ (this)
+        );
 
-    m_updateParentOfNewChildNodes(
-        args,
-        /** @type {!TyteElementBase|!TyteDocumentFragment} */ (this)
-    );
     args = /** @type {!Array} */ (args);
     args.unshift( 0, 0 );
     childNodes.splice.apply( childNodes, args );
@@ -179,6 +186,7 @@ TyteDocumentFragment.prototype.prependNode = function( ___tyteNodes ){
 };
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @return {!TyteElementBase|!TyteDocumentFragment}
  */
 TyteDocumentFragment.prototype.empty = function(){
@@ -202,6 +210,7 @@ TyteDocumentFragment.prototype.empty = function(){
 //
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @return {string}
  */
 TyteDocumentFragment.prototype.getTextContent = function(){
@@ -216,6 +225,7 @@ TyteDocumentFragment.prototype.getTextContent = function(){
 };
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {string} textContent
  * @return {!TyteElementBase|!TyteDocumentFragment}
  */

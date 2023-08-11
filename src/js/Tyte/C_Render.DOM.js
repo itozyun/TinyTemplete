@@ -52,7 +52,7 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
             };
             if( value != null ){
                 if( property === 'style' ){
-                    elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value ) : /** @type {string} */ (value);
+                    elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value, this, renderingContext ) : /** @type {string} */ (value);
                 } else {
                     elm.setAttribute( m_RENAME_ATTRIBUTES[ property ] || property, '' + value );
                 };

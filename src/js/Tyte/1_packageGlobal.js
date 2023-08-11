@@ -35,7 +35,7 @@ var TyteDynamicNodeBase;
 /** @typedef {*} */
 var RenderingContext;
 
-/** @typedef {!function(RenderingContext,string):(!Object|string|number|null|undefined)} */
+/** @typedef {!function(this:TyteElementBase,RenderingContext,string):(!Object|string|number|null|undefined)} */
 var DynamicAttributeFunction;
 
 /** @typedef {!Object.<string,(string|number|!DynamicAttributeFunction|boolean)>} */

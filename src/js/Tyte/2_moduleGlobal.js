@@ -19,7 +19,7 @@ TyteTextNode = function( text ){
 
 /**
  * @constructor
- * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
+ * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
  */
 TyteDocumentFragment = function( ___tyteNodes ){
     var instance = /** @type {!TyteDocumentFragment} */ (m_getInstance( this, TyteDocumentFragment ));
@@ -65,10 +65,10 @@ TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNode
 //  ...
 //
 //=============================================================================
-/** @typedef {!function(RenderingContext):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
+/** @typedef {!function(this:TyteDynamicNodeBase,RenderingContext):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
 var DynamicNodeFunction;
 
-/** @typedef {!function(RenderingContext,string):(string|number|null|undefined)} */
+/** @typedef {!function(this:TyteElementBase,RenderingContext,string):(string|number|null|undefined)} */
 var DynamicStyleFunction;
 
 /** @typedef {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
@@ -86,13 +86,21 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 /**
  * 
  * @param {!Object} style 
+ * @param {!TyteElementBase} tyteNode
+ * @param {RenderingContext=} renderingContext
  * @return {string} 
  */
-function m_objToCSSText( style ){
-    var cssText = [], i = -1, property;
+function m_objToCSSText( style, tyteNode, renderingContext ){
+    var cssText = [], i = -1, property, value;
 
     for( property in style ){
-        cssText[ ++i ] = property + ':' + style[ property ]; // TODO function & snake case
+        value = style[ property ];
+        if( typeof value === 'function' ){
+            value = /** @type {!DynamicStyleFunction} */ (value).call( tyteNode, renderingContext, property );
+        };
+        if( value != null ){
+            cssText[ ++i ] = property + ':' + value; // TODO function & snake case
+        };
     };
 
     return cssText.join( ';' );
@@ -191,33 +199,7 @@ function m_getInstance( instance, Class ){
 };
 
 /**
- * @param {!TyteTextNode|!TyteElementBase} currentNode
- * @param {!TyteElementBase|!TyteDocumentFragment|null} parentNode
- */
-function m_updateParentNode( currentNode, parentNode ){
-    var currentParent = currentNode.parent;
-
-    if( currentParent ){
-        currentParent._childNodes.splice( m_getMyIndex( currentNode ), 1 );
-    };
-    currentNode.parent = parentNode;
-};
-
-/**
- * @param {!Array.<!TyteTextNode|!TyteElementBase>} newChildNodes
- * @param {!TyteElementBase|!TyteDocumentFragment} parentNode
- */
-function m_updateParentOfNewChildNodes( newChildNodes, parentNode ){
-    var i = 0, l = newChildNodes.length, childNode;
-    
-    for( ; i < l; ++i ){
-        childNode = newChildNodes[ i ];
-        m_updateParentNode( childNode, parentNode );
-    };
-};
-
-/**
- * @param {!TyteElementBase|!TyteTextNode} tyteNode
+ * @param {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} tyteNode
  * @return {number}
  */
 function m_getMyIndex( tyteNode ){
@@ -235,10 +217,13 @@ function m_getMyIndex( tyteNode ){
  * 1. string を TyteTextNode へ
  * 2. DocumentFragment を解除して childNodes を展開
  * @param {!Array.<!TyteNode|string>} args
- * @return {!Array.<!TyteTextNode|!TyteElementBase>}
+ * @param {!TyteElementBase|!TyteDocumentFragment} parentNode
+ * @return {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>}
  */
-function m_stringToTextNodeAndFlattenDocumentFragment( args ){
-    for( var i = args.length, arg, childNodes; i; ){
+function m_preprocessInsertNode( args, parentNode ){
+    var i = args.length, arg, childNodes, childNode, currentParent;
+
+    for( ; i; ){
         arg = args[ --i ];
         if( typeof arg === 'string' ){
             args[ i ] = new TyteTextNode( arg );
@@ -250,15 +235,25 @@ function m_stringToTextNodeAndFlattenDocumentFragment( args ){
             };
         };
     };
-    return /** @type {!Array.<!TyteTextNode|!TyteElementBase>} */ (args);
+    for( i = args.length; i ; ){
+        childNode = /** @type {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} */ (args[ --i ]);
+
+        currentParent = childNode.parent;
+
+        if( currentParent ){
+            currentParent._childNodes.splice( m_getMyIndex( childNode ), 1 );
+        };
+        childNode.parent = parentNode;
+    };
+    return /** @type {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>} */ (args);
 };
 
 /**
  * @param {Arguments} args
- * @return {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|string>}
+ * @return {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string>}
  */
 function m_argumentsToArray( args ){
-    return /** @type {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|string>} */ (Array.prototype.slice.call( args ));
+    return /** @type {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string>} */ (Array.prototype.slice.call( args ));
 };
 
 /**

@@ -69,7 +69,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
                         };
                     } else {
                         if( property === 'style' && typeof value === 'object' ){
-                            value = m_objToCSSText( value );
+                            value = m_objToCSSText( value, this, renderingContext );
                         };
                         htmlString[ ++i ] = ' ' + property + '="' + m_escapeForAttribute( '' + value ) + '"';
                     };
@@ -86,7 +86,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
 
         if( this._childNodes ){
             htmlString[ ++i ] = '>';
-            htmlString[ ++i ] = childNodesString = TyteDocumentFragment.prototype.renderSSR.call( this, renderingContext );
+            htmlString[ ++i ] = childNodesString = TyteDocumentFragment.prototype.renderSSR.call( this, renderingContext ); // TyteDocumentFragment_renderSSR にすると ERROR, 多分
         } else {
             htmlString[ ++i ] = IS_XML_ELEMENT[ tagName ] ? '/>' : '>';
         };

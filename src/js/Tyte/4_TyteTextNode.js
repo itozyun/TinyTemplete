@@ -32,7 +32,8 @@ TyteTextNode.prototype.parent = null;
 //
 
 /**
- * @return {!TyteTextNode|!TyteElementBase|null}
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|null}
  */
 TyteTextNode.prototype.getPrev = function(){
     var parent = this.parent;
@@ -41,17 +42,17 @@ TyteTextNode.prototype.getPrev = function(){
 };
 
 /**
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
  * @param {...!TyteNode} ___tyteNodes
- * @return {!TyteTextNode}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
  */
 TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
     var parent = this.parent,
         childNodes, args;
 
     if( parent ){
-        args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
-        m_updateParentOfNewChildNodes(
-            args,
+        args = m_preprocessInsertNode(
+            m_argumentsToArray( arguments ),
             /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
         );
         args.unshift( m_getMyIndex( this ), 0 );
@@ -63,7 +64,8 @@ TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
 };
 
 /**
- * @return {!TyteTextNode|!TyteElementBase|null}
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|null}
  */
 TyteTextNode.prototype.getNext = function(){
     var parent = this.parent;
@@ -72,8 +74,9 @@ TyteTextNode.prototype.getNext = function(){
 };
 
 /**
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
  * @param {...!TyteNode} ___tyteNodes
- * @return {!TyteTextNode}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
  */
 TyteTextNode.prototype.setNext = function( ___tyteNodes ){
     var parent = this.parent,
@@ -82,9 +85,8 @@ TyteTextNode.prototype.setNext = function( ___tyteNodes ){
     if( parent ){
         childNodes = parent._childNodes;
         insertIndex = m_getMyIndex( this ) + 1;
-        args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
-        m_updateParentOfNewChildNodes(
-            args,
+        args = m_preprocessInsertNode(
+            m_argumentsToArray( arguments ),
             /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
         );
 
@@ -100,18 +102,17 @@ TyteTextNode.prototype.setNext = function( ___tyteNodes ){
 };
 
 /**
- * @param {...(!TyteTextNode|!TyteElementBase)} ___tyteNodes
- * @return {!TyteTextNode}
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @param {...!TyteNode} ___tyteNodes
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
  */
 TyteTextNode.prototype.swap = function( ___tyteNodes ){
     var parent = this.parent,
         childNodes, args;
 
     if( parent ){
-        args = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
-
-        m_updateParentOfNewChildNodes(
-            args,
+        args = m_preprocessInsertNode(
+            m_argumentsToArray( arguments ),
             /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
         );
 
@@ -125,7 +126,8 @@ TyteTextNode.prototype.swap = function( ___tyteNodes ){
 };
 
 /**
- * @return {!TyteTextNode}
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
  */
 TyteTextNode.prototype.remove = function(){
     var parent = this.parent;

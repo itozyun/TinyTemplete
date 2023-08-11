@@ -40,7 +40,7 @@ function TyteElementBase_createClass( tagName ){
      * @constructor
      * @extends TyteElementBase
      * @param {!TyteAttrs=} opt_attrs
-     * @param {...(!TyteTextNode|!TyteElementBase|string)} ___tyteNodes
+     * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
      */
     function TyteElement( opt_attrs, ___tyteNodes ){
         return TyteElementBase_init( this, TyteElement, arguments );
@@ -87,7 +87,7 @@ TyteElementBase.prototype._attrs = null;
 
 /**
  * @private
- * @type {!Array.<!TyteTextNode|!TyteElementBase>|null}
+ * @type {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>|null}
  */
 TyteElementBase.prototype._childNodes = null;
 
