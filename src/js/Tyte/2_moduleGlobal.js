@@ -33,7 +33,7 @@ TyteDocumentFragment = function( ___tyteNodes ){
  * @param {function((!TyteTextNode|!TyteElementBase|!TyteDocumentFragment),(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} this
  */
-TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDocumentFragment.prototype.walkNodes = function(func){
+TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDocumentFragment.prototype.walkNodes = function( func ){
     m_walkNodes( this, func );
     return this;
 };
@@ -42,7 +42,7 @@ TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDoc
  * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} this
  */
-TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes = TyteDocumentFragment.prototype.walkTextNodes = function(func){
+TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes = TyteDocumentFragment.prototype.walkTextNodes = function( func ){
     m_walkTextNodes( this, func );
     return this;
 };
@@ -51,7 +51,7 @@ TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes =
  * @param {function(!TyteElementBase,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} this
  */
-TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNodes = function(func){
+TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNodes = function( func ){
     m_walkElements( this, func );
     return this;
 };
@@ -63,7 +63,7 @@ TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNode
 //=============================================================================
 
 /** @const */
-var m_RENAME_ATTRIBUTES = {className:'class',htmlFor:'for'};
+var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 
 //=============================================================================
 //

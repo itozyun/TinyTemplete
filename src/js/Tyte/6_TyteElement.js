@@ -46,9 +46,11 @@ function TyteElementBase_createClass( tagName ){
         return TyteElementBase_init( this, TyteClass, arguments );
     };
 
-    TyteClass.prototype = new TyteElementBase;
-    TyteClass.prototype._tagName = tagName;
-    TyteClass.prototype.constructor = TyteClass;
+    var traits = new TyteElementBase;
+    traits._tagName    = tagName;
+    traits.constructor = TyteClass;
+
+    TyteClass.prototype = traits;
     return TyteClass;
 };
 
