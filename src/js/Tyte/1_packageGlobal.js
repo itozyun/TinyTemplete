@@ -3,32 +3,33 @@ var Class;
 
 /**
  * 
- * @param {string=} tags
- * @return {!Object.<string,Class>}}
+ * @param {string|!DynamicNodeFunction} tagOrFunction
+ * @return {!Class|undefined}
  */
-function p_Tyte( tags ){
-    var Tyte = { Text : TyteTextNode, DocumentFragment : TyteDocumentFragment };
-
-    if( tags ){
-        var tagList = tags.split( ',' ),
-            i = 0, l = tagList.length, tag;
-
-        for( ; i < l; ++i ){
-            tag = tagList[ i ];
-            if( tag ){
-                Tyte[ tag ] = p_createTyteNodeClass( tag );
-            };
-        };
+function p_Tyte( tagOrFunction ){
+    if( typeof tagOrFunction === 'function' ){
+        return p_createDynamicNodeClass( /** @type {!DynamicNodeFunction} */ (tagOrFunction) );
+    } else if( typeof tagOrFunction === 'string' ){
+        return p_createTyteElementClass( /** @type {string} */ (tagOrFunction) );
     };
-    return Tyte;
 };
 
-var p_createTyteNodeClass;
+var p_createTyteElementClass;
+
+var p_createDynamicNodeClass;
 
 /** @class */
 var TyteTextNode;
 /** @class */
 var TyteDocumentFragment;
+
+/**s
+ * @constructor
+ * @param {!TyteAttrs=} opt_attrs
+ * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
+ */
+function TyteElementBase( opt_attrs, ___tyteNodes ){};
+
 /** @class */
 var TyteDynamicNodeBase;
 
@@ -41,12 +42,11 @@ var DynamicAttributeFunction;
 /** @typedef {!Object.<string,(string|number|!DynamicAttributeFunction|boolean)>} */
 var TyteAttrs;
 
-/**s
- * @constructor
- * @param {!TyteAttrs=} opt_attrs
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
- */
-function TyteElementBase( opt_attrs, ___tyteNodes ){};
+/** @typedef {!function(this:TyteDynamicNodeBase,RenderingContext):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
+var DynamicNodeFunction;
+
+/** @typedef {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
+var TyteNode;
 
 if( DEFINE_TYTE__EXPORT ){
     module.exports = p_Tyte;

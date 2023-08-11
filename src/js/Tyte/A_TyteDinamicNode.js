@@ -15,9 +15,9 @@
  * @param {!DynamicNodeFunction} func 
  * @return {Class}
  */
-/* p_createTyteNodeClass = function( func ){
+p_createDynamicNodeClass = function( func ){
     return TyteDynamicNodeBase_createClass( func );
-}; */
+};
 
 //_____________________________________________________________________________
 //

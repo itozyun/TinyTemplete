@@ -1,12 +1,15 @@
 const test = require('ava');
-const _ = require('../dist/index.js')('div,span,ul,li,img,i,b');
+const $ = require('../dist/index.js');
+const ul = $('ul')
+const li = $('li')
+const i = $('i')
 
-const t_list = _.ul();
+const t_list = ul();
 
 const t_listItem =
-    _.li(
+    li(
         { className : 'my-list-item' },
-        _.i(
+        i(
             { className : 'ico-twitter' }
         ),
         'Twitter'
@@ -52,12 +55,12 @@ test('clone', (t) => {
 
 test('setNext', (t) => {
     t_list.prependNode(t_listItem);
-    t_listItem.setNext( _.li('Google+') );
+    t_listItem.setNext( li('Google+') );
     t.deepEqual( t_list.getTextContent(), 'XGoogle+Facebook' );
 });
 
 test('setPrev', (t) => {
-    t_list.getChildNodes()[1].setPrev( _.li('mixi') );
+    t_list.getChildNodes()[1].setPrev( li('mixi') );
     t.deepEqual( t_list.getTextContent(), 'XmixiGoogle+Facebook' );
 });
 

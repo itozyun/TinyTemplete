@@ -1,21 +1,19 @@
 var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
-(function(P) {
-  function G(n) {
-    var x = {Text:g, DocumentFragment:f};
-    if (n) {
-      n = n.split(",");
-      for (var t = 0, r = n.length, u; t < r; ++t) {
-        (u = n[t]) && (x[u] = B(u));
-      }
+(function(S) {
+  function z(r) {
+    if ("function" === typeof r) {
+      return E(r);
     }
-    return x;
+    if ("string" === typeof r) {
+      return F(r);
+    }
   }
-  function e(n, x) {
+  function e(r, A) {
   }
-  var B, g, f;
-  DEFINE_TYTE__EXPORT && (module.exports = G);
+  var F, E, g, f, m;
+  DEFINE_TYTE__EXPORT && (module.exports = z);
   (function() {
-    function n(a, b, c) {
+    function r(a, b, c) {
       var d = [], h = -1, l;
       for (l in a) {
         var k = a[l];
@@ -24,7 +22,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       }
       return d.join(";");
     }
-    function x(a, b) {
+    function A(a, b) {
       if (!0 === b(a)) {
         return !0;
       }
@@ -32,13 +30,13 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       var c = 0, d;
       if (a) {
         for (d = a.length; c < d; ++c) {
-          if (x(a[c], b)) {
+          if (A(a[c], b)) {
             return !0;
           }
         }
       }
     }
-    function t(a, b) {
+    function B(a, b) {
       if (a.nodeType === TYTE_NODE_TYPE.TEXT_NODE) {
         if (!0 === b(a)) {
           return !0;
@@ -48,14 +46,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
         var c = 0, d;
         if (a) {
           for (d = a.length; c < d; ++c) {
-            if (t(a[c], b)) {
+            if (B(a[c], b)) {
               return !0;
             }
           }
         }
       }
     }
-    function r(a, b) {
+    function v(a, b) {
       if (a.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && !0 === b(a)) {
         return !0;
       }
@@ -64,53 +62,53 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       if (a) {
         for (d = a.length; c < d; ++c) {
           var h = a[c];
-          if (h.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && r(h, b)) {
+          if (h.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && v(h, b)) {
             return !0;
           }
         }
       }
     }
-    function u(a, b) {
+    function x(a, b) {
       a && a.constructor === b || (a = new b());
       return a;
     }
-    function v(a) {
+    function u(a) {
       var b = a.parent;
       return b ? (b = b._childNodes, b.indexOf(a)) : -1;
     }
-    function y(a, b) {
+    function w(a, b) {
       for (var c = a.length, d, h; c;) {
         d = a[--c], "string" === typeof d ? a[c] = new g(d) : d.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT && (d = d._childNodes) && d.length && (d.unshift(c, 0), a.splice.apply(a, d));
       }
       for (c = a.length; c;) {
-        d = a[--c], (h = d.parent) && h._childNodes.splice(v(d), 1), d.parent = b;
+        d = a[--c], (h = d.parent) && h._childNodes.splice(u(d), 1), d.parent = b;
       }
       return a;
     }
-    function w(a) {
+    function t(a) {
       return Array.prototype.slice.call(a);
     }
-    function C(a) {
+    function G(a) {
       var b = null, c;
       if (a) {
         for (c in b = {}, a) {
           var d = a[c];
-          b[c] = d && "object" === typeof d ? C(d) : d;
+          b[c] = d && "object" === typeof d ? G(d) : d;
         }
       }
       return b;
     }
-    function D(a) {
+    function C(a) {
       return a.split("<").join("&lt;").split(">").join("&gt;");
     }
-    function H(a) {
+    function J(a) {
       function b(d, h) {
-        var l = arguments, k = u(this, b);
-        l = w(l);
-        var p = l[0], m;
+        var l = arguments, k = x(this, b);
+        l = t(l);
+        var p = l[0], n;
         if (p && "object" === typeof p && (!p || p.walkNodes !== g.prototype.walkNodes)) {
-          for (m in p) {
-            k.setAttr(m, p[m]);
+          for (n in p) {
+            k.setAttr(n, p[n]);
           }
           l.shift();
         }
@@ -123,7 +121,19 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       b.prototype = c;
       return b;
     }
-    function I(a) {
+    function K(a) {
+      function b() {
+        var d = arguments, h = x(this, b);
+        h.args = t(d);
+        return h;
+      }
+      var c = new m();
+      c._func = a;
+      c.constructor = b;
+      b.prototype = c;
+      return b;
+    }
+    function L(a) {
       var b = [], c = this._childNodes, d = 0, h;
       if (c) {
         for (h = c.length; d < h; ++d) {
@@ -133,39 +143,43 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       return b.join("");
     }
     g = function(a) {
-      var b = u(this, g);
+      var b = x(this, g);
       b.text = a;
       return b;
     };
+    z.Text = g;
     f = function(a) {
-      var b = u(this, f);
-      return b.appendNode.apply(b, w(arguments));
+      var b = x(this, f);
+      return b.appendNode.apply(b, t(arguments));
+    };
+    z.DocumentFragment = f;
+    m = function(a) {
     };
     g.prototype.walkNodes = e.prototype.walkNodes = f.prototype.walkNodes = function(a) {
-      x(this, a);
+      A(this, a);
       return this;
     };
     g.prototype.walkTextNodes = e.prototype.walkTextNodes = f.prototype.walkTextNodes = function(a) {
-      t(this, a);
+      B(this, a);
       return this;
     };
     e.prototype.walkElements = f.prototype.walkNodes = function(a) {
-      r(this, a);
+      v(this, a);
       return this;
     };
-    var E = {className:"class", htmlFor:"for"};
+    var H = {className:"class", htmlFor:"for"};
     g.prototype.nodeType = TYTE_NODE_TYPE.TEXT_NODE;
     g.prototype.text = "";
     g.prototype.parent = null;
     g.prototype.getPrev = function() {
       var a = this.parent;
-      return a && a._childNodes[v(this) - 1] || null;
+      return a && a._childNodes[u(this) - 1] || null;
     };
     g.prototype.setPrev = function(a) {
       var b = this.parent;
       if (b) {
-        var c = y(w(arguments), b);
-        c.unshift(v(this), 0);
+        var c = w(t(arguments), b);
+        c.unshift(u(this), 0);
         b = b._childNodes;
         b.splice.apply(b, c);
       }
@@ -173,14 +187,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     };
     g.prototype.getNext = function() {
       var a = this.parent;
-      return a && a._childNodes[v(this) + 1] || null;
+      return a && a._childNodes[u(this) + 1] || null;
     };
     g.prototype.setNext = function(a) {
       var b = this.parent;
       if (b) {
         var c = b._childNodes;
-        var d = v(this) + 1;
-        b = y(w(arguments), b);
+        var d = u(this) + 1;
+        b = w(t(arguments), b);
         d < c.length ? (b.unshift(d, 0), c.splice.apply(c, b)) : c.push.apply(c, b);
       }
       return this;
@@ -188,8 +202,8 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     g.prototype.swap = function(a) {
       var b = this.parent;
       if (b) {
-        var c = y(w(arguments), b);
-        c.unshift(v(this), 1);
+        var c = w(t(arguments), b);
+        c.unshift(u(this), 1);
         b = b._childNodes;
         b.splice.apply(b, c);
         this.parent = null;
@@ -198,7 +212,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     };
     g.prototype.remove = function() {
       var a = this.parent;
-      a && (a._childNodes.splice(v(this), 1), this.parent = null);
+      a && (a._childNodes.splice(u(this), 1), this.parent = null);
       return this;
     };
     g.prototype.clone = function(a) {
@@ -209,7 +223,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     f.prototype.parent = null;
     f.prototype.getElementByID = function(a) {
       var b = null;
-      r(this, function(c) {
+      v(this, function(c) {
         if (c.getAttr("id") === a) {
           return b = c, !0;
         }
@@ -218,21 +232,21 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     };
     f.prototype.getElementListByTag = function(a) {
       var b = [], c = -1;
-      r(this, function(d) {
+      v(this, function(d) {
         d._tagName === a && (b[++c] = d);
       });
       return b;
     };
     f.prototype.getElementListByClass = function(a) {
       var b = [], c = -1;
-      r(this, function(d) {
+      v(this, function(d) {
         d.hasClass(a) && (b[++c] = d);
       });
       return b;
     };
     f.prototype.getElementListByName = function(a) {
       var b = [], c = -1;
-      r(this, function(d) {
+      v(this, function(d) {
         d.getAttr("name") === a && (b[++c] = d);
       });
       return b;
@@ -249,12 +263,12 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       return this._childNodes;
     };
     f.prototype.appendNode = function(a) {
-      var b = this._childNodes = this._childNodes || [], c = y(w(arguments), this);
+      var b = this._childNodes = this._childNodes || [], c = w(t(arguments), this);
       b.push.apply(b, c);
       return this;
     };
     f.prototype.prependNode = function(a) {
-      var b = this._childNodes = this._childNodes || [], c = y(w(arguments), this);
+      var b = this._childNodes = this._childNodes || [], c = w(t(arguments), this);
       c.unshift(0, 0);
       b.splice.apply(b, c);
       return this;
@@ -272,7 +286,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     };
     f.prototype.getTextContent = function() {
       var a = "";
-      t(this, function(b) {
+      B(this, function(b) {
         a += b.text;
       });
       return a;
@@ -295,10 +309,10 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       }
       return b;
     };
-    B = function(a) {
-      return F[a] = F[a] || H(a);
+    F = function(a) {
+      return I[a] = I[a] || J(a);
     };
-    var F = {};
+    var I = {};
     e.prototype._attrs = null;
     e.prototype._childNodes = null;
     e.prototype.nodeType = TYTE_NODE_TYPE.ELEMENT_NODE;
@@ -323,7 +337,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     e.prototype.setTextContent = f.prototype.setTextContent;
     e.prototype.clone = function(a) {
       var b = this.constructor;
-      b = this._attrs ? new b(C(this._attrs)) : new b();
+      b = this._attrs ? new b(G(this._attrs)) : new b();
       if (a) {
         a = this._childNodes;
         var c = 0, d;
@@ -411,33 +425,57 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       }
       return this;
     };
-    var J = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, K = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, L = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, M = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
-    N = {polyline:!0, rect:!0, line:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0}, O = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0}, z, A;
+    E = function(a) {
+      return K(a);
+    };
+    m.prototype._func = null;
+    m.prototype.args = null;
+    m.prototype.nodeType = TYTE_NODE_TYPE.DYNAMIC_NODE;
+    m.prototype.parent = null;
+    m.prototype.getPrev = g.prototype.getPrev;
+    m.prototype.setPrev = g.prototype.setPrev;
+    m.prototype.getNext = g.prototype.getNext;
+    m.prototype.setNext = g.prototype.setNext;
+    m.prototype.swap = g.prototype.swap;
+    m.prototype.remove = g.prototype.remove;
+    m.prototype.clone = function(a) {
+      a = new this.constructor();
+      a.args = this.args;
+      return a;
+    };
+    m.prototype._compute = function(a) {
+      return this._func(a);
+    };
+    var M = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, N = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, O = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, P = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
+    Q = {polyline:!0, rect:!0, line:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0}, R = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0}, y, D;
     DEFINE_TYTE__USE_RENDER_SSR && (g.prototype.renderSSR = function(a) {
-      return z ? this.text : D(this.text);
-    }, f.prototype.renderSSR = I, e.prototype.renderSSR = function(a) {
+      return y ? this.text : C(this.text);
+    }, f.prototype.renderSSR = L, e.prototype.renderSSR = function(a) {
       var b = this._tagName, c = ["<", b], d = 1, h = this._attrs, l, k, p;
       if (h) {
         for (q in h) {
-          var m = h[q];
-          "function" === typeof m && (m = m.call(this, a, q));
-          if (null != m) {
-            var q = E[q] || q;
-            J[q] ? !1 !== m && (c[++d] = " " + q) : ("style" === q && "object" === typeof m && (m = n(m, this, a)), c[++d] = " " + q + '="' + D("" + m).split('"').join('\\"') + '"');
+          var n = h[q];
+          "function" === typeof n && (n = n.call(this, a, q));
+          if (null != n) {
+            var q = H[q] || q;
+            M[q] ? !1 !== n && (c[++d] = " " + q) : ("style" === q && "object" === typeof n && (n = r(n, this, a)), c[++d] = " " + q + '="' + C("" + n).split('"').join('\\"') + '"');
           }
         }
       }
-      z ||= l = !!O[b];
-      A ||= k = !!M[b];
-      this._childNodes ? (c[++d] = ">", c[++d] = p = f.prototype.renderSSR.call(this, a)) : c[++d] = N[b] ? "/>" : ">";
-      l && (z = !1);
-      k && (A = !1);
-      if (!L[b] || A) {
-        if (p || !K[b]) {
+      y ||= l = !!R[b];
+      D ||= k = !!P[b];
+      this._childNodes ? (c[++d] = ">", c[++d] = p = f.prototype.renderSSR.call(this, a)) : c[++d] = Q[b] ? "/>" : ">";
+      l && (y = !1);
+      k && (D = !1);
+      if (!O[b] || D) {
+        if (p || !N[b]) {
           c[++d] = "</" + b + ">";
         }
       }
       return c.join("");
+    }, m.prototype.renderSSR = function(a) {
+      var b = this._compute(a);
+      return "string" === typeof b ? y ? b : C(b) : "number" === typeof b ? "" + b : null != b ? b.renderCSR(a) : "";
     });
     DEFINE_TYTE__USE_RENDER_DOM && (g.prototype.renderDOM = function(a) {
       return document.createTextNode(this.text);
@@ -454,7 +492,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       for (d in c) {
         var k = c[d];
         "function" === typeof k && (k = k.call(this, a, d));
-        null != k && ("style" === d ? b.style.cssText = "object" === typeof k ? n(k, this, a) : k : b.setAttribute(E[d] || d, "" + k));
+        null != k && ("style" === d ? b.style.cssText = "object" === typeof k ? r(k, this, a) : k : b.setAttribute(H[d] || d, "" + k));
       }
       if (h) {
         for (c = h.length; l < c; ++l) {
@@ -462,6 +500,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
         }
       }
       return b;
+    }, m.prototype.renderDOM = function(a) {
+      var b = this._compute(a);
+      if ("string" === typeof b || "number" === typeof b) {
+        return document.createTextNode("" + b);
+      }
+      if (null != b) {
+        return b.renderDOM(a);
+      }
     });
   })();
 })(void 0);

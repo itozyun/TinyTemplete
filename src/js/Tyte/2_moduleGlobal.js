@@ -17,6 +17,8 @@ TyteTextNode = function( text ){
     return instance;
 };
 
+p_Tyte.Text = TyteTextNode;
+
 /**
  * @constructor
  * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
@@ -26,6 +28,8 @@ TyteDocumentFragment = function( ___tyteNodes ){
 
     return instance.appendNode.apply( instance, m_argumentsToArray( arguments ) );
 };
+
+p_Tyte.DocumentFragment = TyteDocumentFragment;
 
 /**
  * @constructor
@@ -65,14 +69,9 @@ TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNode
 //  ...
 //
 //=============================================================================
-/** @typedef {!function(this:TyteDynamicNodeBase,RenderingContext):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
-var DynamicNodeFunction;
 
 /** @typedef {!function(this:TyteElementBase,RenderingContext,string):(string|number|null|undefined)} */
 var DynamicStyleFunction;
-
-/** @typedef {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
-var TyteNode;
 
 /** @const */
 var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };

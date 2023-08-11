@@ -15,7 +15,7 @@
  * @param {string} tagName 
  * @return {Class}
  */
-p_createTyteNodeClass = function( tagName ){
+p_createTyteElementClass = function( tagName ){
     return TyteElementBase_CLASSES[ tagName ] = TyteElementBase_CLASSES[ tagName ] || TyteElementBase_createClass( tagName );
 };
 
