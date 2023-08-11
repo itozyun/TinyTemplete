@@ -118,8 +118,7 @@ TyteTextNode.prototype.swap = function( ___tyteNodes ){
         args.unshift( m_getMyIndex( this ), 1 );
         childNodes = parent._childNodes;
         childNodes.splice.apply( childNodes, args );
-
-        m_updateParentNode( this, null );
+        this.parent = null;
     };
 
     return this;
@@ -133,7 +132,7 @@ TyteTextNode.prototype.remove = function(){
 
     if( parent ){
         parent._childNodes.splice( m_getMyIndex( this ), 1 );
-        m_updateParentNode( this, null );
+        this.parent = null;
     };
 
     return this;
@@ -146,56 +145,9 @@ TyteTextNode.prototype.remove = function(){
 //
 
 /**
- * @return {!TyteElementBase|!TyteTextNode}
- */
-TyteTextNode.prototype.ready = function(){
-    m_updateParentNode( this, null );
-
-    return this;
-};
-
-/**
  * @param {boolean=} deepCopy
  * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} newNode
  */
 TyteTextNode.prototype.clone = function( deepCopy ){
-    var srcNodes = [], newNodes = [], newRootNpde;
-
-    m_walkNodes( this,
-        function( tyteNode ){
-            var newTyteNpde,
-                Class = tyteNode.constructor, index;
-
-            if( tyteNode.nodeType === TYTE_NODE_TYPE.TEXT_NODE ){
-                newTyteNpde = new Class( tyteNode.text );
-            } else if( tyteNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && tyteNode._attrs ){
-                newTyteNpde = new Class( m_deepCopy( tyteNode._attrs ) );
-            } else {
-                newTyteNpde = new Class(); // TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE
-            };
-
-            if( !newRootNpde ){
-                newRootNpde = newTyteNpde;
-            };
-            if( !deepCopy ){
-                return true;
-            };
-
-            srcNodes.push( tyteNode );
-            newNodes.push( newTyteNpde );
-
-            if( tyteNode._childNodes && tyteNode._childNodes.length ){
-                newTyteNpde._childNodes = [];
-            };
-
-            if( tyteNode.parent ){
-                index = srcNodes.indexOf( tyteNode.parent );
-                if( 0 <= index ){
-                    newNodes[ index ]._childNodes.push( newTyteNpde );
-                    newTyteNpde.parent = newNodes[ index ];
-                };
-            };
-        }
-    );
-    return newRootNpde.ready();
+    return new TyteTextNode( this.text );;
 };

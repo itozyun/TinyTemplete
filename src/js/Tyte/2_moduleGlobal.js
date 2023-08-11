@@ -24,9 +24,7 @@ TyteTextNode = function( text ){
 TyteDocumentFragment = function( ___tyteNodes ){
     var instance = /** @type {!TyteDocumentFragment} */ (m_getInstance( this, TyteDocumentFragment ));
 
-    instance._childNodes = m_stringToTextNodeAndFlattenDocumentFragment( m_argumentsToArray( arguments ) );
-
-    return instance;
+    return instance.appendNode.apply( instance, m_argumentsToArray( arguments ) );
 };
 
 /**
@@ -179,27 +177,7 @@ function m_updateParentNode( currentNode, parentNode ){
     if( currentParent ){
         currentParent._childNodes.splice( m_getMyIndex( currentNode ), 1 );
     };
-    if( currentParent !== parentNode || !currentParent ){
-        update( currentNode, parentNode );
-    };
-
-    function update( currentNode, parentNode ){
-        var childNodes = currentNode._childNodes,
-            i = 0, l, childNode;
-
-        currentNode.parent = parentNode;
-        
-        if( childNodes ){
-            for( l = childNodes.length; i < l; ++i ){
-                childNode = childNodes[ i ];
-                if( childNode._childNodes ){
-                    update( /** @type {!TyteElementBase} */ (childNode), /** @type {!TyteElementBase|!TyteDocumentFragment} */ (currentNode) );
-                } else {
-                    childNode.parent = currentNode;
-                };
-            };
-        };
-    };
+    currentNode.parent = parentNode;
 };
 
 /**

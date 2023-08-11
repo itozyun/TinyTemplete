@@ -74,7 +74,7 @@ function TyteElementBase_init( _instance, Class, _args ){
     };
 
     if( args.length ){
-        instance._childNodes = m_stringToTextNodeAndFlattenDocumentFragment( args );
+        instance.appendNode.apply( instance, args );
     };
     return instance;
 };
@@ -167,6 +167,29 @@ TyteElementBase.prototype.setTextContent = TyteDocumentFragment.prototype.setTex
 //_____________________________________________________________________________
 //
 
-TyteElementBase.prototype.ready = TyteTextNode.prototype.ready;
+/**
+ * @param {boolean=} deepCopy
+ * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment} newNode
+ */
+TyteElementBase.prototype.clone = function( deepCopy ){
+    var Class = this.constructor,
+        clonedNode;
 
-TyteElementBase.prototype.clone = TyteTextNode.prototype.clone;
+    if( this._attrs ){
+        clonedNode = new Class( m_deepCopy( this._attrs ) );
+    } else {
+        clonedNode = new Class(); // TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE
+    };
+
+    if( deepCopy ){
+        var childNodes = this._childNodes,
+            i = 0, l;
+
+        if( childNodes ){
+            for( l = childNodes.length; i < l; ++i ){
+                clonedNode.appendNode( childNodes[ i ].clone( true ) );
+            };
+        };
+    };
+    return clonedNode;
+};

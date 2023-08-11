@@ -1,7 +1,7 @@
 const test = require('ava');
 const _ = require('../dist/index.js')('div,span,ul,li,img,i,b');
 
-const t_list = _.ul().ready();
+const t_list = _.ul();
 
 const t_listItem =
     _.li(
@@ -10,7 +10,7 @@ const t_listItem =
             { className : 'ico-twitter' }
         ),
         'Twitter'
-    ).ready();
+    );
 
 test('simple', (t) => {
     t.deepEqual( t_list.renderSSR(), '<ul></ul>' );
