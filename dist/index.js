@@ -475,7 +475,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       return c.join("");
     }, m.prototype.renderSSR = function(a) {
       var b = this._compute(a);
-      return "string" === typeof b ? y ? b : C(b) : "number" === typeof b ? "" + b : null != b ? b.renderCSR(a) : "";
+      return "string" === typeof b ? y ? b : C(b) : "number" === typeof b ? "" + b : null != b ? b.renderSSR(a) : "";
     });
     DEFINE_TYTE__USE_RENDER_DOM && (g.prototype.renderDOM = function(a) {
       return document.createTextNode(this.text);

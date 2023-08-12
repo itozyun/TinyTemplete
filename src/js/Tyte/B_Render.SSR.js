@@ -119,7 +119,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
         } else if( typeof staticTyteNode === 'number' ){
             return '' + staticTyteNode;
         } else if( staticTyteNode != null ){
-            return staticTyteNode.renderCSR( renderingContext );
+            return staticTyteNode.renderSSR( renderingContext );
         };
         return '';
     };
