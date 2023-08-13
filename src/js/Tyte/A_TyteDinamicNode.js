@@ -12,10 +12,10 @@
 
 /**
  * 
- * @param {!DynamicNodeFunction} func 
- * @return {Class}
+ * @param {!Tyte.DynamicNodeRenderer} func 
+ * @return {!Tyte.Class}
  */
-p_createDynamicNodeClass = function( func ){
+m_createDynamicNodeClass = function( func ){
     return TyteDynamicNodeBase_createClass( func );
 };
 
@@ -26,14 +26,14 @@ p_createDynamicNodeClass = function( func ){
 //
 
 /**
- * @const {!Object.<string, Class>}
+ * @const {!Object.<string, !Tyte.Class>}
  */
 var TyteDynamicNodeBase_CLASSES = {};
 
 /**
  * 
- * @param {!DynamicNodeFunction} func 
- * @return {Class}
+ * @param {!Tyte.DynamicNodeRenderer} func 
+ * @return {!Tyte.Class}
  */
 function TyteDynamicNodeBase_createClass( func ){
     /**
@@ -56,13 +56,13 @@ function TyteDynamicNodeBase_createClass( func ){
  * 
  * @param {!TyteDynamicNodeBase|*} _instance 
  * @param {!Function} Class 
- * @param {!Arguments} _args 
+ * @param {!Arguments} _initialParams 
  * @return {!TyteDynamicNodeBase}
  */
-function TyteDynamicNodeBase_init( _instance, Class, _args ){
+function TyteDynamicNodeBase_init( _instance, Class, _initialParams ){
     var instance = /** @type {!TyteDynamicNodeBase} */ (m_getInstance( _instance, Class ));
 
-    instance.args = /** @type {!Array} */ (m_argumentsToArray( _args ));
+    instance.initialParams = /** @type {!Array} */ (m_argumentsToArray( _initialParams ));
     return instance;
 };
 
@@ -73,20 +73,20 @@ function TyteDynamicNodeBase_init( _instance, Class, _args ){
 //
 
 /**
- * @type {!DynamicNodeFunction|null}
+ * @type {!Tyte.DynamicNodeRenderer|null}
  */
 TyteDynamicNodeBase.prototype._func = null;
-
-/**
- * @type {Array}
- */
-TyteDynamicNodeBase.prototype.args = null;
 
 //_____________________________________________________________________________
 //
 //  TyteDynamicNodeBase public
 //_____________________________________________________________________________
 //
+
+/**
+ * @type {Array}
+ */
+TyteDynamicNodeBase.prototype.initialParams = null;
 
 /**
  * @type {number}
@@ -124,21 +124,21 @@ TyteDynamicNodeBase.prototype.remove  = TyteTextNode.prototype.remove;
 
 /**
  * @param {boolean=} deepCopy
- * @return {!TyteNode} newNode
+ * @return {!Tyte.AllNode} newNode
  */
 TyteDynamicNodeBase.prototype.clone = function( deepCopy ){
     var Class = this.constructor,
         clonedNode = new Class();
 
-    clonedNode.args = this.args;
+    clonedNode.initialParams = this.initialParams;
     return clonedNode;
 };
 
 
 /**
- * @param {RenderingContext} renderingContext
- * @return {!TyteNode|string|number} newNode
+ * @param {Tyte.RenderingParam} renderingParam
+ * @return {!Tyte.AllNode|string|number} newNode
  */
-TyteDynamicNodeBase.prototype._compute = function( renderingContext ){
-    return this._func( renderingContext );
+TyteDynamicNodeBase.prototype._compute = function( renderingParam ){
+    return this._func( renderingParam );
 };

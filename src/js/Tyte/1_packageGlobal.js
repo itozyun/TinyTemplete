@@ -1,53 +1,69 @@
-/** @typedef {!Function} */
-var Class;
+//=============================================================================
+//
+//  p_Tyte
+//
+//=============================================================================
 
 /**
- * 
- * @param {string|!DynamicNodeFunction} tagOrFunction
- * @return {!Class|undefined}
+ * @type {!function((string|!Tyte.DynamicNodeRenderer)):(!Tyte.Class|undefined)|undefined}
  */
-function p_Tyte( tagOrFunction ){
-    if( typeof tagOrFunction === 'function' ){
-        return p_createDynamicNodeClass( /** @type {!DynamicNodeFunction} */ (tagOrFunction) );
-    } else if( typeof tagOrFunction === 'string' ){
-        return p_createTyteElementClass( /** @type {string} */ (tagOrFunction) );
-    };
-};
+var p_Tyte;
 
-var p_createTyteElementClass;
-
-var p_createDynamicNodeClass;
-
-/** @class */
+/**
+ * @class
+ * `new p_Tyte.Text( str )` を使うこと!
+ */
 var TyteTextNode;
-/** @class */
+
+/**
+ * @class
+ * `new p_Tyte.DocumentFragment( ___tyteNode )` を使うこと!
+ */
 var TyteDocumentFragment;
 
-/**s
+/**
+ * `var div = p_Tyte('div');` を使うこと!
  * @constructor
- * @param {!TyteAttrs=} opt_attrs
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
+ * @param {!Tyte.Attrs=} opt_attrs
+ * @param {...(!Tyte.CanHasParent|string)} ___tyteNodes
  */
 function TyteElementBase( opt_attrs, ___tyteNodes ){};
 
 /** @class */
 var TyteDynamicNodeBase;
 
+//_____________________________________________________________________________
+//
+//  TyteTextNode Other
+//_____________________________________________________________________________
+//
+
+/** @namespace */
+var Tyte = {};
+
+/** @typedef {!Function} */
+Tyte.Class;
+
+/** @typedef {!Object.<string,(string|number|!Tyte.AttributeRenderer|boolean)>} */
+Tyte.Attrs;
+
 /** @typedef {*} */
-var RenderingContext;
+Tyte.RenderingParam;
 
-/** @typedef {!function(this:TyteElementBase,RenderingContext,string):(!Object|string|number|null|undefined)} */
-var DynamicAttributeFunction;
+/** @typedef {!function(this:TyteElementBase,Tyte.RenderingParam,string):(!Object|string|number|null|undefined)} */
+Tyte.AttributeRenderer;
 
-/** @typedef {!Object.<string,(string|number|!DynamicAttributeFunction|boolean)>} */
-var TyteAttrs;
+/** @typedef {!function(this:TyteElementBase,Tyte.RenderingParam,string):(string|number|null|undefined)} */
+Tyte.StyleRenderer;
 
-/** @typedef {!function(this:TyteDynamicNodeBase,RenderingContext):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
-var DynamicNodeFunction;
+/** @typedef {!function(this:TyteDynamicNodeBase,Tyte.RenderingParam):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
+Tyte.DynamicNodeRenderer;
 
-/** @typedef {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
-var TyteNode;
+/** @typedef {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} */
+Tyte.CanHasParent;
 
-if( DEFINE_TYTE__EXPORT ){
-    module.exports = p_Tyte;
-};
+/** @typedef {!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
+Tyte.CanHasChildren;
+
+/** @typedef {!TyteTextNode|!Tyte.CanHasChildren} */
+Tyte.AllNode;

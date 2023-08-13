@@ -32,8 +32,8 @@ TyteTextNode.prototype.parent = null;
 //
 
 /**
- * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
- * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|null}
+ * @this {!Tyte.CanHasParent}
+ * @return {!Tyte.CanHasParent|null}
  */
 TyteTextNode.prototype.getPrev = function(){
     var parent = this.parent;
@@ -42,9 +42,9 @@ TyteTextNode.prototype.getPrev = function(){
 };
 
 /**
- * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
- * @param {...!TyteNode} ___tyteNodes
- * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @this {!Tyte.CanHasParent}
+ * @param {...!Tyte.AllNode} ___tyteNodes
+ * @return {!Tyte.CanHasParent}
  */
 TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
     var parent = this.parent,
@@ -64,8 +64,8 @@ TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
 };
 
 /**
- * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
- * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|null}
+ * @this {!Tyte.CanHasParent}
+ * @return {!Tyte.CanHasParent|null}
  */
 TyteTextNode.prototype.getNext = function(){
     var parent = this.parent;
@@ -74,9 +74,9 @@ TyteTextNode.prototype.getNext = function(){
 };
 
 /**
- * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
- * @param {...!TyteNode} ___tyteNodes
- * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @this {!Tyte.CanHasParent}
+ * @param {...!Tyte.AllNode} ___tyteNodes
+ * @return {!Tyte.CanHasParent}
  */
 TyteTextNode.prototype.setNext = function( ___tyteNodes ){
     var parent = this.parent,
@@ -102,9 +102,9 @@ TyteTextNode.prototype.setNext = function( ___tyteNodes ){
 };
 
 /**
- * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
- * @param {...!TyteNode} ___tyteNodes
- * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @this {!Tyte.CanHasParent}
+ * @param {...!Tyte.AllNode} ___tyteNodes
+ * @return {!Tyte.CanHasParent}
  */
 TyteTextNode.prototype.swap = function( ___tyteNodes ){
     var parent = this.parent,
@@ -126,8 +126,8 @@ TyteTextNode.prototype.swap = function( ___tyteNodes ){
 };
 
 /**
- * @this {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
- * @return {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase}
+ * @this {!Tyte.CanHasParent}
+ * @return {!Tyte.CanHasParent}
  */
 TyteTextNode.prototype.remove = function(){
     var parent = this.parent;
@@ -148,7 +148,7 @@ TyteTextNode.prototype.remove = function(){
 
 /**
  * @param {boolean=} deepCopy
- * @return {!TyteNode} newNode
+ * @return {!Tyte.AllNode} newNode
  */
 TyteTextNode.prototype.clone = function( deepCopy ){
     return new TyteTextNode( this.text );;

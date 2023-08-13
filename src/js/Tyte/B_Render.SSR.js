@@ -16,17 +16,17 @@ var RenderSSR_skipHTMLEscape;
 var RenderSSR_noOmitCloseTag;
 
 /**
- * @param {RenderingContext=} renderingContext
+ * @param {Tyte.RenderingParam=} renderingParam
  * @return {string}
  */
-function TyteDocumentFragment_renderSSR( renderingContext ){
+function TyteDocumentFragment_renderSSR( renderingParam ){
     var htmlString = [],
         childNodes = this._childNodes,
         i = 0, l;
 
     if( childNodes ){
         for( l = childNodes.length; i < l; ++i ){
-            htmlString[ i ] = childNodes[ i ].renderSSR( renderingContext );
+            htmlString[ i ] = childNodes[ i ].renderSSR( renderingParam );
         };
     };
 
@@ -35,20 +35,20 @@ function TyteDocumentFragment_renderSSR( renderingContext ){
 
 if( DEFINE_TYTE__USE_RENDER_SSR ){
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {string}
      */
-    TyteTextNode.prototype.renderSSR = function( renderingContext ){
+    TyteTextNode.prototype.renderSSR = function( renderingParam ){
         return RenderSSR_skipHTMLEscape ? this.text : m_escapeForHTML( this.text );
     };
 
     TyteDocumentFragment.prototype.renderSSR = TyteDocumentFragment_renderSSR;
 
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {string}
      */
-    TyteElementBase.prototype.renderSSR = function TyteDocumentFragment_renderSSR( renderingContext ){
+    TyteElementBase.prototype.renderSSR = function TyteDocumentFragment_renderSSR( renderingParam ){
         var tagName = this._tagName,
             htmlString = [ '<', tagName ], i = 1,
             attrs = this._attrs, property, value,
@@ -59,7 +59,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
             for( property in attrs ){
                 value = attrs[ property ];
                 if( typeof value === 'function' ){
-                    value = /** @type {!DynamicAttributeFunction} */ (value).call( this, renderingContext, property );
+                    value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
                 };
                 if( value != null ){
                     property = m_RENAME_ATTRIBUTES[ property ] || property;
@@ -69,7 +69,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
                         };
                     } else {
                         if( property === 'style' && typeof value === 'object' ){
-                            value = m_objToCSSText( value, this, renderingContext );
+                            value = m_objToCSSText( value, this, renderingParam );
                         };
                         htmlString[ ++i ] = ' ' + property + '="' + m_escapeForAttribute( '' + value ) + '"';
                     };
@@ -86,7 +86,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
 
         if( this._childNodes ){
             htmlString[ ++i ] = '>';
-            htmlString[ ++i ] = childNodesString = TyteDocumentFragment.prototype.renderSSR.call( this, renderingContext ); // TyteDocumentFragment_renderSSR にすると ERROR, 多分
+            htmlString[ ++i ] = childNodesString = TyteDocumentFragment.prototype.renderSSR.call( this, renderingParam ); // TyteDocumentFragment_renderSSR にすると ERROR, 多分
         } else {
             htmlString[ ++i ] = IS_XML_ELEMENT[ tagName ] ? '/>' : '>';
         };
@@ -108,18 +108,18 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
     };
 
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {string}
      */
-    TyteDynamicNodeBase.prototype.renderSSR = function( renderingContext ){
-        var staticTyteNode = this._compute( renderingContext );
+    TyteDynamicNodeBase.prototype.renderSSR = function( renderingParam ){
+        var staticTyteNode = this._compute( renderingParam );
 
         if( typeof staticTyteNode === 'string' ){
             return RenderSSR_skipHTMLEscape ? staticTyteNode : m_escapeForHTML( staticTyteNode );
         } else if( typeof staticTyteNode === 'number' ){
             return '' + staticTyteNode;
         } else if( staticTyteNode != null ){
-            return staticTyteNode.renderSSR( renderingContext );
+            return staticTyteNode.renderSSR( renderingParam );
         };
         return '';
     };

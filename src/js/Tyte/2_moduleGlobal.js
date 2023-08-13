@@ -1,3 +1,26 @@
+//=============================================================================
+//
+//  Export to packageGlobal
+//
+//=============================================================================
+
+/**
+ * 
+ * @param {string|!Tyte.DynamicNodeRenderer} tagOrFunction
+ * @return {!Tyte.Class|undefined}
+ */
+p_Tyte = function( tagOrFunction ){
+    if( typeof tagOrFunction === 'function' ){
+        return m_createDynamicNodeClass( /** @type {!Tyte.DynamicNodeRenderer} */ (tagOrFunction) );
+    } else if( typeof tagOrFunction === 'string' ){
+        return m_createTyteElementClass( /** @type {string} */ (tagOrFunction) );
+    };
+};
+
+if( DEFINE_TYTE__EXPORT ){
+    module.exports = p_Tyte;
+};
+
 
 //=============================================================================
 //
@@ -21,7 +44,7 @@ p_Tyte.Text = TyteTextNode;
 
 /**
  * @constructor
- * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
+ * @param {...(!Tyte.CanHasParent|string)} ___tyteNodes
  */
 TyteDocumentFragment = function( ___tyteNodes ){
     var instance = /** @type {!TyteDocumentFragment} */ (m_getInstance( this, TyteDocumentFragment ));
@@ -38,8 +61,8 @@ p_Tyte.DocumentFragment = TyteDocumentFragment;
 TyteDynamicNodeBase = function( ___something ){};
 
 /**
- * @param {function(!TyteNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
- * @return {!TyteNode} this
+ * @param {function(!Tyte.AllNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @return {!Tyte.AllNode} this
  */
 TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDocumentFragment.prototype.walkNodes = function( func ){
     m_walkNodes( this, func );
@@ -48,7 +71,7 @@ TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDoc
 
 /**
  * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
- * @return {!TyteNode} this
+ * @return {!Tyte.AllNode} this
  */
 TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes = TyteDocumentFragment.prototype.walkTextNodes = function( func ){
     m_walkTextNodes( this, func );
@@ -57,7 +80,7 @@ TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes =
 
 /**
  * @param {function(!TyteElementBase,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
- * @return {!TyteNode} this
+ * @return {!Tyte.AllNode} this
  */
 TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNodes = function( func ){
     m_walkElements( this, func );
@@ -69,9 +92,9 @@ TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNode
 //  ...
 //
 //=============================================================================
+var m_createTyteElementClass;
 
-/** @typedef {!function(this:TyteElementBase,RenderingContext,string):(string|number|null|undefined)} */
-var DynamicStyleFunction;
+var m_createDynamicNodeClass;
 
 /** @const */
 var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
@@ -86,16 +109,16 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
  * 
  * @param {!Object} style 
  * @param {!TyteElementBase} tyteNode
- * @param {RenderingContext=} renderingContext
+ * @param {Tyte.RenderingParam=} renderingParam
  * @return {string} 
  */
-function m_objToCSSText( style, tyteNode, renderingContext ){
+function m_objToCSSText( style, tyteNode, renderingParam ){
     var cssText = [], i = -1, property, value;
 
     for( property in style ){
         value = style[ property ];
         if( typeof value === 'function' ){
-            value = /** @type {!DynamicStyleFunction} */ (value).call( tyteNode, renderingContext, property );
+            value = /** @type {!Tyte.StyleRenderer} */ (value).call( tyteNode, renderingParam, property );
         };
         if( value != null ){
             cssText[ ++i ] = property + ':' + value; // TODO function & snake case
@@ -115,8 +138,8 @@ function m_isTyteNode( tyteNode ){
 };
 
 /**
- * @param {!TyteNode} tyteNode
- * @param {function(!TyteNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!Tyte.AllNode} tyteNode
+ * @param {function(!Tyte.AllNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  */
 function m_walkNodes( tyteNode, func ){
     if( func( tyteNode ) === true ){
@@ -136,7 +159,7 @@ function m_walkNodes( tyteNode, func ){
 };
 
 /**
- * @param {!TyteNode} tyteNode
+ * @param {!Tyte.AllNode} tyteNode
  * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
  */
 function m_walkTextNodes( tyteNode, func ){
@@ -186,19 +209,19 @@ function m_walkElements( tyteNode, func ){
 
 /**
  * 
- * @param {!TyteNode|*} instance 
- * @param {!Class} Class
- * @return {!TyteNode}
+ * @param {!Tyte.AllNode|*} instance 
+ * @param {!Tyte.Class} Class
+ * @return {!Tyte.AllNode}
  */
 function m_getInstance( instance, Class ){
     if( !instance || instance.constructor !== Class ){
         instance = new Class();
     };
-    return /** @type {!TyteNode} */ (instance);
+    return /** @type {!Tyte.AllNode} */ (instance);
 };
 
 /**
- * @param {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} tyteNode
+ * @param {!Tyte.CanHasParent} tyteNode
  * @return {number}
  */
 function m_getMyIndex( tyteNode ){
@@ -215,9 +238,9 @@ function m_getMyIndex( tyteNode ){
 /**
  * 1. string を TyteTextNode へ
  * 2. DocumentFragment を解除して childNodes を展開
- * @param {!Array.<!TyteNode|string>} args
+ * @param {!Array.<!Tyte.AllNode|string>} args
  * @param {!TyteElementBase|!TyteDocumentFragment} parentNode
- * @return {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>}
+ * @return {!Array.<!Tyte.CanHasParent>}
  */
 function m_preprocessInsertNode( args, parentNode ){
     var i = args.length, arg, childNodes, childNode, currentParent;
@@ -235,7 +258,7 @@ function m_preprocessInsertNode( args, parentNode ){
         };
     };
     for( i = args.length; i ; ){
-        childNode = /** @type {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} */ (args[ --i ]);
+        childNode = /** @type {!Tyte.CanHasParent} */ (args[ --i ]);
 
         currentParent = childNode.parent;
 
@@ -244,15 +267,15 @@ function m_preprocessInsertNode( args, parentNode ){
         };
         childNode.parent = parentNode;
     };
-    return /** @type {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>} */ (args);
+    return /** @type {!Array.<!Tyte.CanHasParent>} */ (args);
 };
 
 /**
  * @param {Arguments} args
- * @return {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string>}
+ * @return {!Array.<!Tyte.Attrs|!Tyte.CanHasParent|string>}
  */
 function m_argumentsToArray( args ){
-    return /** @type {!Array.<!TyteAttrs|!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string>} */ (Array.prototype.slice.call( args ));
+    return /** @type {!Array.<!Tyte.Attrs|!Tyte.CanHasParent|string>} */ (Array.prototype.slice.call( args ));
 };
 
 /**

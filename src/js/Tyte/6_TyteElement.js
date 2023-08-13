@@ -13,9 +13,9 @@
 /**
  * 
  * @param {string} tagName 
- * @return {Class}
+ * @return {!Tyte.Class}
  */
-p_createTyteElementClass = function( tagName ){
+m_createTyteElementClass = function( tagName ){
     return TyteElementBase_CLASSES[ tagName ] = TyteElementBase_CLASSES[ tagName ] || TyteElementBase_createClass( tagName );
 };
 
@@ -26,21 +26,21 @@ p_createTyteElementClass = function( tagName ){
 //
 
 /**
- * @const {!Object.<string, Class>}
+ * @const {!Object.<string, !Tyte.Class>}
  */
 var TyteElementBase_CLASSES = {};
 
 /**
  * 
  * @param {string} tagName 
- * @return {Class}
+ * @return {!Tyte.Class}
  */
 function TyteElementBase_createClass( tagName ){
     /**
      * @constructor
      * @extends TyteElementBase
-     * @param {!TyteAttrs=} opt_attrs
-     * @param {...(!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase|string)} ___tyteNodes
+     * @param {!Tyte.Attrs=} opt_attrs
+     * @param {...(!Tyte.CanHasParent|string)} ___tyteNodes
      */
     function TyteElement( opt_attrs, ___tyteNodes ){
         return TyteElementBase_init( this, TyteElement, arguments );
@@ -81,13 +81,13 @@ function TyteElementBase_init( _instance, Class, _args ){
 
 /**
  * @private
- * @type {!TyteAttrs|null}
+ * @type {!Tyte.Attrs|null}
  */
 TyteElementBase.prototype._attrs = null;
 
 /**
  * @private
- * @type {!Array.<!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase>|null}
+ * @type {!Array.<!Tyte.CanHasParent>|null}
  */
 TyteElementBase.prototype._childNodes = null;
 
@@ -169,7 +169,7 @@ TyteElementBase.prototype.setTextContent = TyteDocumentFragment.prototype.setTex
 
 /**
  * @param {boolean=} deepCopy
- * @return {!TyteNode} newNode
+ * @return {!Tyte.AllNode} newNode
  */
 TyteElementBase.prototype.clone = function( deepCopy ){
     var Class = this.constructor,

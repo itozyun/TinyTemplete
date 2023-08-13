@@ -6,18 +6,18 @@
 
 if( DEFINE_TYTE__USE_RENDER_DOM ){
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {!Text}
      */
-    TyteTextNode.prototype.renderDOM = function( renderingContext ){
+    TyteTextNode.prototype.renderDOM = function( renderingParam ){
         return document.createTextNode( this.text );
     };
 
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {!DocumentFragment}
      */
-    TyteDocumentFragment.prototype.renderDOM = function( renderingContext ){
+    TyteDocumentFragment.prototype.renderDOM = function( renderingParam ){
         var frg = document.createDocumentFragment();
         var childNodes = this._childNodes,
             i = 0, l, node;
@@ -25,7 +25,7 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
         // childNodes
         if( childNodes ){
             for( l = childNodes.length; i < l; ++i ){
-                node = childNodes[ i ].renderDOM( renderingContext );
+                node = childNodes[ i ].renderDOM( renderingParam );
                 if( node ){
                     frg.append( node );
                 };
@@ -35,10 +35,10 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
     };
 
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {!Element}
      */
-    TyteElementBase.prototype.renderDOM = function( renderingContext ){
+    TyteElementBase.prototype.renderDOM = function( renderingParam ){
         var elm = document.createElement( this._tagName ), // TODO SVG
             attrs = this._attrs, property, value,
             childNodes = this._childNodes,
@@ -48,11 +48,11 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
         for( property in attrs ){
             value = attrs[ property ];
             if( typeof value === 'function' ){
-                value = /** @type {!DynamicAttributeFunction} */ (value).call( this, renderingContext, property );
+                value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
             };
             if( value != null ){
                 if( property === 'style' ){
-                    elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value, this, renderingContext ) : /** @type {string} */ (value);
+                    elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value, this, renderingParam ) : /** @type {string} */ (value);
                 } else {
                     elm.setAttribute( m_RENAME_ATTRIBUTES[ property ] || property, '' + value );
                 };
@@ -62,7 +62,7 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
         // childNodes
         if( childNodes ){
             for( l = childNodes.length; i < l; ++i ){
-                node = childNodes[ i ].renderDOM( renderingContext );
+                node = childNodes[ i ].renderDOM( renderingParam );
                 if( node ){
                     elm.appendChild( node );
                 };
@@ -72,16 +72,16 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
     };
 
     /**
-     * @param {RenderingContext=} renderingContext
+     * @param {Tyte.RenderingParam=} renderingParam
      * @return {!DocumentFragment|!Element|!Text|undefined}
      */
-    TyteDynamicNodeBase.prototype.renderDOM = function( renderingContext ){
-        var staticTyteNode = this._compute( renderingContext );
+    TyteDynamicNodeBase.prototype.renderDOM = function( renderingParam ){
+        var staticTyteNode = this._compute( renderingParam );
 
         if( typeof staticTyteNode === 'string' || typeof staticTyteNode === 'number'  ){
             return document.createTextNode( '' + staticTyteNode );
         } else if( staticTyteNode != null ){
-            return staticTyteNode.renderDOM( renderingContext );
+            return staticTyteNode.renderDOM( renderingParam );
         };
     };
 };
