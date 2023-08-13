@@ -26,11 +26,6 @@ m_createDynamicNodeClass = function( func ){
 //
 
 /**
- * @const {!Object.<string, !Tyte.Class>}
- */
-var TyteDynamicNodeBase_CLASSES = {};
-
-/**
  * 
  * @param {!Tyte.DynamicNodeRenderer} func 
  * @return {!Tyte.Class}
@@ -94,7 +89,7 @@ TyteDynamicNodeBase.prototype.initialParams = null;
 TyteDynamicNodeBase.prototype.nodeType = TYTE_NODE_TYPE.DYNAMIC_NODE;
 
 /**
- * @type {!TyteElementBase|TyteDocumentFragment|null}
+ * @type {!Tyte.CanHasChildren|null}
  */
 TyteDynamicNodeBase.prototype.parent = null;
 

@@ -62,8 +62,8 @@ Tyte.DynamicNodeRenderer;
 /** @typedef {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} */
 Tyte.CanHasParent;
 
-/** @typedef {!TyteElementBase|!TyteDocumentFragment|!TyteDynamicNodeBase} */
+/** @typedef {!TyteElementBase|!TyteDocumentFragment} */
 Tyte.CanHasChildren;
 
-/** @typedef {!TyteTextNode|!Tyte.CanHasChildren} */
+/** @typedef {!TyteTextNode|!Tyte.CanHasChildren|!TyteDynamicNodeBase} */
 Tyte.AllNode;

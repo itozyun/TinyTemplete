@@ -21,7 +21,7 @@ TyteTextNode.prototype.nodeType = TYTE_NODE_TYPE.TEXT_NODE;
 TyteTextNode.prototype.text = '';
 
 /**
- * @type {!TyteElementBase|!TyteDocumentFragment|null}
+ * @type {!Tyte.CanHasChildren|null}
  */
 TyteTextNode.prototype.parent = null;
 
@@ -51,10 +51,7 @@ TyteTextNode.prototype.setPrev = function( ___tyteNodes ){
         childNodes, args;
 
     if( parent ){
-        args = m_preprocessInsertNode(
-            m_argumentsToArray( arguments ),
-            /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
-        );
+        args = m_preprocessInsertNode( m_argumentsToArray( arguments ), parent );
         args.unshift( m_getMyIndex( this ), 0 );
         childNodes = parent._childNodes;
         childNodes.splice.apply( childNodes, args );
@@ -85,10 +82,7 @@ TyteTextNode.prototype.setNext = function( ___tyteNodes ){
     if( parent ){
         childNodes = parent._childNodes;
         insertIndex = m_getMyIndex( this ) + 1;
-        args = m_preprocessInsertNode(
-            m_argumentsToArray( arguments ),
-            /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
-        );
+        args = m_preprocessInsertNode( m_argumentsToArray( arguments ), parent );
 
         if( insertIndex < childNodes.length ){
             args.unshift( insertIndex, 0 );
@@ -111,10 +105,7 @@ TyteTextNode.prototype.swap = function( ___tyteNodes ){
         childNodes, args;
 
     if( parent ){
-        args = m_preprocessInsertNode(
-            m_argumentsToArray( arguments ),
-            /** @type {!TyteElementBase|!TyteDocumentFragment} */ (parent)
-        );
+        args = m_preprocessInsertNode( m_argumentsToArray( arguments ), parent );
 
         args.unshift( m_getMyIndex( this ), 1 );
         childNodes = parent._childNodes;

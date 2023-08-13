@@ -61,7 +61,7 @@ p_Tyte.DocumentFragment = TyteDocumentFragment;
 TyteDynamicNodeBase = function( ___something ){};
 
 /**
- * @param {function(!Tyte.AllNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!function(!Tyte.AllNode):(boolean|undefined)} func
  * @return {!Tyte.AllNode} this
  */
 TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDocumentFragment.prototype.walkNodes = function( func ){
@@ -70,7 +70,7 @@ TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDoc
 };
 
 /**
- * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!function(!TyteTextNode):(boolean|undefined)} func
  * @return {!Tyte.AllNode} this
  */
 TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes = TyteDocumentFragment.prototype.walkTextNodes = function( func ){
@@ -79,7 +79,7 @@ TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes =
 };
 
 /**
- * @param {function(!TyteElementBase,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!function(!TyteElementBase):(boolean|undefined)} func
  * @return {!Tyte.AllNode} this
  */
 TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNodes = function( func ){
@@ -139,7 +139,7 @@ function m_isTyteNode( tyteNode ){
 
 /**
  * @param {!Tyte.AllNode} tyteNode
- * @param {function(!Tyte.AllNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!function(!Tyte.AllNode):(boolean|undefined)} func
  */
 function m_walkNodes( tyteNode, func ){
     if( func( tyteNode ) === true ){
@@ -160,7 +160,7 @@ function m_walkNodes( tyteNode, func ){
 
 /**
  * @param {!Tyte.AllNode} tyteNode
- * @param {function(!TyteTextNode,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!function(!TyteTextNode):(boolean|undefined)} func
  */
 function m_walkTextNodes( tyteNode, func ){
     if( tyteNode.nodeType === TYTE_NODE_TYPE.TEXT_NODE ){
@@ -182,8 +182,8 @@ function m_walkTextNodes( tyteNode, func ){
 };
 
 /**
- * @param {!TyteElementBase|!TyteDocumentFragment} tyteNode
- * @param {function(!TyteElementBase,(!TyteElementBase|!TyteDocumentFragment)=):(boolean|undefined)} func
+ * @param {!Tyte.CanHasChildren} tyteNode
+ * @param {!function(!TyteElementBase):(boolean|undefined)} func
  */
 function m_walkElements( tyteNode, func ){
     if( tyteNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE ){
@@ -239,7 +239,7 @@ function m_getMyIndex( tyteNode ){
  * 1. string を TyteTextNode へ
  * 2. DocumentFragment を解除して childNodes を展開
  * @param {!Array.<!Tyte.AllNode|string>} args
- * @param {!TyteElementBase|!TyteDocumentFragment} parentNode
+ * @param {!Tyte.CanHasChildren} parentNode
  * @return {!Array.<!Tyte.CanHasParent>}
  */
 function m_preprocessInsertNode( args, parentNode ){

@@ -3,10 +3,11 @@
 Tiny Tempplete Library for SSR and SPA.
 
 JavaScript の関数呼び出しでテンプレート(HTML 部品)を記述する
+
 DOM っぽいけど微妙に異なる名前のメソッドで操作して、レンダーする(微妙に異なるのは Closure Compiler env:browser で名前を短縮する為)
 
 ~~~js
-const $ = require('tyte')('div,span,img,p,li,i');
+const $ = require('tyte');
 const li = $('li');
 const i = $('i');
 const span = $('span');
@@ -48,7 +49,3 @@ if( isNode ){
 gulp js
 npm run test
 ~~~
-
-dynamic node
-dynamic attribute
-dynamic style

@@ -103,7 +103,7 @@ TyteElementBase.prototype._childNodes = null;
 TyteElementBase.prototype.nodeType = TYTE_NODE_TYPE.ELEMENT_NODE;
 
 /**
- * @type {!TyteElementBase|TyteDocumentFragment|null}
+ * @type {!Tyte.CanHasChildren|null}
  */
 TyteElementBase.prototype.parent = null;
 
