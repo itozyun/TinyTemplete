@@ -16,6 +16,7 @@ var RenderSSR_skipHTMLEscape;
 var RenderSSR_noOmitCloseTag;
 
 /**
+ * @this {!TyteElementBase|!TyteDocumentFragment}
  * @param {Tyte.RenderingParam=} renderingParam
  * @return {string}
  */

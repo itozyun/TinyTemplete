@@ -65,5 +65,5 @@ Tyte.CanHasParent;
 /** @typedef {!TyteElementBase|!TyteDocumentFragment} */
 Tyte.CanHasChildren;
 
-/** @typedef {!TyteTextNode|!Tyte.CanHasChildren|!TyteDynamicNodeBase} */
+/** @typedef {!Tyte.CanHasParent|!TyteDocumentFragment} */
 Tyte.AllNode;

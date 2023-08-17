@@ -134,7 +134,10 @@ function m_objToCSSText( style, tyteNode, renderingParam ){
  * @return {boolean}
  */
 function m_isTyteNode( tyteNode ){
-    return !!tyteNode && ( tyteNode.walkNodes === TyteTextNode.prototype.walkNodes );
+    return !!tyteNode && (
+            tyteNode.walkNodes === TyteTextNode.prototype.walkNodes || // Text | Element | DocumentFragment
+            tyteNode.getPrev === TyteTextNode.prototype.getPrev // DynamicNode
+        );
 };
 
 /**
