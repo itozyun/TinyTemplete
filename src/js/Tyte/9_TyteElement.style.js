@@ -25,8 +25,9 @@ TyteElementBase.prototype.setStyle = function( styleName, value ){
         style = attrs && attrs.style;
 
     if( !style ){
+        style = {};
         attrs = this._attrs = attrs || {};
-        attrs.style = {};
+        attrs.style = style;
     };
     style[ styleName ] = value;
 
@@ -52,13 +53,15 @@ TyteElementBase.prototype.removeStyle = function( styleName ){
  * @return {!TyteElementBase}
  */
 TyteElementBase.prototype.setCSSText = function( cssText ){
-    var styles = cssText.split( ';' ),
-        i = 0, l, propertyAndValue, property;
+    if( cssText ){
+        var styles = cssText.split( ';' ),
+            i = 0, l, propertyAndValue, property;
 
-    for( l = styles.length; i < l; ++i ){
-        propertyAndValue = styles[ i ];
-        property = propertyAndValue.split( ':' )[ 0 ].split( ' ' ).join( '' );
-        this.setStyle( property, propertyAndValue.substr( propertyAndValue.indexOf( ':' ) + 1 ) );
+        for( l = styles.length; i < l; ++i ){
+            propertyAndValue = styles[ i ];
+            property = propertyAndValue.split( ':' )[ 0 ].split( ' ' ).join( '' );
+            this.setStyle( property, propertyAndValue.substr( propertyAndValue.indexOf( ':' ) + 1 ) );
+        };
     };
     return this;
 };

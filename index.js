@@ -65,7 +65,7 @@ module.exports = function( htmlString, opt_selector ){
                 };
                 break;
             case 3 :
-                codes.push( tab() + "'" + textContent.split( "'" ).join( "\\'" ).split( '\n' ).join( '\\n' ) + "'" + comma( !isLastChild ) );
+                codes.push( tab() + '"' + textContent.split( '"' ).join( '\\"' ).split( '\n' ).join( '\\n' ) + '"' + comma( !isLastChild ) );
                 break;
             default :
                 codes.push( tab() + '""' + comma( !isLastChild ) );

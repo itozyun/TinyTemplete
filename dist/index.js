@@ -97,7 +97,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
         var l = arguments, k = x(this, b);
         l = r(l);
         var p = l[0], n;
-        if (p && "object" === typeof p && (!p || p.walkNodes !== g.prototype.walkNodes)) {
+        if (p && "object" === typeof p && (!p || p.walkNodes !== g.prototype.walkNodes && p.getPrev !== g.prototype.getPrev)) {
           for (n in p) {
             k.setAttr(n, p[n]);
           }
@@ -406,7 +406,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     };
     e.prototype.setStyle = function(a, b) {
       var c = this._attrs, d = c && c.style;
-      d || (c = this._attrs = c || {}, c.style = {});
+      d || (d = {}, c = this._attrs = c || {}, c.style = d);
       d[a] = b;
       return this;
     };
@@ -416,12 +416,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       return this;
     };
     e.prototype.setCSSText = function(a) {
-      a = a.split(";");
-      var b = 0, c;
-      for (c = a.length; b < c; ++b) {
-        var d = a[b];
-        var h = d.split(":")[0].split(" ").join("");
-        this.setStyle(h, d.substr(d.indexOf(":") + 1));
+      if (a) {
+        a = a.split(";");
+        var b = 0, c;
+        for (c = a.length; b < c; ++b) {
+          var d = a[b];
+          var h = d.split(":")[0].split(" ").join("");
+          this.setStyle(h, d.substr(d.indexOf(":") + 1));
+        }
       }
       return this;
     };
