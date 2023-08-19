@@ -252,10 +252,10 @@ function m_preprocessInsertNode( args, parentNode ){
         arg = args[ --i ];
         if( typeof arg === 'string' || typeof arg === 'number' ){
             args[ i ] = new TyteTextNode( arg );
-        } else if( arg.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT ){
+        } else if( arg.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE ){
             childNodes = /** @type {!Array} */ (arg._childNodes);
             if( childNodes && childNodes.length ){
-                childNodes.unshift( i, 0 );
+                childNodes.unshift( i, 1 );
                 args.splice.apply( args, childNodes );
             };
         };

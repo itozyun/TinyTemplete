@@ -41,7 +41,7 @@ var TyteDynamicNodeBase;
 /** @namespace */
 var Tyte = {};
 
-/** @typedef {!function(new:Tyte.AllNode, ...?)} */
+/** @typedef {!function(this:(Tyte.AllNode|?), ...?)} */
 Tyte.Class;
 
 /** @typedef {!Object.<string,(string|number|!Tyte.AttributeRenderer|boolean)>} */

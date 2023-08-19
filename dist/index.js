@@ -69,7 +69,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     }
     function v(a, b) {
       for (var c = a.length, d, h; c;) {
-        d = a[--c], "string" === typeof d || "number" === typeof d ? a[c] = new g(d) : d.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT && (d = d._childNodes) && d.length && (d.unshift(c, 0), a.splice.apply(a, d));
+        d = a[--c], "string" === typeof d || "number" === typeof d ? a[c] = new g(d) : d.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE && (d = d._childNodes) && d.length && (d.unshift(c, 1), a.splice.apply(a, d));
       }
       for (c = a.length; c;) {
         d = a[--c], (h = d.parent) && h._childNodes.splice(t(d), 1), d.parent = b;
