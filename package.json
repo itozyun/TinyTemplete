@@ -14,11 +14,13 @@
   "author": "itozyun <itozyun@gmail.com> (https://outcloud.blogspot.com/)",
   "license": "MIT",
   "devDependencies": {
+    "aria-attributes": "^2.0.1",
     "ava": "^5.3.1",
     "google-closure-compiler": "^20230802.0.0",
     "gulp": "^4.0.2",
     "gulp-diamond-princess-zoning": "^0.9.14",
     "html-element-attributes": "^3.2.0",
-    "jsdom": "^22.1.0"
+    "jsdom": "^22.1.0",
+    "svg-element-attributes": "^2.0.1"
   }
 }
