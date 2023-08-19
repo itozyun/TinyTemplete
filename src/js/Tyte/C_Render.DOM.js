@@ -76,7 +76,7 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
      * @return {!DocumentFragment|!Element|!Text|undefined}
      */
     TyteDynamicNodeBase.prototype.renderDOM = function( renderingParam ){
-        var staticTyteNode = this._compute( renderingParam );
+        var staticTyteNode = this._renderer( renderingParam );
 
         if( typeof staticTyteNode === 'string' || typeof staticTyteNode === 'number'  ){
             return document.createTextNode( '' + staticTyteNode );

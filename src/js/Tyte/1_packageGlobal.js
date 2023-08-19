@@ -9,6 +9,12 @@
  */
 var p_Tyte;
 
+//_____________________________________________________________________________
+//
+//  Type Definitions
+//_____________________________________________________________________________
+//
+
 /**
  * @class
  * `new p_Tyte.Text( str )` を使うこと!
@@ -25,23 +31,17 @@ var TyteDocumentFragment;
  * `var div = p_Tyte('div');` を使うこと!
  * @constructor
  * @param {!Tyte.Attrs=} opt_attrs
- * @param {...(!Tyte.CanHasParent|string)} ___tyteNodes
+ * @param {...(!Tyte.CanHasParent|string|number)} ___tyteNodes
  */
 function TyteElementBase( opt_attrs, ___tyteNodes ){};
 
 /** @class */
 var TyteDynamicNodeBase;
 
-//_____________________________________________________________________________
-//
-//  TyteTextNode Other
-//_____________________________________________________________________________
-//
-
 /** @namespace */
 var Tyte = {};
 
-/** @typedef {!Function} */
+/** @typedef {!function(new:Tyte.AllNode, ...?)} */
 Tyte.Class;
 
 /** @typedef {!Object.<string,(string|number|!Tyte.AttributeRenderer|boolean)>} */
@@ -56,7 +56,7 @@ Tyte.AttributeRenderer;
 /** @typedef {!function(this:TyteElementBase,Tyte.RenderingParam,string):(string|number|null|undefined)} */
 Tyte.StyleRenderer;
 
-/** @typedef {!function(this:TyteDynamicNodeBase,Tyte.RenderingParam):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string)} */
+/** @typedef {!function(this:TyteDynamicNodeBase,Tyte.RenderingParam):(!TyteTextNode|!TyteElementBase|!TyteDocumentFragment|string|number)} */
 Tyte.DynamicNodeRenderer;
 
 /** @typedef {!TyteTextNode|!TyteElementBase|!TyteDynamicNodeBase} */

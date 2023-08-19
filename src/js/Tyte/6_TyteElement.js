@@ -40,7 +40,7 @@ function TyteElementBase_createClass( tagName ){
      * @constructor
      * @extends TyteElementBase
      * @param {!Tyte.Attrs=} opt_attrs
-     * @param {...(!Tyte.CanHasParent|string)} ___tyteNodes
+     * @param {...(!Tyte.CanHasParent|string|number)} ___tyteNodes
      */
     function TyteElement( opt_attrs, ___tyteNodes ){
         return TyteElementBase_init( this, TyteElement, arguments );
@@ -57,7 +57,7 @@ function TyteElementBase_createClass( tagName ){
 /**
  * 
  * @param {!TyteElementBase|*} _instance 
- * @param {!Function} Class 
+ * @param {!Tyte.Class} Class 
  * @param {!Arguments} _args 
  * @return {!TyteElementBase}
  */
@@ -178,7 +178,7 @@ TyteElementBase.prototype.clone = function( deepCopy ){
     if( this._attrs ){
         clonedNode = new Class( m_deepCopy( this._attrs ) );
     } else {
-        clonedNode = new Class(); // TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE
+        clonedNode = new Class();
     };
 
     if( deepCopy ){

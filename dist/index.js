@@ -69,7 +69,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     }
     function v(a, b) {
       for (var c = a.length, d, h; c;) {
-        d = a[--c], "string" === typeof d ? a[c] = new g(d) : d.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT && (d = d._childNodes) && d.length && (d.unshift(c, 0), a.splice.apply(a, d));
+        d = a[--c], "string" === typeof d || "number" === typeof d ? a[c] = new g(d) : d.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT && (d = d._childNodes) && d.length && (d.unshift(c, 0), a.splice.apply(a, d));
       }
       for (c = a.length; c;) {
         d = a[--c], (h = d.parent) && h._childNodes.splice(t(d), 1), d.parent = b;
@@ -119,7 +119,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
         return h;
       }
       var c = new m();
-      c._func = a;
+      c._renderer = a;
       c.constructor = b;
       b.prototype = c;
       return b;
@@ -144,7 +144,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     DEFINE_TYTE__EXPORT && (module.exports = w);
     g = function(a) {
       var b = x(this, g);
-      b.text = a;
+      b.text = "" + a;
       return b;
     };
     w.Text = g;
@@ -430,7 +430,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
     var K = function(a) {
       return I(a);
     };
-    m.prototype._func = null;
+    m.prototype._renderer = null;
     m.prototype.initialParams = null;
     m.prototype.nodeType = TYTE_NODE_TYPE.DYNAMIC_NODE;
     m.prototype.parent = null;
@@ -444,9 +444,6 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       a = new this.constructor();
       a.initialParams = this.initialParams;
       return a;
-    };
-    m.prototype._compute = function(a) {
-      return this._func(a);
     };
     var M = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, N = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, O = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, P = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
     Q = {polyline:!0, rect:!0, line:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0}, R = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0}, y, D;
@@ -476,7 +473,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       }
       return c.join("");
     }, m.prototype.renderSSR = function(a) {
-      var b = this._compute(a);
+      var b = this._renderer(a);
       return "string" === typeof b ? y ? b : C(b) : "number" === typeof b ? "" + b : null != b ? b.renderSSR(a) : "";
     });
     DEFINE_TYTE__USE_RENDER_DOM && (g.prototype.renderDOM = function(a) {
@@ -503,7 +500,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__USE_RENDER_S
       }
       return b;
     }, m.prototype.renderDOM = function(a) {
-      var b = this._compute(a);
+      var b = this._renderer(a);
       if ("string" === typeof b || "number" === typeof b) {
         return document.createTextNode("" + b);
       }

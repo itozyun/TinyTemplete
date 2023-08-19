@@ -153,7 +153,7 @@ TyteDocumentFragment.prototype.getChildNodes = function(){
 
 /**
  * @this {!Tyte.CanHasChildren}
- * @param {...(!Tyte.AllNode|string)} ___tyteNodes
+ * @param {...(!Tyte.AllNode|string|number)} ___tyteNodes
  * @return {!Tyte.CanHasChildren}
  */
 TyteDocumentFragment.prototype.appendNode = function( ___tyteNodes ){
@@ -166,7 +166,7 @@ TyteDocumentFragment.prototype.appendNode = function( ___tyteNodes ){
 
 /**
  * @this {!Tyte.CanHasChildren}
- * @param {...(!Tyte.AllNode|string)} ___tyteNodes
+ * @param {...(!Tyte.AllNode|string|number)} ___tyteNodes
  * @return {!Tyte.CanHasChildren}
  */
 TyteDocumentFragment.prototype.prependNode = function( ___tyteNodes ){

@@ -113,7 +113,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
      * @return {string}
      */
     TyteDynamicNodeBase.prototype.renderSSR = function( renderingParam ){
-        var staticTyteNode = this._compute( renderingParam );
+        var staticTyteNode = this._renderer( renderingParam );
 
         if( typeof staticTyteNode === 'string' ){
             return RenderSSR_skipHTMLEscape ? staticTyteNode : m_escapeForHTML( staticTyteNode );

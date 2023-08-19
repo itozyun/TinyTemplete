@@ -30,12 +30,12 @@ if( DEFINE_TYTE__EXPORT ){
 
 /**
  * @constructor
- * @param {string} text
+ * @param {string|number} text
  */
 TyteTextNode = function( text ){
     var instance = /** @type {!TyteTextNode} */ (m_getInstance( this, TyteTextNode ));
 
-    instance.text = text;
+    instance.text = '' + text;
 
     return instance;
 };
@@ -44,7 +44,7 @@ p_Tyte.Text = TyteTextNode;
 
 /**
  * @constructor
- * @param {...(!Tyte.CanHasParent|string)} ___tyteNodes
+ * @param {...(!Tyte.CanHasParent|string|number)} ___tyteNodes
  */
 TyteDocumentFragment = function( ___tyteNodes ){
     var instance = /** @type {!TyteDocumentFragment} */ (m_getInstance( this, TyteDocumentFragment ));
@@ -241,7 +241,7 @@ function m_getMyIndex( tyteNode ){
 /**
  * 1. string を TyteTextNode へ
  * 2. DocumentFragment を解除して childNodes を展開
- * @param {!Array.<!Tyte.AllNode|string>} args
+ * @param {!Array.<!Tyte.AllNode|string|number>} args
  * @param {!Tyte.CanHasChildren} parentNode
  * @return {!Array.<!Tyte.CanHasParent>}
  */
@@ -250,7 +250,7 @@ function m_preprocessInsertNode( args, parentNode ){
 
     for( ; i; ){
         arg = args[ --i ];
-        if( typeof arg === 'string' ){
+        if( typeof arg === 'string' || typeof arg === 'number' ){
             args[ i ] = new TyteTextNode( arg );
         } else if( arg.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT ){
             childNodes = /** @type {!Array} */ (arg._childNodes);
@@ -275,10 +275,10 @@ function m_preprocessInsertNode( args, parentNode ){
 
 /**
  * @param {Arguments} args
- * @return {!Array.<!Tyte.Attrs|!Tyte.CanHasParent|string>}
+ * @return {!Array.<!Tyte.Attrs|!Tyte.CanHasParent|string|number>}
  */
 function m_argumentsToArray( args ){
-    return /** @type {!Array.<!Tyte.Attrs|!Tyte.CanHasParent|string>} */ (Array.prototype.slice.call( args ));
+    return /** @type {!Array.<!Tyte.Attrs|!Tyte.CanHasParent|string|number>} */ (Array.prototype.slice.call( args ));
 };
 
 /**

@@ -40,7 +40,7 @@ function TyteDynamicNodeBase_createClass( func ){
     };
 
     var traits = new TyteDynamicNodeBase;
-    traits._func    = func;
+    traits._renderer   = func;
     traits.constructor = TyteDynamicNode;
 
     TyteDynamicNode.prototype = traits;
@@ -50,7 +50,7 @@ function TyteDynamicNodeBase_createClass( func ){
 /**
  * 
  * @param {!TyteDynamicNodeBase|*} _instance 
- * @param {!Function} Class 
+ * @param {!Tyte.Class} Class 
  * @param {!Arguments} _initialParams 
  * @return {!TyteDynamicNodeBase}
  */
@@ -70,7 +70,7 @@ function TyteDynamicNodeBase_init( _instance, Class, _initialParams ){
 /**
  * @type {!Tyte.DynamicNodeRenderer|null}
  */
-TyteDynamicNodeBase.prototype._func = null;
+TyteDynamicNodeBase.prototype._renderer = null;
 
 //_____________________________________________________________________________
 //
@@ -127,13 +127,4 @@ TyteDynamicNodeBase.prototype.clone = function( deepCopy ){
 
     clonedNode.initialParams = this.initialParams;
     return clonedNode;
-};
-
-
-/**
- * @param {Tyte.RenderingParam} renderingParam
- * @return {!Tyte.AllNode|string|number} newNode
- */
-TyteDynamicNodeBase.prototype._compute = function( renderingParam ){
-    return this._func( renderingParam );
 };
