@@ -1,10 +1,10 @@
-var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMET_FRAGMENT = !1, DEFINE_TYTE__USE_VML = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
-(function(S) {
-  function e(z, A) {
+var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT = !1, DEFINE_TYTE__USE_VML = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
+(function(U) {
+  function e(A, B) {
   }
   var w, g, f, m;
   (function() {
-    function z(a, b, c) {
+    function A(a, b, c) {
       var d = [], h = -1, l;
       for (l in a) {
         var k = a[l];
@@ -13,7 +13,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
       return d.join(";");
     }
-    function A(a, b) {
+    function B(a, b) {
       if (!0 === b(a)) {
         return !0;
       }
@@ -21,13 +21,13 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       var c = 0, d;
       if (a) {
         for (d = a.length; c < d; ++c) {
-          if (A(a[c], b)) {
+          if (B(a[c], b)) {
             return !0;
           }
         }
       }
     }
-    function B(a, b) {
+    function C(a, b) {
       if (a.nodeType === TYTE_NODE_TYPE.TEXT_NODE) {
         if (!0 === b(a)) {
           return !0;
@@ -37,14 +37,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
         var c = 0, d;
         if (a) {
           for (d = a.length; c < d; ++c) {
-            if (B(a[c], b)) {
+            if (C(a[c], b)) {
               return !0;
             }
           }
         }
       }
     }
-    function u(a, b) {
+    function v(a, b) {
       if (a.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && !0 === b(a)) {
         return !0;
       }
@@ -53,53 +53,53 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       if (a) {
         for (d = a.length; c < d; ++c) {
           var h = a[c];
-          if (h.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && u(h, b)) {
+          if (h.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && v(h, b)) {
             return !0;
           }
         }
       }
     }
-    function x(a, b) {
+    function y(a, b) {
       a && a.constructor === b || (a = new b());
       return a;
     }
-    function t(a) {
+    function u(a) {
       var b = a.parent;
       return b ? (b = b._childNodes, b.indexOf(a)) : -1;
     }
-    function v(a, b) {
+    function x(a, b) {
       for (var c = a.length, d, h; c;) {
         d = a[--c], "string" === typeof d || "number" === typeof d ? a[c] = new g(d) : d.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE && (d = d._childNodes) && d.length && (d.unshift(c, 1), a.splice.apply(a, d));
       }
       for (c = a.length; c;) {
-        d = a[--c], (h = d.parent) && h._childNodes.splice(t(d), 1), d.parent = b;
+        d = a[--c], (h = d.parent) && h._childNodes.splice(u(d), 1), d.parent = b;
       }
       return a;
     }
     function r(a) {
       return Array.prototype.slice.call(a);
     }
-    function E(a) {
+    function G(a) {
       var b = null, c;
       if (a) {
         for (c in b = {}, a) {
           var d = a[c];
-          b[c] = d && "object" === typeof d ? E(d) : d;
+          b[c] = d && "object" === typeof d ? G(d) : d;
         }
       }
       return b;
     }
-    function C(a) {
+    function D(a) {
       return a.split("<").join("&lt;").split(">").join("&gt;");
     }
-    function I(a) {
+    function K(a) {
       function b(d, h) {
-        var l = arguments, k = x(this, b);
+        var l = arguments, k = y(this, b);
         l = r(l);
-        var p = l[0], n;
-        if (p && "object" === typeof p && (!p || p.walkNodes !== g.prototype.walkNodes && p.getPrev !== g.prototype.getPrev)) {
-          for (n in p) {
-            k.setAttr(n, p[n]);
+        var n = l[0], t;
+        if (n && "object" === typeof n && (!n || n.walkNodes !== g.prototype.walkNodes && n.getPrev !== g.prototype.getPrev)) {
+          for (t in n) {
+            k.setAttr(t, n[t]);
           }
           l.shift();
         }
@@ -112,9 +112,9 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       b.prototype = c;
       return b;
     }
-    function J(a) {
+    function L(a) {
       function b() {
-        var d = arguments, h = x(this, b);
+        var d = arguments, h = y(this, b);
         h.initialParams = r(d);
         return h;
       }
@@ -124,7 +124,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       b.prototype = c;
       return b;
     }
-    function F(a) {
+    function H(a) {
       var b = [], c = this._childNodes, d = 0, h;
       if (c) {
         for (h = c.length; d < h; ++d) {
@@ -135,51 +135,57 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     }
     w = function(a) {
       if ("function" === typeof a) {
-        return K(a);
+        return M(a);
       }
       if ("string" === typeof a) {
-        return L(a);
+        return N(a);
       }
     };
     DEFINE_TYTE__EXPORT && (module.exports = w);
     g = function(a) {
-      var b = x(this, g);
+      var b = y(this, g);
       b.text = "" + a;
       return b;
     };
     w.Text = g;
     f = function(a) {
-      var b = x(this, f);
+      var b = y(this, f);
       return b.appendNode.apply(b, r(arguments));
     };
     w.DocumentFragment = f;
     m = function(a) {
     };
     g.prototype.walkNodes = e.prototype.walkNodes = f.prototype.walkNodes = function(a) {
-      A(this, a);
-      return this;
-    };
-    g.prototype.walkTextNodes = e.prototype.walkTextNodes = f.prototype.walkTextNodes = function(a) {
       B(this, a);
       return this;
     };
-    e.prototype.walkElements = f.prototype.walkNodes = function(a) {
-      u(this, a);
+    g.prototype.walkTextNodes = e.prototype.walkTextNodes = f.prototype.walkTextNodes = function(a) {
+      C(this, a);
       return this;
     };
-    var G = {className:"class", htmlFor:"for"};
+    e.prototype.walkElements = f.prototype.walkNodes = function(a) {
+      v(this, a);
+      return this;
+    };
+    var I = {className:"class", htmlFor:"for"};
+    w._extends = function(a, b) {
+      for (var c in b) {
+        a.prototype[c] = b[c];
+      }
+      a.prototype.constructor = a;
+    };
     g.prototype.nodeType = TYTE_NODE_TYPE.TEXT_NODE;
     g.prototype.text = "";
     g.prototype.parent = null;
     g.prototype.getPrev = function() {
       var a = this.parent;
-      return a && a._childNodes[t(this) - 1] || null;
+      return a && a._childNodes[u(this) - 1] || null;
     };
     g.prototype.setPrev = function(a) {
       var b = this.parent;
       if (b) {
-        var c = v(r(arguments), b);
-        c.unshift(t(this), 0);
+        var c = x(r(arguments), b);
+        c.unshift(u(this), 0);
         b = b._childNodes;
         b.splice.apply(b, c);
       }
@@ -187,14 +193,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     };
     g.prototype.getNext = function() {
       var a = this.parent;
-      return a && a._childNodes[t(this) + 1] || null;
+      return a && a._childNodes[u(this) + 1] || null;
     };
     g.prototype.setNext = function(a) {
       var b = this.parent;
       if (b) {
         var c = b._childNodes;
-        var d = t(this) + 1;
-        b = v(r(arguments), b);
+        var d = u(this) + 1;
+        b = x(r(arguments), b);
         d < c.length ? (b.unshift(d, 0), c.splice.apply(c, b)) : c.push.apply(c, b);
       }
       return this;
@@ -202,8 +208,8 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     g.prototype.swap = function(a) {
       var b = this.parent;
       if (b) {
-        var c = v(r(arguments), b);
-        c.unshift(t(this), 1);
+        var c = x(r(arguments), b);
+        c.unshift(u(this), 1);
         b = b._childNodes;
         b.splice.apply(b, c);
         this.parent = null;
@@ -212,7 +218,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     };
     g.prototype.remove = function() {
       var a = this.parent;
-      a && (a._childNodes.splice(t(this), 1), this.parent = null);
+      a && (a._childNodes.splice(u(this), 1), this.parent = null);
       return this;
     };
     g.prototype.clone = function(a) {
@@ -223,7 +229,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     f.prototype.parent = null;
     f.prototype.getElementByID = function(a) {
       var b = null;
-      u(this, function(c) {
+      v(this, function(c) {
         if (c.getAttr("id") === a) {
           return b = c, !0;
         }
@@ -232,21 +238,21 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     };
     f.prototype.getElementListByTag = function(a) {
       var b = [], c = -1;
-      u(this, function(d) {
+      v(this, function(d) {
         d._tagName === a && (b[++c] = d);
       });
       return b;
     };
     f.prototype.getElementListByClass = function(a) {
       var b = [], c = -1;
-      u(this, function(d) {
+      v(this, function(d) {
         d.hasClass(a) && (b[++c] = d);
       });
       return b;
     };
     f.prototype.getElementListByName = function(a) {
       var b = [], c = -1;
-      u(this, function(d) {
+      v(this, function(d) {
         d.getAttr("name") === a && (b[++c] = d);
       });
       return b;
@@ -263,12 +269,12 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       return this._childNodes;
     };
     f.prototype.appendNode = function(a) {
-      var b = this._childNodes = this._childNodes || [], c = v(r(arguments), this);
+      var b = this._childNodes = this._childNodes || [], c = x(r(arguments), this);
       b.push.apply(b, c);
       return this;
     };
     f.prototype.prependNode = function(a) {
-      var b = this._childNodes = this._childNodes || [], c = v(r(arguments), this);
+      var b = this._childNodes = this._childNodes || [], c = x(r(arguments), this);
       c.unshift(0, 0);
       b.splice.apply(b, c);
       return this;
@@ -286,7 +292,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     };
     f.prototype.getTextContent = function() {
       var a = "";
-      B(this, function(b) {
+      C(this, function(b) {
         a += b.text;
       });
       return a;
@@ -309,10 +315,10 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
       return b;
     };
-    var L = function(a) {
-      return H[a] = H[a] || I(a);
+    var N = function(a) {
+      return J[a] = J[a] || K(a);
     };
-    var H = {};
+    var J = {};
     e.prototype._attrs = null;
     e.prototype._childNodes = null;
     e.prototype.nodeType = TYTE_NODE_TYPE.ELEMENT_NODE;
@@ -337,7 +343,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     e.prototype.setTextContent = f.prototype.setTextContent;
     e.prototype.clone = function(a) {
       var b = this.constructor;
-      b = this._attrs ? new b(E(this._attrs)) : new b();
+      b = this._attrs ? new b(G(this._attrs)) : new b();
       if (a) {
         a = this._childNodes;
         var c = 0, d;
@@ -424,8 +430,8 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
       return this;
     });
-    var K = function(a) {
-      return J(a);
+    var M = function(a) {
+      return L(a);
     };
     m.prototype._renderer = null;
     m.prototype.initialParams = null;
@@ -442,36 +448,39 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       a.initialParams = this.initialParams;
       return a;
     };
-    var M = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, N = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, O = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, P = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
-    Q = DEFINE_TYTE__USE_VML ? {polyline:!0, rect:!0, line:!0, path:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0} : {polyline:!0, rect:!0, line:!0, path:!0}, R = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0}, y, D;
+    var O = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, P = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, Q = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, R = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
+    S = DEFINE_TYTE__USE_VML ? {svg:!0, math:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0} : {svg:!0, math:!0}, T = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0}, z, E, F;
     DEFINE_TYTE__USE_RENDER_SSR && (g.prototype.renderSSR = function(a) {
-      return y ? this.text : C(this.text);
-    }, f.prototype.renderSSR = F, e.prototype.renderSSR = function(a) {
-      var b = this._tagName, c = ["<", b], d = 1, h = this._attrs, l, k, p;
+      return z ? this.text : D(this.text);
+    }, f.prototype.renderSSR = H, e.prototype.renderSSR = function(a) {
+      var b = this._tagName, c = ["<", b], d = 1, h = this._attrs, l, k, n, t;
       if (h) {
-        for (q in h) {
-          var n = h[q];
-          "function" === typeof n && (n = n.call(this, a, q));
-          if (null != n) {
-            var q = G[q] || q;
-            M[q] ? !1 !== n && (c[++d] = " " + q) : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== q || "object" !== typeof n || (n = z(n, this, a)), c[++d] = " " + q + '="' + C("" + n).split('"').join('\\"') + '"');
+        for (p in h) {
+          var q = h[p];
+          "function" === typeof q && (q = q.call(this, a, p));
+          if (null != q) {
+            var p = I[p] || p;
+            O[p] ? !1 !== q && (c[++d] = " " + p) : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== p || "object" !== typeof q || (q = A(q, this, a)), c[++d] = " " + p + '="' + D("" + q).split('"').join('\\"') + '"');
           }
         }
       }
-      y ||= l = !!R[b];
-      D ||= k = !!P[b];
-      this._childNodes ? (c[++d] = ">", c[++d] = p = F.call(this, a)) : c[++d] = Q[b] ? "/>" : ">";
-      l && (y = !1);
-      k && (D = !1);
-      if (!O[b] || D) {
-        if (p || !N[b]) {
+      z ||= l = !!T[b];
+      E ||= k = !!R[b];
+      F ||= n = !!S[b];
+      this._childNodes && (t = H.call(this, a));
+      t ? c[++d] = ">" + t : c[++d] = F ? "/>" : ">";
+      l && (z = !1);
+      k && (E = !1);
+      n && (F = !1);
+      if (!Q[b] || E) {
+        if (t || !P[b]) {
           c[++d] = "</" + b + ">";
         }
       }
       return c.join("");
     }, m.prototype.renderSSR = function(a) {
       var b = this._renderer(a);
-      return "string" === typeof b ? y ? b : C(b) : "number" === typeof b ? "" + b : null != b ? b.renderSSR(a) : "";
+      return "string" === typeof b ? z ? b : D(b) : "number" === typeof b ? "" + b : null != b ? b.renderSSR(a) : "";
     });
     DEFINE_TYTE__USE_RENDER_DOM && (g.prototype.renderDOM = function(a) {
       return document.createTextNode(this.text);
@@ -488,7 +497,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       for (d in c) {
         var k = c[d];
         "function" === typeof k && (k = k.call(this, a, d));
-        null != k && (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== d ? b.setAttribute(G[d] || d, "" + k) : b.style.cssText = "object" === typeof k ? z(k, this, a) : k);
+        null != k && (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== d ? b.setAttribute(I[d] || d, "" + k) : b.style.cssText = "object" === typeof k ? A(k, this, a) : k);
       }
       if (h) {
         for (c = h.length; l < c; ++l) {
