@@ -51,7 +51,7 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
                 value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
             };
             if( value != null ){
-                if( property === 'style' ){
+                if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' ){
                     elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value, this, renderingParam ) : /** @type {string} */ (value);
                 } else {
                     elm.setAttribute( m_RENAME_ATTRIBUTES[ property ] || property, '' + value );

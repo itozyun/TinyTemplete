@@ -105,6 +105,13 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 //
 //=============================================================================
 
+p_Tyte._extends = function( Class, methods ){
+    for( var name in methods ){
+        Class.prototype[ name ] = methods[ name ];
+    };
+    Class.prototype.constructor = Class;
+};
+
 /**
  * 
  * @param {!Object} style 
