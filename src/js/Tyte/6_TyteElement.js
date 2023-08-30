@@ -4,6 +4,12 @@
 //
 //=============================================================================
 
+/**
+ * @constructor
+ * @param {...*} ___something
+ */
+TyteDynamicNodeBase = function( ___something ){};
+
 //_____________________________________________________________________________
 //
 //  Export to package global
@@ -109,23 +115,35 @@ TyteElementBase.prototype.parent = null;
 
 //_____________________________________________________________________________
 //
+//  TyteElementBase Walk
+//_____________________________________________________________________________
+//
+
+TyteElementBase.prototype.walkNodes = TyteTextNode.prototype.walkNodes;
+
+TyteElementBase.prototype.walkTextNodes = TyteTextNode.prototype.walkTextNodes;
+
+TyteElementBase.prototype.walkElements = m_CanHasChildren_walkElements;
+
+//_____________________________________________________________________________
+//
 //  TyteElementBase Selector
 //_____________________________________________________________________________
 //
 
-TyteElementBase.prototype.getElementByID        = TyteDocumentFragment.prototype.getElementByID;
+TyteElementBase.prototype.getElementByID        = m_CanHasChildren_getElementByID;
 
-TyteElementBase.prototype.getElementListByTag   = TyteDocumentFragment.prototype.getElementListByTag;
+TyteElementBase.prototype.getElementListByTag   = m_CanHasChildren_getElementListByTag;
 
-TyteElementBase.prototype.getElementListByClass = TyteDocumentFragment.prototype.getElementListByClass;
+TyteElementBase.prototype.getElementListByClass = m_CanHasChildren_getElementListByClass;
 
-TyteElementBase.prototype.getElementListByName  = TyteDocumentFragment.prototype.getElementListByName;
+TyteElementBase.prototype.getElementListByName  = m_CanHasChildren_getElementListByName;
 
-TyteElementBase.prototype.getFirstChild         = TyteDocumentFragment.prototype.getFirstChild;
+TyteElementBase.prototype.getFirstChild         = m_CanHasChildren_getFirstChild;
 
-TyteElementBase.prototype.getLastChild          = TyteDocumentFragment.prototype.getLastChild;
+TyteElementBase.prototype.getLastChild          = m_CanHasChildren_getLastChild;
 
-TyteElementBase.prototype.getChildNodes         = TyteDocumentFragment.prototype.getChildNodes;
+TyteElementBase.prototype.getChildNodes         = m_CanHasChildren_getChildNodes;
 
 //_____________________________________________________________________________
 //
@@ -133,11 +151,11 @@ TyteElementBase.prototype.getChildNodes         = TyteDocumentFragment.prototype
 //_____________________________________________________________________________
 //
 
-TyteElementBase.prototype.appendNode  = TyteDocumentFragment.prototype.appendNode;
+TyteElementBase.prototype.appendNode  = m_CanHasChildren_appendNode;
 
-TyteElementBase.prototype.prependNode = TyteDocumentFragment.prototype.prependNode;
+TyteElementBase.prototype.prependNode = m_CanHasChildren_prependNode;
 
-TyteElementBase.prototype.empty       = TyteDocumentFragment.prototype.empty;
+TyteElementBase.prototype.empty       = m_CanHasChildren_empty;
 
 TyteElementBase.prototype.getPrev     = TyteTextNode.prototype.getPrev;
 
@@ -157,9 +175,9 @@ TyteElementBase.prototype.remove      = TyteTextNode.prototype.remove;
 //_____________________________________________________________________________
 //
 
-TyteElementBase.prototype.getTextContent = TyteDocumentFragment.prototype.getTextContent;
+TyteElementBase.prototype.getTextContent = m_CanHasChildren_getTextContent;
 
-TyteElementBase.prototype.setTextContent = TyteDocumentFragment.prototype.setTextContent;
+TyteElementBase.prototype.setTextContent = m_CanHasChildren_setTextContent;
 
 //_____________________________________________________________________________
 //

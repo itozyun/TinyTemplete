@@ -17,11 +17,11 @@ var RenderSSR_requireClosingTag;
 var RenderSSR_isXML;
 
 /**
- * @this {!TyteElementBase|!TyteDocumentFragment}
+ * @this {!Tyte.CanHasChildren}
  * @param {Tyte.RenderingParam=} renderingParam
  * @return {string}
  */
-function TyteDocumentFragment_renderSSR( renderingParam ){
+function CanHasChildren_renderSSR( renderingParam ){
     var htmlString = [],
         childNodes = this._childNodes,
         i = 0, l;
@@ -44,7 +44,9 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
         return RenderSSR_skipHTMLEscape ? this.text : m_escapeForHTML( this.text );
     };
 
-    TyteDocumentFragment.prototype.renderSSR = TyteDocumentFragment_renderSSR;
+    if( !DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT ){
+        TyteDocumentFragment.prototype.renderSSR = CanHasChildren_renderSSR;
+    };
 
     /**
      * @param {Tyte.RenderingParam=} renderingParam
@@ -90,7 +92,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
         };
 
         if( this._childNodes ){
-            childNodesString = TyteDocumentFragment_renderSSR.call( this, renderingParam );
+            childNodesString = CanHasChildren_renderSSR.call( this, renderingParam );
         };
 
         if( childNodesString ){

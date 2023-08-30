@@ -13,25 +13,27 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
         return document.createTextNode( this.text );
     };
 
-    /**
-     * @param {Tyte.RenderingParam=} renderingParam
-     * @return {!DocumentFragment}
-     */
-    TyteDocumentFragment.prototype.renderDOM = function( renderingParam ){
-        var frg = document.createDocumentFragment();
-        var childNodes = this._childNodes,
-            i = 0, l, node;
+    if( !DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT ){
+        /**
+         * @param {Tyte.RenderingParam=} renderingParam
+         * @return {!DocumentFragment}
+         */
+        TyteDocumentFragment.prototype.renderDOM = function( renderingParam ){
+            var frg = document.createDocumentFragment();
+            var childNodes = this._childNodes,
+                i = 0, l, node;
 
-        // childNodes
-        if( childNodes ){
-            for( l = childNodes.length; i < l; ++i ){
-                node = childNodes[ i ].renderDOM( renderingParam );
-                if( node ){
-                    frg.append( node );
+            // childNodes
+            if( childNodes ){
+                for( l = childNodes.length; i < l; ++i ){
+                    node = childNodes[ i ].renderDOM( renderingParam );
+                    if( node ){
+                        frg.append( node );
+                    };
                 };
             };
+            return frg;
         };
-        return frg;
     };
 
     /**

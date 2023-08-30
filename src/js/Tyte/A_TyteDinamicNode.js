@@ -95,6 +95,14 @@ TyteDynamicNodeBase.prototype.parent = null;
 
 //_____________________________________________________________________________
 //
+//  TyteDynamicNodeBase Walk
+//_____________________________________________________________________________
+//
+
+TyteDynamicNodeBase.prototype.walkNodes = TyteTextNode.prototype.walkNodes;
+
+//_____________________________________________________________________________
+//
 //  TyteDynamicNodeBase Manipulation
 //_____________________________________________________________________________
 //

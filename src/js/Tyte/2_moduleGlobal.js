@@ -21,77 +21,12 @@ if( DEFINE_TYTE__EXPORT ){
     module.exports = p_Tyte;
 };
 
-
-//=============================================================================
-//
-//  Classes
-//
-//=============================================================================
-
-/**
- * @constructor
- * @param {string|number} text
- */
-TyteTextNode = function( text ){
-    var instance = /** @type {!TyteTextNode} */ (m_getInstance( this, TyteTextNode ));
-
-    instance.text = '' + text;
-
-    return instance;
-};
-
-p_Tyte.Text = TyteTextNode;
-
-/**
- * @constructor
- * @param {...(!Tyte.CanHasParent|string|number)} ___tyteNodes
- */
-TyteDocumentFragment = function( ___tyteNodes ){
-    var instance = /** @type {!TyteDocumentFragment} */ (m_getInstance( this, TyteDocumentFragment ));
-
-    return instance.appendNode.apply( instance, m_argumentsToArray( arguments ) );
-};
-
-p_Tyte.DocumentFragment = TyteDocumentFragment;
-
-/**
- * @constructor
- * @param {...*} ___something
- */
-TyteDynamicNodeBase = function( ___something ){};
-
-/**
- * @param {!function(!Tyte.AllNode):(boolean|undefined)} func
- * @return {!Tyte.AllNode} this
- */
-TyteTextNode.prototype.walkNodes = TyteElementBase.prototype.walkNodes = TyteDocumentFragment.prototype.walkNodes = function( func ){
-    m_walkNodes( this, func );
-    return this;
-};
-
-/**
- * @param {!function(!TyteTextNode):(boolean|undefined)} func
- * @return {!Tyte.AllNode} this
- */
-TyteTextNode.prototype.walkTextNodes = TyteElementBase.prototype.walkTextNodes = TyteDocumentFragment.prototype.walkTextNodes = function( func ){
-    m_walkTextNodes( this, func );
-    return this;
-};
-
-/**
- * @param {!function(!TyteElementBase):(boolean|undefined)} func
- * @return {!Tyte.AllNode} this
- */
-TyteElementBase.prototype.walkElements = TyteDocumentFragment.prototype.walkNodes = function( func ){
-    m_walkElements( this, func );
-    return this;
-};
-
 //=============================================================================
 //
 //  ...
 //
 //=============================================================================
+
 var m_createTyteElementClass;
 
 var m_createDynamicNodeClass;
@@ -104,13 +39,6 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 //  Utilities
 //
 //=============================================================================
-
-p_Tyte._extends = function( Class, methods ){
-    for( var name in methods ){
-        Class.prototype[ name ] = methods[ name ];
-    };
-    Class.prototype.constructor = Class;
-};
 
 /**
  * 
@@ -259,7 +187,7 @@ function m_preprocessInsertNode( args, parentNode ){
         arg = args[ --i ];
         if( typeof arg === 'string' || typeof arg === 'number' ){
             args[ i ] = new TyteTextNode( arg );
-        } else if( arg.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE ){
+        } else if( !DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT && arg.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE ){
             childNodes = /** @type {!Array} */ (arg._childNodes);
             if( childNodes && childNodes.length ){
                 childNodes.unshift( i, 1 );

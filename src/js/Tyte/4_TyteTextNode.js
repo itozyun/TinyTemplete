@@ -4,6 +4,20 @@
 //
 //=============================================================================
 
+/**
+ * @constructor
+ * @param {string|number} text
+ */
+TyteTextNode = function( text ){
+    var instance = /** @type {!TyteTextNode} */ (m_getInstance( this, TyteTextNode ));
+
+    instance.text = '' + text;
+
+    return instance;
+};
+
+p_Tyte.Text = TyteTextNode;
+
 //_____________________________________________________________________________
 //
 //  TyteTextNode public
@@ -24,6 +38,33 @@ TyteTextNode.prototype.text = '';
  * @type {!Tyte.CanHasChildren|null}
  */
 TyteTextNode.prototype.parent = null;
+
+
+//_____________________________________________________________________________
+//
+//  TyteTextNode Walk
+//_____________________________________________________________________________
+//
+
+/**
+ * @this {!Tyte.AllNode}
+ * @param {!function(!Tyte.AllNode):(boolean|undefined)} func
+ * @return {!Tyte.AllNode} this
+ */
+TyteTextNode.prototype.walkNodes = function( func ){
+    m_walkNodes( this, func );
+    return this;
+};
+
+/**
+ * @this {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment}
+ * @param {!function(!TyteTextNode):(boolean|undefined)} func
+ * @return {!Tyte.AllNode} this
+ */
+TyteTextNode.prototype.walkTextNodes = function( func ){
+    m_walkTextNodes( this, func );
+    return this;
+};
 
 //_____________________________________________________________________________
 //
