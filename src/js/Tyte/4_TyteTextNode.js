@@ -48,21 +48,31 @@ TyteTextNode.prototype.parent = null;
 
 /**
  * @this {!Tyte.AllNode}
- * @param {!function(!Tyte.AllNode):(boolean|undefined)} func
+ * @param {!function(!Tyte.AllNode,!Node=):(boolean|undefined)} func
+ * @param {!Node=} opt_node To search Real Node and templete Node simultaneously(only renderDOM)
  * @return {!Tyte.AllNode} this
  */
-TyteTextNode.prototype.walkNodes = function( func ){
-    m_walkNodes( this, func );
+TyteTextNode.prototype.walkNodes = function( func, opt_node ){
+    if( DEFINE_TYTE__USE_RENDER_DOM ){
+        m_walkNodes( this, func, opt_node );
+    } else {
+        m_walkNodes( this, func );
+    };
     return this;
 };
 
 /**
  * @this {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment}
- * @param {!function(!TyteTextNode):(boolean|undefined)} func
+ * @param {!function(!TyteTextNode,!Text=):(boolean|undefined)} func
+ * @param {!Node=} opt_node To search Real Node and templete Node simultaneously(only renderDOM)
  * @return {!Tyte.AllNode} this
  */
-TyteTextNode.prototype.walkTextNodes = function( func ){
-    m_walkTextNodes( this, func );
+TyteTextNode.prototype.walkTextNodes = function( func, opt_node ){
+    if( DEFINE_TYTE__USE_RENDER_DOM ){
+        m_walkTextNodes( this, func, opt_node );
+    } else {
+        m_walkTextNodes( this, func );
+    };
     return this;
 };
 

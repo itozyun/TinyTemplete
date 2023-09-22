@@ -35,7 +35,10 @@ var TyteDocumentFragment;
  */
 function TyteElementBase( opt_attrs, ___tyteNodes ){};
 
-/** @class */
+/**
+ * @class
+ * `var CustomElement = p_Tyte(dynamicNodeRendererFunction);` を使うこと!
+ */
 var TyteDynamicNodeBase;
 
 /** @namespace */

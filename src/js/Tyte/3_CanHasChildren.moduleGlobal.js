@@ -1,11 +1,16 @@
 
 /**
  * @this {!Tyte.CanHasChildren}
- * @param {!function(!TyteElementBase):(boolean|undefined)} func
+ * @param {!function(!TyteElementBase,!Element=):(boolean|undefined)} func
+ * @param {!Node=} opt_node To search Real Node and templete Node simultaneously(only renderDOM)
  * @return {!Tyte.AllNode} this
  */
-function m_CanHasChildren_walkElements( func ){
-    m_walkElements( this, func );
+function m_CanHasChildren_walkElements( func, opt_node ){
+    if( DEFINE_TYTE__USE_RENDER_DOM ){
+        m_walkElements( this, func, opt_node );
+    } else {
+        m_walkElements( this, func );
+    };
     return this;
 };
 

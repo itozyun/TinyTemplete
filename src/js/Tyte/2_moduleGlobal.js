@@ -5,7 +5,7 @@
 //=============================================================================
 
 /**
- * 
+ *
  * @param {string|!Tyte.DynamicNodeRenderer} tagOrFunction
  * @return {!Tyte.Class|undefined}
  */
@@ -41,11 +41,11 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 //=============================================================================
 
 /**
- * 
- * @param {!Object} style 
+ *
+ * @param {!Object} style
  * @param {!TyteElementBase} tyteNode
  * @param {Tyte.RenderingParam=} renderingParam
- * @return {string} 
+ * @return {string}
  */
 function m_objToCSSText( style, tyteNode, renderingParam ){
     var cssText = [], i = -1, property, value;
@@ -64,8 +64,8 @@ function m_objToCSSText( style, tyteNode, renderingParam ){
 };
 
 /**
- * 
- * @param {*} tyteNode 
+ *
+ * @param {*} tyteNode
  * @return {boolean}
  */
 function m_isTyteNode( tyteNode ){
@@ -76,21 +76,63 @@ function m_isTyteNode( tyteNode ){
 };
 
 /**
+ *
  * @param {!Tyte.AllNode} tyteNode
- * @param {!function(!Tyte.AllNode):(boolean|undefined)} func
+ * @param {!Node} node
  */
-function m_walkNodes( tyteNode, func ){
-    if( func( tyteNode ) === true ){
-        return true;
+function m_maybeRendered( tyteNode, node ){
+    if( node.nodeType === 3 && tyteNode.nodeType !== TYTE_NODE_TYPE.TEXT_NODE ){
+        throw "nodeType missmatch!";
+    } else if( node.nodeType === 1 ){
+        if( tyteNode.nodeType !== TYTE_NODE_TYPE.ELEMENT_NODE ){
+            throw "nodeType missmatch!";
+        } else if( tyteNode._tagName.toUpperCase() !== node.tagName.toUpperCase() ){
+            throw "tagName missmatch!";
+        } else if( !tyteNode.getChildNodes() ){
+            if( node.childNodes.length ){
+                throw "childNodes.length missmatch!";
+            };
+        } else if( tyteNode.getChildNodes().length < node.childNodes.length ){ // TextNode が Real DOM には居ないことを許容する
+            throw "childNodes.length missmatch!";
+        };
     };
+};
 
-    var childNodes = tyteNode._childNodes,
-        i = 0, l;
+/**
+ * @param {!function(*,!Function,!Node=):(boolean|undefined)} walkFunction
+ * @param {!Tyte.AllNode} tyteNode
+ * @param {!function(*,*=):(boolean|undefined)} func
+ * @param {!Node=} opt_node
+ * @return {boolean|void}
+ */
+function m_walkChildren( walkFunction, tyteNode, func, opt_node ){
+    var tyteChildNodes = tyteNode._childNodes,
+        i = 0, l, realChildNodes, tyteChildNode, realChildNode, textNode;
 
-    if( childNodes ){
-        for( l = childNodes.length; i < l; ++i ){
-            if( m_walkNodes( childNodes[ i ], func ) ){
-                return true;
+    if( tyteChildNodes ){
+        if( DEFINE_TYTE__USE_RENDER_DOM && opt_node ){
+            for( l = tyteChildNodes.length, realChildNodes = opt_node.childNodes; i < l; ++i ){
+                tyteChildNode = tyteChildNodes[ i ];
+                realChildNode = realChildNodes[ i ];
+                if( tyteChildNode.nodeType === TYTE_NODE_TYPE.TEXT_NODE && ( !realChildNode || realChildNode.nodeType !== 3 ) ){ // Text は Real DOM には存在しない場合がある
+                    textNode = document.createTextNode( '' );
+                    if( realChildNode ){
+                        opt_node.insertBefore( textNode, realChildNode );
+                        realChildNode = textNode;
+                    } else {
+                        opt_node.appendChild( textNode );
+                        realChildNode = textNode;
+                    };
+                };
+                if( walkFunction( tyteChildNode, func, realChildNode ) ){
+                    return true;
+                };
+            };
+        } else {
+            for( l = tyteChildNodes.length; i < l; ++i ){
+                if( walkFunction( tyteChildNodes[ i ], func ) ){
+                    return true;
+                };
             };
         };
     };
@@ -98,56 +140,67 @@ function m_walkNodes( tyteNode, func ){
 
 /**
  * @param {!Tyte.AllNode} tyteNode
- * @param {!function(!TyteTextNode):(boolean|undefined)} func
+ * @param {!function(!Tyte.AllNode,!Node=):(boolean|undefined)} func
+ * @param {!Node=} opt_node To search Real Node and templete Node simultaneously(only renderDOM)
+ * @return {boolean|void}
  */
-function m_walkTextNodes( tyteNode, func ){
+function m_walkNodes( tyteNode, func, opt_node ){
+    if( DEFINE_TYTE__DEBUG && opt_node ){
+        m_maybeRendered( tyteNode, opt_node );
+    };
+
+    if( ( DEFINE_TYTE__USE_RENDER_DOM ? func( tyteNode, /** @type {!Node|void} */ (opt_node) ) : func( tyteNode ) ) === true ){
+        return true;
+    };
+
+    return m_walkChildren( m_walkNodes, tyteNode, func, opt_node );
+};
+
+/**
+ * @param {!Tyte.AllNode} tyteNode
+ * @param {!function(!TyteTextNode,!Text=):(boolean|undefined)} func
+ * @param {!Node=} opt_node To search Real Node and templete Node simultaneously(only renderDOM)
+ * @return {boolean|void}
+ */
+function m_walkTextNodes( tyteNode, func, opt_node ){
+    if( DEFINE_TYTE__DEBUG && opt_node ){
+        m_maybeRendered( tyteNode, opt_node );
+    };
+
     if( tyteNode.nodeType === TYTE_NODE_TYPE.TEXT_NODE ){
-        if( func( /** @type {!TyteTextNode} */ (tyteNode) ) === true ){
+        tyteNode = /** @type {!TyteTextNode} */ (tyteNode);
+        if( ( DEFINE_TYTE__USE_RENDER_DOM ? func( tyteNode, /** @type {!Text|void} */ (opt_node) ) : func( tyteNode ) ) === true ){
             return true;
         };
     } else {
-        var childNodes = tyteNode._childNodes,
-            i = 0, l;
-
-        if( childNodes ){
-            for( l = childNodes.length; i < l; ++i ){
-                if( m_walkTextNodes( childNodes[ i ], func ) ){
-                    return true;
-                };
-            };
-        };
+        return m_walkChildren( m_walkTextNodes, tyteNode, func, opt_node );
     };
 };
 
 /**
  * @param {!Tyte.CanHasChildren} tyteNode
- * @param {!function(!TyteElementBase):(boolean|undefined)} func
+ * @param {!function(!TyteElementBase,!Element=):(boolean|undefined)} func
+ * @param {!Node=} opt_node To search Real Node and templete Node simultaneously(only renderDOM)
+ * @return {boolean|void}
  */
-function m_walkElements( tyteNode, func ){
+function m_walkElements( tyteNode, func, opt_node ){
+    if( DEFINE_TYTE__DEBUG && opt_node ){
+        m_maybeRendered( tyteNode, opt_node );
+    };
+
     if( tyteNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE ){
-        if( func( /** @type {!TyteElementBase} */ (tyteNode) ) === true ){
+        tyteNode = /** @type {!TyteElementBase} */ (tyteNode);
+        if( ( DEFINE_TYTE__USE_RENDER_DOM ? func( tyteNode, /** @type {!Element|void} */ (opt_node) ) : func( tyteNode ) ) === true ){
             return true;
         };
     };
 
-    var childNodes = tyteNode._childNodes,
-        i = 0, l, childNode;
-
-    if( childNodes ){
-        for( l = childNodes.length; i < l; ++i ){
-            childNode = childNodes[ i ];
-            if( childNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE ){
-                if( m_walkElements( /** @type {!TyteElementBase} */ (childNode), func ) ){
-                    return true;
-                };
-            };
-        };
-    };
+    return m_walkChildren( m_walkElements, tyteNode, func, opt_node );
 };
 
 /**
- * 
- * @param {!Tyte.AllNode|*} instance 
+ *
+ * @param {!Tyte.AllNode|*} instance
  * @param {!Tyte.Class} Class
  * @return {!Tyte.AllNode}
  */
@@ -217,7 +270,7 @@ function m_argumentsToArray( args ){
 };
 
 /**
- * 
+ *
  * @param {!Object|null} srcObject
  * @return {!Object|null}
  */
@@ -239,7 +292,7 @@ function m_deepCopy( srcObject ){
 };
 
 /**
- * 
+ *
  * @param {string} text
  * @return {string}
  */
@@ -248,7 +301,7 @@ function m_escapeForHTML( text ){
 };
 
 /**
- * 
+ *
  * @param {string} text
  * @return {string}
  */
