@@ -102,7 +102,7 @@ function m_maybeRendered( tyteNode, node ){
  * @param {!function(*,!Function,!Node=):(boolean|undefined)} walkFunction
  * @param {!Tyte.AllNode} tyteNode
  * @param {!function(*,*=):(boolean|undefined)} func
- * @param {!Node=} opt_node
+ * @param {!Node|void} opt_node
  * @return {boolean|void}
  */
 function m_walkChildren( walkFunction, tyteNode, func, opt_node ){
@@ -153,7 +153,12 @@ function m_walkNodes( tyteNode, func, opt_node ){
         return true;
     };
 
-    return m_walkChildren( m_walkNodes, tyteNode, func, opt_node );
+    return m_walkChildren(
+            /** @type {!function(*,!Function,!Node=):(boolean|undefined)} */ (m_walkNodes),
+            tyteNode,
+            /** @type {!function(*,*=):(boolean|undefined)} */ (func),
+            opt_node
+        );
 };
 
 /**
@@ -173,7 +178,12 @@ function m_walkTextNodes( tyteNode, func, opt_node ){
             return true;
         };
     } else {
-        return m_walkChildren( m_walkTextNodes, tyteNode, func, opt_node );
+        return m_walkChildren(
+            /** @type {!function(*,!Function,!Node=):(boolean|undefined)} */ (m_walkTextNodes),
+            tyteNode,
+            /** @type {!function(*,*=):(boolean|undefined)} */ (func),
+            opt_node
+        );
     };
 };
 
@@ -195,7 +205,12 @@ function m_walkElements( tyteNode, func, opt_node ){
         };
     };
 
-    return m_walkChildren( m_walkElements, tyteNode, func, opt_node );
+    return m_walkChildren(
+        /** @type {!function(*,!Function,!Node=):(boolean|undefined)} */ (m_walkElements),
+        tyteNode,
+        /** @type {!function(*,*=):(boolean|undefined)} */ (func),
+        opt_node
+    );
 };
 
 /**
