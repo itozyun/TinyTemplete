@@ -20,7 +20,10 @@
     "gulp": "^4.0.2",
     "gulp-diamond-princess-zoning": "^0.9.14",
     "html-element-attributes": "^3.2.0",
+    "html-tag-names": "^2.1.0",
     "jsdom": "^22.1.0",
-    "svg-element-attributes": "^2.0.1"
+    "mathml-tag-names": "^3.0.2",
+    "svg-element-attributes": "^2.0.1",
+    "svg-tag-names": "^3.0.1"
   }
 }

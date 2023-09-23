@@ -68,8 +68,33 @@ gulp.task(
     gulp.series(
         function( cb ){
             const fs = require( 'fs' );
+            const tagNames = {};
             const attrs = { 'className' : true, 'htmlFor' : true };
             // const htmlElementAttributes = require( 'html-element-attributes' );
+
+            const htmlTagNames = eval(
+                fs.readFileSync( './node_modules/html-tag-names/index.js' ).toString( 'UTF-8' )
+                    .split(' */\nexport ').join( ' */\n' ) + ';(htmlTagNames)'
+            );
+            for( let i = 0, l = htmlTagNames.length; i < l; ++i ){
+                tagNames[ htmlTagNames[ i ] ] = true;
+            };
+
+            const svgTagNames = eval(
+                fs.readFileSync( './node_modules/svg-tag-names/index.js' ).toString( 'UTF-8' )
+                    .split(' */\nexport ').join( ' */\n' ) + ';(svgTagNames)'
+            );
+            for( let i = 0, l = svgTagNames.length; i < l; ++i ){
+                tagNames[ svgTagNames[ i ] ] = true;
+            };
+
+            const mathmlTagNames = eval(
+                fs.readFileSync( './node_modules/mathml-tag-names/index.js' ).toString( 'UTF-8' )
+                    .split(' */\nexport ').join( ' */\n' ) + ';(mathmlTagNames)'
+            );
+            for( let i = 0, l = mathmlTagNames.length; i < l; ++i ){
+                tagNames[ mathmlTagNames[ i ] ] = true;
+            };
 
             const htmlElementAttributes = eval(
                 fs.readFileSync( './node_modules/html-element-attributes/index.js' ).toString( 'UTF-8' )
@@ -118,6 +143,10 @@ Tyte.DocumentFragment = function( ___tyteNodes ){};
  */
 Tyte.Text = function( text ){};
 
+// from wooorm/html-tag-names, wooorm/svg-tag-names, wooorm/mathml-tag-names
+const htmlAndSVGAndMathMLTagNames =
+` + JSON.stringify( tagNames, null, '    ' ) + ';' +
+`
 // from wooorm/html-element-attributes, wooorm/svg-element-attributes, wooorm/aria-attributes
 const htmlAndSVGAndAriaAttributes =
 ` + JSON.stringify( attrs, null, '    ' ) + ';',
