@@ -25,7 +25,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
           throw "tagName missmatch!";
         }
         if (!a.getChildNodes()) {
-          if (b.childNodes.length) {
+          if (b.childNodes.length && (1 !== b.childNodes.length || 3 !== b.childNodes[0].nodeType)) {
             throw "childNodes.length missmatch!";
           }
         } else if (a.getChildNodes().length < b.childNodes.length) {

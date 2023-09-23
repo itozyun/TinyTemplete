@@ -90,7 +90,9 @@ function m_maybeRendered( tyteNode, node ){
             throw "tagName missmatch!";
         } else if( !tyteNode.getChildNodes() ){
             if( node.childNodes.length ){
-                throw "childNodes.length missmatch!";
+                if( node.childNodes.length !== 1 || node.childNodes[ 0 ].nodeType !== 3 ){ // 1つのテキストノードは許容
+                    throw "childNodes.length missmatch!";
+                };
             };
         } else if( tyteNode.getChildNodes().length < node.childNodes.length ){ // TextNode が Real DOM には居ないことを許容する
             throw "childNodes.length missmatch!";
