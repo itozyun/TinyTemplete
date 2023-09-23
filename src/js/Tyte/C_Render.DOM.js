@@ -5,6 +5,8 @@
 //=============================================================================
 
 if( DEFINE_TYTE__USE_RENDER_DOM ){
+    var RenderDOM_xmlns;
+
     /**
      * @param {Tyte.RenderingParam=} renderingParam
      * @return {!Text}
@@ -41,7 +43,14 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
      * @return {!Element}
      */
     TyteElementBase.prototype.renderDOM = function( renderingParam ){
-        var elm = document.createElement( this._tagName ), // TODO SVG
+        var tagName = this._tagName;
+        var isXMLRoot;
+
+        if( !RenderDOM_xmlns && !!IS_XML_ELEMENT[ tagName ] ){
+            RenderDOM_xmlns = isXMLRoot = tagName === 'svg' ? 'http://www.w3.org/2000/svg' : 'http://www.w3.org/1998/Math/MathML';
+        };
+
+        var elm = RenderDOM_xmlns ? document.createElementNS( RenderDOM_xmlns, tagName ) : document.createElement( tagName ),
             attrs = this._attrs, property, value,
             childNodes = this._childNodes,
             i = 0, l, node;
@@ -56,7 +65,12 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
                 if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' ){
                     elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value, this, renderingParam ) : /** @type {string} */ (value);
                 } else {
-                    elm.setAttribute( m_RENAME_ATTRIBUTES[ property ] || property, '' + value );
+                    property = m_RENAME_ATTRIBUTES[ property ] || property;
+                    if( RenderDOM_xmlns ){
+                        elm.setAttributeNS( null, property, '' + value );
+                    } else {
+                        elm.setAttribute( property, '' + value );
+                    };
                 };
             };
         };
@@ -69,6 +83,10 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
                     elm.appendChild( node );
                 };
             };
+        };
+
+        if( isXMLRoot ){
+            RenderDOM_xmlns = false;
         };
         return elm;
     };
