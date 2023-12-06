@@ -316,12 +316,3 @@ function m_deepCopy( srcObject ){
 function m_escapeForHTML( text ){
     return text.split( '<' ).join( '&lt;' ).split( '>' ).join( '&gt;' );
 };
-
-/**
- *
- * @param {string} text
- * @return {string}
- */
-function m_escapeForAttribute( text ){
-    return m_escapeForHTML( text ).split( '"' ).join( '\\"' );
-};

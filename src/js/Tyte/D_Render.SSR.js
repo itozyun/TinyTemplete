@@ -67,7 +67,17 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
                         if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' && typeof value === 'object' ){
                             value = m_objToCSSText( value, this, renderingParam );
                         };
-                        htmlString[ ++i ] = ' ' + property + '="' + m_escapeForAttribute( '' + value ) + '"';
+                        value = m_escapeForHTML( '' + value );
+                        if( 0 <= value.indexOf( '"' ) ){
+                            if( 0 <= value.indexOf( "'" ) ){
+                                value = '="' + value.split( '"' ).join( '&quot;' ) + '"';
+                            } else {
+                                value = "='" + value + "'";
+                            };
+                        } else {
+                            value = '="' + value + '"';
+                        };
+                        htmlString[ ++i ] = ' ' + property + value;
                     };
                 };
             };
