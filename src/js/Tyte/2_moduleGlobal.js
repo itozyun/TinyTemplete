@@ -21,6 +21,17 @@ if( DEFINE_TYTE__EXPORT ){
     module.exports = p_Tyte;
 };
 
+if( DEFINE_TYTE__FROM_VIRTUAL_DOM ){
+    /**
+     * parse5 の Virtual DOM Object を取り込んで Tyte Style の DOM API で操作できるようにする
+     * @param {!Object} vdom
+     * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment}
+     */
+    p_Tyte.fromVDOM = function( vdom ){
+
+    };
+};
+
 //=============================================================================
 //
 //  ...
@@ -56,11 +67,32 @@ function m_objToCSSText( style, tyteNode, renderingParam ){
             value = /** @type {!Tyte.StyleRenderer} */ (value).call( tyteNode, renderingParam, property );
         };
         if( value != null ){
-            cssText[ ++i ] = property + ':' + value; // TODO function & snake case
+            cssText[ ++i ] = m_toSnakeCase( property ) + ':' + value;
         };
     };
 
     return cssText.join( ';' );
+};
+
+/**
+ * 
+ * @param {string} str 
+ * @return {string}
+ */
+function m_toSnakeCase( str ){
+    var result = [],
+        chars  = str.split( '' ),
+        i      = chars.length,
+        chr;
+
+    while( i ){
+        chr = chars[ --i ];
+        if( 'A' <= chr && chr <= 'Z' ){
+            chr = '-' + chr.toLowerCase();
+        };
+        result[ i ] = chr;
+    };
+    return result.join( '' );
 };
 
 /**

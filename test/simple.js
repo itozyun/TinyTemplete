@@ -15,9 +15,18 @@ const t_listItem =
         'Twitter'
     );
 
+const hasAttr = ul().setAttr( 'title', 'list' ).setClass( 'gaa' );
+
 test('simple', (t) => {
     t.deepEqual( t_list.renderSSR(), '<ul></ul>' );
     t.deepEqual( t_listItem.renderSSR(), '<li class="my-list-item"><i class="ico-twitter"></i>Twitter' );
+
+    t.deepEqual( t_list.renderHTMLJSON(), [ 'ul' ] );
+    t.deepEqual( t_listItem.renderHTMLJSON(), [ 'li.my-list-item', [ 'i.ico-twitter' ], 'Twitter' ] );
+
+    t.deepEqual( hasAttr.renderHTMLJSON(), [ 'ul.gaa', { title : 'list' } ] );
+
+    t.deepEqual( $.Text( 'Hello!' ).renderHTMLJSON(), [ 3, 'Hello!' ] );
 });
 
 test('appendNode', (t) => {

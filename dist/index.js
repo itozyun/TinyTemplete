@@ -1,549 +1,592 @@
-var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT = !1, DEFINE_TYTE__USE_VML = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
-(function(la) {
-  function e(D, y) {
+var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT = !1, DEFINE_TYTE__USE_VML = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, DEFINE_TYTE__USE_RENDER_HTMLJSON = !0, DEFINE_TYTE__FROM_VIRTUAL_DOM = !1, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
+(function(pa) {
+  function e(F, A) {
   }
-  var z, f, k, n;
+  var y, g, l, q;
   (function() {
-    function D(a, b, c) {
-      var d = [], g = -1, l;
-      for (l in a) {
-        var h = a[l];
-        "function" === typeof h && (h = h.call(b, c, l));
-        null != h && (d[++g] = l + ":" + h);
+    function F(b, a, c) {
+      var d = [], f = -1, k;
+      for (k in b) {
+        var h = b[k];
+        "function" === typeof h && (h = h.call(a, c, k));
+        if (null != h) {
+          for (var m = ++f, n, p = [], r = k.split(""), G = r.length; G;) {
+            n = r[--G], "A" <= n && "Z" >= n && (n = "-" + n.toLowerCase()), p[G] = n;
+          }
+          n = p.join("");
+          d[m] = n + ":" + h;
+        }
       }
       return d.join(";");
     }
-    function y(a, b) {
-      if (3 === b.nodeType && a.nodeType !== TYTE_NODE_TYPE.TEXT_NODE) {
+    function A(b, a) {
+      if (3 === a.nodeType && b.nodeType !== TYTE_NODE_TYPE.TEXT_NODE) {
         throw "nodeType missmatch!";
       }
-      if (1 === b.nodeType) {
-        if (a.nodeType !== TYTE_NODE_TYPE.ELEMENT_NODE) {
+      if (1 === a.nodeType) {
+        if (b.nodeType !== TYTE_NODE_TYPE.ELEMENT_NODE) {
           throw "nodeType missmatch!";
         }
-        if (a._tagName.toUpperCase() !== b.tagName.toUpperCase()) {
+        if (b._tagName.toUpperCase() !== a.tagName.toUpperCase()) {
           throw "tagName missmatch!";
         }
-        if (!a.getChildNodes()) {
-          if (b.childNodes.length && (1 !== b.childNodes.length || 3 !== b.childNodes[0].nodeType)) {
+        if (!b.getChildNodes()) {
+          if (a.childNodes.length && (1 !== a.childNodes.length || 3 !== a.childNodes[0].nodeType)) {
             throw "childNodes.length missmatch!";
           }
-        } else if (a.getChildNodes().length < b.childNodes.length) {
+        } else if (b.getChildNodes().length < a.childNodes.length) {
           throw "childNodes.length missmatch!";
         }
       }
     }
-    function E(a, b, c, d) {
-      b = b._childNodes;
-      var g = 0, l;
-      if (b) {
+    function H(b, a, c, d) {
+      a = a._childNodes;
+      var f = 0, k;
+      if (a) {
         if (DEFINE_TYTE__USE_RENDER_DOM && d) {
-          var h = b.length;
-          for (l = d.childNodes; g < h; ++g) {
-            var m = b[g];
-            var p = l[g];
-            if (m.nodeType === TYTE_NODE_TYPE.TEXT_NODE && (!p || 3 !== p.nodeType)) {
-              var q = document.createTextNode("");
-              p ? d.insertBefore(q, p) : d.appendChild(q);
-              p = q;
+          var h = a.length;
+          for (k = d.childNodes; f < h; ++f) {
+            var m = a[f];
+            var n = k[f];
+            if (m.nodeType === TYTE_NODE_TYPE.TEXT_NODE && (!n || 3 !== n.nodeType)) {
+              var p = document.createTextNode("");
+              n ? d.insertBefore(p, n) : d.appendChild(p);
+              n = p;
             }
-            if (a(m, c, p)) {
+            if (b(m, c, n)) {
               return !0;
             }
           }
         } else {
-          for (h = b.length; g < h; ++g) {
-            if (a(b[g], c)) {
+          for (h = a.length; f < h; ++f) {
+            if (b(a[f], c)) {
               return !0;
             }
           }
         }
       }
     }
-    function F(a, b, c) {
-      DEFINE_TYTE__DEBUG && c && y(a, c);
-      return !0 === (DEFINE_TYTE__USE_RENDER_DOM ? b(a, c) : b(a)) ? !0 : E(F, a, b, c);
+    function I(b, a, c) {
+      DEFINE_TYTE__DEBUG && c && A(b, c);
+      return !0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b)) ? !0 : H(I, b, a, c);
     }
-    function A(a, b, c) {
-      DEFINE_TYTE__DEBUG && c && y(a, c);
-      if (a.nodeType === TYTE_NODE_TYPE.TEXT_NODE) {
-        if (!0 === (DEFINE_TYTE__USE_RENDER_DOM ? b(a, c) : b(a))) {
+    function B(b, a, c) {
+      DEFINE_TYTE__DEBUG && c && A(b, c);
+      if (b.nodeType === TYTE_NODE_TYPE.TEXT_NODE) {
+        if (!0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b))) {
           return !0;
         }
       } else {
-        return E(A, a, b, c);
+        return H(B, b, a, c);
       }
     }
-    function u(a, b, c) {
-      DEFINE_TYTE__DEBUG && c && y(a, c);
-      return a.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && !0 === (DEFINE_TYTE__USE_RENDER_DOM ? b(a, c) : b(a)) ? !0 : E(u, a, b, c);
+    function v(b, a, c) {
+      DEFINE_TYTE__DEBUG && c && A(b, c);
+      return b.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && !0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b)) ? !0 : H(v, b, a, c);
     }
-    function B(a, b) {
-      a && a.constructor === b || (a = new b());
-      return a;
+    function C(b, a) {
+      b && b.constructor === a || (b = new a());
+      return b;
     }
-    function v(a) {
-      var b = a.parent;
-      return b ? (b = b._childNodes, b.indexOf(a)) : -1;
+    function w(b) {
+      var a = b.parent;
+      return a ? (a = a._childNodes, a.indexOf(b)) : -1;
     }
-    function x(a, b) {
-      for (var c = a.length, d, g; c;) {
-        d = a[--c], "string" === typeof d || "number" === typeof d ? a[c] = new f(d) : DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || d.nodeType !== TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE || (d = d._childNodes) && d.length && (d.unshift(c, 1), a.splice.apply(a, d));
+    function z(b, a) {
+      for (var c = b.length, d, f; c;) {
+        d = b[--c], "string" === typeof d || "number" === typeof d ? b[c] = new g(d) : DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || d.nodeType !== TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE || (d = d._childNodes) && d.length && (d.unshift(c, 1), b.splice.apply(b, d));
       }
-      for (c = a.length; c;) {
-        d = a[--c], (g = d.parent) && g._childNodes.splice(v(d), 1), d.parent = b;
+      for (c = b.length; c;) {
+        d = b[--c], (f = d.parent) && f._childNodes.splice(w(d), 1), d.parent = a;
       }
-      return a;
+      return b;
     }
-    function t(a) {
-      return Array.prototype.slice.call(a);
+    function u(b) {
+      return Array.prototype.slice.call(b);
     }
-    function J(a) {
-      var b = null, c;
-      if (a) {
-        for (c in b = {}, a) {
-          var d = a[c];
-          b[c] = d && "object" === typeof d ? J(d) : d;
+    function M(b) {
+      var a = null, c;
+      if (b) {
+        for (c in a = {}, b) {
+          var d = b[c];
+          a[c] = d && "object" === typeof d ? M(d) : d;
         }
       }
-      return b;
+      return a;
     }
-    function G(a) {
-      return a.split("<").join("&lt;").split(">").join("&gt;");
+    function J(b) {
+      return b.split("<").join("&lt;").split(">").join("&gt;");
     }
-    function K(a, b) {
-      DEFINE_TYTE__USE_RENDER_DOM ? u(this, a, b) : u(this, a);
+    function N(b, a) {
+      DEFINE_TYTE__USE_RENDER_DOM ? v(this, b, a) : v(this, b);
       return this;
     }
-    function L(a) {
-      var b = null;
-      u(this, function(c) {
-        if (c.getAttr("id") === a) {
-          return b = c, !0;
+    function O(b) {
+      var a = null;
+      v(this, function(c) {
+        if (c.getAttr("id") === b) {
+          return a = c, !0;
         }
       });
-      return b;
+      return a;
     }
-    function M(a) {
-      var b = [], c = -1;
-      u(this, function(d) {
-        d._tagName === a && (b[++c] = d);
+    function P(b) {
+      var a = [], c = -1;
+      v(this, function(d) {
+        d._tagName === b && (a[++c] = d);
       });
-      return b;
+      return a;
     }
-    function N(a) {
-      var b = [], c = -1;
-      u(this, function(d) {
-        d.hasClass(a) && (b[++c] = d);
+    function Q(b) {
+      var a = [], c = -1;
+      v(this, function(d) {
+        d.hasClass(b) && (a[++c] = d);
       });
-      return b;
+      return a;
     }
-    function O(a) {
-      var b = [], c = -1;
-      u(this, function(d) {
-        d.getAttr("name") === a && (b[++c] = d);
+    function R(b) {
+      var a = [], c = -1;
+      v(this, function(d) {
+        d.getAttr("name") === b && (a[++c] = d);
       });
-      return b;
+      return a;
     }
-    function P() {
-      var a = this._childNodes;
-      return a && a[0] || null;
+    function S() {
+      var b = this._childNodes;
+      return b && b[0] || null;
     }
-    function Q() {
-      var a = this._childNodes;
-      return a && a[a.length - 1] || null;
-    }
-    function R() {
-      return this._childNodes;
-    }
-    function S(a) {
-      var b = this._childNodes = this._childNodes || [], c = x(t(arguments), this);
-      b.push.apply(b, c);
-      return this;
-    }
-    function T(a) {
-      var b = this._childNodes = this._childNodes || [], c = x(t(arguments), this);
-      c.unshift(0, 0);
-      b.splice.apply(b, c);
-      return this;
+    function T() {
+      var b = this._childNodes;
+      return b && b[b.length - 1] || null;
     }
     function U() {
-      var a = this._childNodes, b = 0, c;
-      if (a) {
-        for (c = a.length; b < c; ++b) {
-          var d = a[b];
+      return this._childNodes;
+    }
+    function V(b) {
+      var a = this._childNodes = this._childNodes || [], c = z(u(arguments), this);
+      a.push.apply(a, c);
+      return this;
+    }
+    function W(b) {
+      var a = this._childNodes = this._childNodes || [], c = z(u(arguments), this);
+      c.unshift(0, 0);
+      a.splice.apply(a, c);
+      return this;
+    }
+    function X() {
+      var b = this._childNodes, a = 0, c;
+      if (b) {
+        for (c = b.length; a < c; ++a) {
+          var d = b[a];
           d.parent = null;
         }
-        a.length = 0;
+        b.length = 0;
       }
       return this;
     }
-    function V() {
-      var a = "";
-      A(this, function(b) {
-        a += b.text;
+    function Y() {
+      var b = "";
+      B(this, function(a) {
+        b += a.text;
       });
-      return a;
+      return b;
     }
-    function W(a) {
-      var b = this._childNodes;
-      b && 1 === b.length && b[0].nodeType === TYTE_NODE_TYPE.TEXT_NODE ? b[0].text = a : (b && this.empty(), this.appendNode(a));
+    function Z(b) {
+      var a = this._childNodes;
+      a && 1 === a.length && a[0].nodeType === TYTE_NODE_TYPE.TEXT_NODE ? a[0].text = b : (a && this.empty(), this.appendNode(b));
       return this;
     }
-    function ba(a) {
-      function b(d, g) {
-        var l = arguments, h = B(this, b);
-        l = t(l);
-        var m = l[0], p;
-        if (m && "object" === typeof m && (!m || m.walkNodes !== f.prototype.walkNodes && m.getPrev !== f.prototype.getPrev)) {
-          for (p in m) {
-            h.setAttr(p, m[p]);
+    function fa(b) {
+      function a(d, f) {
+        var k = arguments, h = C(this, a);
+        k = u(k);
+        var m = k[0], n;
+        if (m && "object" === typeof m && (!m || m.walkNodes !== g.prototype.walkNodes && m.getPrev !== g.prototype.getPrev)) {
+          for (n in m) {
+            h.setAttr(n, m[n]);
           }
-          l.shift();
+          k.shift();
         }
-        l.length && h.appendNode.apply(h, l);
+        k.length && h.appendNode.apply(h, k);
         return h;
       }
       var c = new e();
-      c._tagName = a;
-      c.constructor = b;
-      b.prototype = c;
-      return b;
+      c._tagName = b;
+      c.constructor = a;
+      a.prototype = c;
+      return a;
     }
-    function ca(a) {
-      function b() {
-        var d = arguments, g = B(this, b);
-        g.initialParams = t(d);
-        return g;
+    function ha(b) {
+      function a() {
+        var d = arguments, f = C(this, a);
+        f.initialParams = u(d);
+        return f;
       }
-      var c = new n();
-      c._renderer = a;
-      c.constructor = b;
-      b.prototype = c;
-      return b;
+      var c = new q();
+      c._renderer = b;
+      c.constructor = a;
+      a.prototype = c;
+      return a;
     }
-    function X(a) {
-      var b = [], c = this._childNodes, d = 0, g;
+    function aa(b) {
+      var a = [], c = this._childNodes, d = 0, f;
       if (c) {
-        for (g = c.length; d < g; ++d) {
-          b[d] = c[d].renderSSR(a);
+        for (f = c.length; d < f; ++d) {
+          a[d] = c[d].renderSSR(b);
         }
       }
-      return b.join("");
+      return a.join("");
     }
-    z = function(a) {
-      if ("function" === typeof a) {
-        return da(a);
+    function ba(b) {
+      var a = [], c = this._childNodes, d = 0, f;
+      if (c) {
+        for (f = c.length; d < f; ++d) {
+          a[d] = c[d].renderHTMLJSON(b);
+        }
       }
-      if ("string" === typeof a) {
-        return ea(a);
+      return a;
+    }
+    function D(b, a) {
+      var c = a;
+      b && ("string" === typeof a ? c = [3, a] : c.unshift(11), t = !0);
+      return c;
+    }
+    y = function(b) {
+      if ("function" === typeof b) {
+        return ia(b);
+      }
+      if ("string" === typeof b) {
+        return ja(b);
       }
     };
-    DEFINE_TYTE__EXPORT && (module.exports = z);
-    var Y = {className:"class", htmlFor:"for"};
-    f = function(a) {
-      var b = B(this, f);
-      b.text = "" + a;
-      return b;
+    DEFINE_TYTE__EXPORT && (module.exports = y);
+    DEFINE_TYTE__FROM_VIRTUAL_DOM && (y.fromVDOM = function(b) {
+    });
+    var ca = {className:"class", htmlFor:"for"};
+    g = function(b) {
+      var a = C(this, g);
+      a.text = "" + b;
+      return a;
     };
-    z.Text = f;
-    f.prototype.nodeType = TYTE_NODE_TYPE.TEXT_NODE;
-    f.prototype.text = "";
-    f.prototype.parent = null;
-    f.prototype.walkNodes = function(a, b) {
-      DEFINE_TYTE__USE_RENDER_DOM ? F(this, a, b) : F(this, a);
+    y.Text = g;
+    g.prototype.nodeType = TYTE_NODE_TYPE.TEXT_NODE;
+    g.prototype.text = "";
+    g.prototype.parent = null;
+    g.prototype.walkNodes = function(b, a) {
+      DEFINE_TYTE__USE_RENDER_DOM ? I(this, b, a) : I(this, b);
       return this;
     };
-    f.prototype.walkTextNodes = function(a, b) {
-      DEFINE_TYTE__USE_RENDER_DOM ? A(this, a, b) : A(this, a);
+    g.prototype.walkTextNodes = function(b, a) {
+      DEFINE_TYTE__USE_RENDER_DOM ? B(this, b, a) : B(this, b);
       return this;
     };
-    f.prototype.getPrev = function() {
+    g.prototype.getPrev = function() {
+      var b = this.parent;
+      return b && b._childNodes[w(this) - 1] || null;
+    };
+    g.prototype.setPrev = function(b) {
       var a = this.parent;
-      return a && a._childNodes[v(this) - 1] || null;
-    };
-    f.prototype.setPrev = function(a) {
-      var b = this.parent;
-      if (b) {
-        var c = x(t(arguments), b);
-        c.unshift(v(this), 0);
-        b = b._childNodes;
-        b.splice.apply(b, c);
+      if (a) {
+        var c = z(u(arguments), a);
+        c.unshift(w(this), 0);
+        a = a._childNodes;
+        a.splice.apply(a, c);
       }
       return this;
     };
-    f.prototype.getNext = function() {
+    g.prototype.getNext = function() {
+      var b = this.parent;
+      return b && b._childNodes[w(this) + 1] || null;
+    };
+    g.prototype.setNext = function(b) {
       var a = this.parent;
-      return a && a._childNodes[v(this) + 1] || null;
-    };
-    f.prototype.setNext = function(a) {
-      var b = this.parent;
-      if (b) {
-        var c = b._childNodes;
-        var d = v(this) + 1;
-        b = x(t(arguments), b);
-        d < c.length ? (b.unshift(d, 0), c.splice.apply(c, b)) : c.push.apply(c, b);
+      if (a) {
+        var c = a._childNodes;
+        var d = w(this) + 1;
+        a = z(u(arguments), a);
+        d < c.length ? (a.unshift(d, 0), c.splice.apply(c, a)) : c.push.apply(c, a);
       }
       return this;
     };
-    f.prototype.swap = function(a) {
-      var b = this.parent;
-      if (b) {
-        var c = x(t(arguments), b);
-        c.unshift(v(this), 1);
-        b = b._childNodes;
-        b.splice.apply(b, c);
+    g.prototype.swap = function(b) {
+      var a = this.parent;
+      if (a) {
+        var c = z(u(arguments), a);
+        c.unshift(w(this), 1);
+        a = a._childNodes;
+        a.splice.apply(a, c);
         this.parent = null;
       }
       return this;
     };
-    f.prototype.remove = function() {
-      var a = this.parent;
-      a && (a._childNodes.splice(v(this), 1), this.parent = null);
+    g.prototype.remove = function() {
+      var b = this.parent;
+      b && (b._childNodes.splice(w(this), 1), this.parent = null);
       return this;
     };
-    f.prototype.clone = function(a) {
-      return new f(this.text);
+    g.prototype.clone = function(b) {
+      return new g(this.text);
     };
-    DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (k = function(a) {
-      var b = B(this, k);
-      return b.appendNode.apply(b, t(arguments));
-    }, z.DocumentFragment = k, k.prototype._childNodes = null, k.prototype.nodeType = TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE, k.prototype.parent = null, k.prototype.walkNodes = f.prototype.walkNodes, k.prototype.walkTextNodes = f.prototype.walkTextNodes, k.prototype.walkNodes = K, k.prototype.getElementByID = L, k.prototype.getElementListByTag = M, k.prototype.getElementListByClass = N, k.prototype.getElementListByName = O, k.prototype.getFirstChild = P, k.prototype.getLastChild = Q, k.prototype.getChildNodes = 
-    R, k.prototype.appendNode = S, k.prototype.prependNode = T, k.prototype.empty = U, k.prototype.getTextContent = V, k.prototype.setTextContent = W, k.prototype.clone = function(a) {
-      var b = new k();
-      if (a) {
-        a = this._childNodes;
+    DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l = function(b) {
+      var a = C(this, l);
+      return a.appendNode.apply(a, u(arguments));
+    }, y.DocumentFragment = l, l.prototype._childNodes = null, l.prototype.nodeType = TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE, l.prototype.parent = null, l.prototype.walkNodes = g.prototype.walkNodes, l.prototype.walkTextNodes = g.prototype.walkTextNodes, l.prototype.walkNodes = N, l.prototype.getElementByID = O, l.prototype.getElementListByTag = P, l.prototype.getElementListByClass = Q, l.prototype.getElementListByName = R, l.prototype.getFirstChild = S, l.prototype.getLastChild = T, l.prototype.getChildNodes = 
+    U, l.prototype.appendNode = V, l.prototype.prependNode = W, l.prototype.empty = X, l.prototype.getTextContent = Y, l.prototype.setTextContent = Z, l.prototype.clone = function(b) {
+      var a = new l();
+      if (b) {
+        b = this._childNodes;
         var c = 0, d;
-        if (a) {
-          for (d = a.length; c < d; ++c) {
-            b.appendNode(a[c].clone(!0));
+        if (b) {
+          for (d = b.length; c < d; ++c) {
+            a.appendNode(b[c].clone(!0));
           }
         }
       }
-      return b;
+      return a;
     });
-    n = function(a) {
+    q = function(b) {
     };
-    var ea = function(a) {
-      return Z[a] = Z[a] || ba(a);
+    var ja = function(b) {
+      return da[b] = da[b] || fa(b);
     };
-    var Z = {};
+    var da = {};
     e.prototype._attrs = null;
     e.prototype._childNodes = null;
     e.prototype.nodeType = TYTE_NODE_TYPE.ELEMENT_NODE;
     e.prototype.parent = null;
-    e.prototype.walkNodes = f.prototype.walkNodes;
-    e.prototype.walkTextNodes = f.prototype.walkTextNodes;
-    e.prototype.walkElements = K;
-    e.prototype.getElementByID = L;
-    e.prototype.getElementListByTag = M;
-    e.prototype.getElementListByClass = N;
-    e.prototype.getElementListByName = O;
-    e.prototype.getFirstChild = P;
-    e.prototype.getLastChild = Q;
-    e.prototype.getChildNodes = R;
-    e.prototype.appendNode = S;
-    e.prototype.prependNode = T;
-    e.prototype.empty = U;
-    e.prototype.getPrev = f.prototype.getPrev;
-    e.prototype.setPrev = f.prototype.setPrev;
-    e.prototype.getNext = f.prototype.getNext;
-    e.prototype.setNext = f.prototype.setNext;
-    e.prototype.swap = f.prototype.swap;
-    e.prototype.remove = f.prototype.remove;
-    e.prototype.getTextContent = V;
-    e.prototype.setTextContent = W;
-    e.prototype.clone = function(a) {
-      var b = this.constructor;
-      b = this._attrs ? new b(J(this._attrs)) : new b();
-      if (a) {
-        a = this._childNodes;
+    e.prototype.walkNodes = g.prototype.walkNodes;
+    e.prototype.walkTextNodes = g.prototype.walkTextNodes;
+    e.prototype.walkElements = N;
+    e.prototype.getElementByID = O;
+    e.prototype.getElementListByTag = P;
+    e.prototype.getElementListByClass = Q;
+    e.prototype.getElementListByName = R;
+    e.prototype.getFirstChild = S;
+    e.prototype.getLastChild = T;
+    e.prototype.getChildNodes = U;
+    e.prototype.appendNode = V;
+    e.prototype.prependNode = W;
+    e.prototype.empty = X;
+    e.prototype.getPrev = g.prototype.getPrev;
+    e.prototype.setPrev = g.prototype.setPrev;
+    e.prototype.getNext = g.prototype.getNext;
+    e.prototype.setNext = g.prototype.setNext;
+    e.prototype.swap = g.prototype.swap;
+    e.prototype.remove = g.prototype.remove;
+    e.prototype.getTextContent = Y;
+    e.prototype.setTextContent = Z;
+    e.prototype.clone = function(b) {
+      var a = this.constructor;
+      a = this._attrs ? new a(M(this._attrs)) : new a();
+      if (b) {
+        b = this._childNodes;
         var c = 0, d;
-        if (a) {
-          for (d = a.length; c < d; ++c) {
-            b.appendNode(a[c].clone(!0));
+        if (b) {
+          for (d = b.length; c < d; ++c) {
+            a.appendNode(b[c].clone(!0));
           }
         }
       }
-      return b;
+      return a;
     };
-    e.prototype.getAttr = function(a) {
-      var b = this._attrs;
-      a = b ? b[a] : null;
-      return null != a ? a : null;
+    e.prototype.getAttr = function(b) {
+      var a = this._attrs;
+      b = a ? a[b] : null;
+      return null != b ? b : null;
     };
-    e.prototype.setAttr = function(a, b) {
-      if (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== a || "string" !== typeof b) {
+    e.prototype.setAttr = function(b, a) {
+      if (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== b || "string" !== typeof a) {
         var c = this._attrs = this._attrs || {};
-        null != b ? c[a] = b : delete c[a];
+        null != a ? c[b] = a : delete c[b];
       } else {
-        this.setCSSText(b);
+        this.setCSSText(a);
       }
       return this;
     };
-    e.prototype.hasAttr = function(a) {
-      var b = this._attrs;
-      return b ? null != b[a] : !1;
+    e.prototype.hasAttr = function(b) {
+      var a = this._attrs;
+      return a ? null != a[b] : !1;
     };
-    e.prototype.removeAttr = function(a) {
-      var b = this._attrs;
-      b && delete b[a];
+    e.prototype.removeAttr = function(b) {
+      var a = this._attrs;
+      a && delete a[b];
       return this;
     };
-    e.prototype.hasClass = function(a) {
-      return -1 !== (" " + this.getClass() + " ").indexOf(" " + a + " ");
+    e.prototype.hasClass = function(b) {
+      return -1 !== (" " + this.getClass() + " ").indexOf(" " + b + " ");
     };
     e.prototype.getClass = function() {
       return this.getAttr("className") || "";
     };
-    e.prototype.setClass = function(a) {
-      return this.setAttr("className", a);
+    e.prototype.setClass = function(b) {
+      return this.setAttr("className", b);
     };
-    e.prototype.addClass = function(a) {
-      if (a && !this.hasClass(a)) {
-        var b = this.getClass();
-        this.setClass(b ? b + " " + a : a);
+    e.prototype.addClass = function(b) {
+      if (b && !this.hasClass(b)) {
+        var a = this.getClass();
+        this.setClass(a ? a + " " + b : b);
       }
       return this;
     };
-    e.prototype.removeClass = function(a) {
-      if (a && this.hasClass(a)) {
-        var b = this.getClass().split(" ");
-        b.splice(b.indexOf(a), 1);
-        this.setClass(b.join(" "));
+    e.prototype.removeClass = function(b) {
+      if (b && this.hasClass(b)) {
+        var a = this.getClass().split(" ");
+        a.splice(a.indexOf(b), 1);
+        this.setClass(a.join(" "));
       }
       return this;
     };
-    e.prototype.toggleClass = function(a, b) {
-      return !0 === b || (!1 === b ? 0 : !this.hasClass(a)) ? this.addClass(a) : this.removeClass(a);
+    e.prototype.toggleClass = function(b, a) {
+      return !0 === a || (!1 === a ? 0 : !this.hasClass(b)) ? this.addClass(b) : this.removeClass(b);
     };
-    DEFINE_TYTE__DROP_INLINE_STYLE || (e.prototype.getStyle = function(a) {
-      var b = this._attrs && this._attrs.style;
-      a = b ? b[a] : "";
-      return null == a ? "" : a;
-    }, e.prototype.setStyle = function(a, b) {
+    DEFINE_TYTE__DROP_INLINE_STYLE || (e.prototype.getStyle = function(b) {
+      var a = this._attrs && this._attrs.style;
+      b = a ? a[b] : "";
+      return null == b ? "" : b;
+    }, e.prototype.setStyle = function(b, a) {
       var c = this._attrs, d = c && c.style;
       d || (d = {}, c = this._attrs = c || {}, c.style = d);
-      d[a] = b;
+      d[b] = a;
       return this;
-    }, e.prototype.removeStyle = function(a) {
-      var b = this._attrs && this._attrs.style;
-      b && delete b[a];
+    }, e.prototype.removeStyle = function(b) {
+      var a = this._attrs && this._attrs.style;
+      a && delete a[b];
       return this;
-    }, e.prototype.setCSSText = function(a) {
-      if (a) {
-        a = a.split(";");
-        var b = 0, c;
-        for (c = a.length; b < c; ++b) {
-          var d = a[b];
-          var g = d.split(":")[0].split(" ").join("");
-          this.setStyle(g, d.substr(d.indexOf(":") + 1));
+    }, e.prototype.setCSSText = function(b) {
+      if (b) {
+        b = b.split(";");
+        var a = 0, c;
+        for (c = b.length; a < c; ++a) {
+          var d = b[a];
+          var f = d.split(":")[0].split(" ").join("");
+          this.setStyle(f, d.substr(d.indexOf(":") + 1));
         }
       }
       return this;
     });
-    var da = function(a) {
-      return ca(a);
+    var ia = function(b) {
+      return ha(b);
     };
-    n.prototype._renderer = null;
-    n.prototype.initialParams = null;
-    n.prototype.nodeType = TYTE_NODE_TYPE.DYNAMIC_NODE;
-    n.prototype.parent = null;
-    n.prototype.walkNodes = f.prototype.walkNodes;
-    n.prototype.getPrev = f.prototype.getPrev;
-    n.prototype.setPrev = f.prototype.setPrev;
-    n.prototype.getNext = f.prototype.getNext;
-    n.prototype.setNext = f.prototype.setNext;
-    n.prototype.swap = f.prototype.swap;
-    n.prototype.remove = f.prototype.remove;
-    n.prototype.clone = function(a) {
-      a = new this.constructor();
-      a.initialParams = this.initialParams;
-      return a;
+    q.prototype._renderer = null;
+    q.prototype.initialParams = null;
+    q.prototype.nodeType = TYTE_NODE_TYPE.DYNAMIC_NODE;
+    q.prototype.parent = null;
+    q.prototype.walkNodes = g.prototype.walkNodes;
+    q.prototype.getPrev = g.prototype.getPrev;
+    q.prototype.setPrev = g.prototype.setPrev;
+    q.prototype.getNext = g.prototype.getNext;
+    q.prototype.setNext = g.prototype.setNext;
+    q.prototype.swap = g.prototype.swap;
+    q.prototype.remove = g.prototype.remove;
+    q.prototype.clone = function(b) {
+      b = new this.constructor();
+      b.initialParams = this.initialParams;
+      return b;
     };
-    var fa = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, ha = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, ia = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, ja = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
-    aa = DEFINE_TYTE__USE_VML ? {svg:!0, math:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0} : {svg:!0, math:!0}, ka = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0};
+    var ka = {checked:!0, compact:!0, declare:!0, defer:!0, disabled:!0, ismap:!0, multiple:!0, nohref:!0, noresize:!0, noshade:!0, nowrap:!0, readonly:!0, selected:!0}, la = {link:!0, meta:!0, br:!0, hr:!0, img:!0, input:!0, area:!0, base:!0, col:!0, embed:!0, keygen:!0, param:!0, source:!0}, ma = {p:!0, dt:!0, dd:!0, li:!0, option:!0, thead:!0, tfoot:!0, th:!0, tr:!0, td:!0, rt:!0, rp:!0, optgroup:!0, caption:!0, colgroup:!0, col:!0}, na = {a:!0, audio:!0, del:!0, ins:!0, map:!0, noscript:!0, video:!0}, 
+    ea = DEFINE_TYTE__USE_VML ? {svg:!0, math:!0, "v:polyline":!0, "v:rect":!0, "v:line":!0} : {svg:!0, math:!0}, oa = {script:!0, style:!0, plaintext:!0, xmp:!0, noscript:!0};
     if (DEFINE_TYTE__USE_RENDER_DOM) {
-      var w;
-      f.prototype.renderDOM = function(a) {
+      var x;
+      g.prototype.renderDOM = function(b) {
         return document.createTextNode(this.text);
       };
-      DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (k.prototype.renderDOM = function(a) {
-        var b = document.createDocumentFragment(), c = this._childNodes, d = 0, g, l;
+      DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l.prototype.renderDOM = function(b) {
+        var a = document.createDocumentFragment(), c = this._childNodes, d = 0, f, k;
         if (c) {
-          for (g = c.length; d < g; ++d) {
-            (l = c[d].renderDOM(a)) && b.append(l);
+          for (f = c.length; d < f; ++d) {
+            (k = c[d].renderDOM(b)) && a.append(k);
           }
         }
-        return b;
+        return a;
       });
-      e.prototype.renderDOM = function(a) {
-        var b = this._tagName, c;
-        !w && aa[b] && (w = c = "svg" === b ? "http://www.w3.org/2000/svg" : "http://www.w3.org/1998/Math/MathML");
-        b = w ? document.createElementNS(w, b) : document.createElement(b);
-        var d = this._attrs, g = this._childNodes, l = 0;
+      e.prototype.renderDOM = function(b) {
+        var a = this._tagName, c;
+        !x && ea[a] && (x = c = "svg" === a ? "http://www.w3.org/2000/svg" : "http://www.w3.org/1998/Math/MathML");
+        a = x ? document.createElementNS(x, a) : document.createElement(a);
+        var d = this._attrs, f = this._childNodes, k = 0;
         for (m in d) {
           var h = d[m];
-          "function" === typeof h && (h = h.call(this, a, m));
+          "function" === typeof h && (h = h.call(this, b, m));
           if (null != h) {
             if (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== m) {
-              var m = Y[m] || m;
-              w ? b.setAttributeNS(null, m, "" + h) : b.setAttribute(m, "" + h);
+              var m = ca[m] || m;
+              x ? a.setAttributeNS(null, m, "" + h) : a.setAttribute(m, "" + h);
             } else {
-              b.style.cssText = "object" === typeof h ? D(h, this, a) : h;
+              a.style.cssText = "object" === typeof h ? F(h, this, b) : h;
             }
           }
         }
-        if (g) {
-          for (m = g.length; l < m; ++l) {
-            (d = g[l].renderDOM(a)) && b.appendChild(d);
+        if (f) {
+          for (m = f.length; k < m; ++k) {
+            (d = f[k].renderDOM(b)) && a.appendChild(d);
           }
         }
-        c && (w = !1);
-        return b;
+        c && (x = !1);
+        return a;
       };
-      n.prototype.renderDOM = function(a) {
-        var b = this._renderer(a);
-        if ("string" === typeof b || "number" === typeof b) {
-          return document.createTextNode("" + b);
+      q.prototype.renderDOM = function(b) {
+        var a = this._renderer(b);
+        if ("string" === typeof a || "number" === typeof a) {
+          return document.createTextNode("" + a);
         }
-        if (null != b) {
-          return b.renderDOM(a);
+        if (null != a) {
+          return a.renderDOM(b);
         }
       };
     }
-    var C, H, I;
-    DEFINE_TYTE__USE_RENDER_SSR && (f.prototype.renderSSR = function(a) {
-      return C ? this.text : G(this.text);
-    }, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (k.prototype.renderSSR = X), e.prototype.renderSSR = function(a) {
-      var b = this._tagName, c = ["<", b], d = 1, g = this._attrs, l, h, m, p;
-      if (g) {
-        for (r in g) {
-          var q = g[r];
-          "function" === typeof q && (q = q.call(this, a, r));
-          if (null != q) {
-            var r = Y[r] || r;
-            fa[r] ? !1 !== q && (c[++d] = " " + r) : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== r || "object" !== typeof q || (q = D(q, this, a)), c[++d] = " " + r + '="' + G("" + q).split('"').join('\\"') + '"');
+    var E, K, L;
+    DEFINE_TYTE__USE_RENDER_SSR && (g.prototype.renderSSR = function(b) {
+      return E ? this.text : J(this.text);
+    }, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l.prototype.renderSSR = aa), e.prototype.renderSSR = function(b) {
+      var a = this._tagName, c = ["<", a], d = 1, f = this._attrs, k, h, m, n;
+      if (f) {
+        for (r in f) {
+          var p = f[r];
+          "function" === typeof p && (p = p.call(this, b, r));
+          if (null != p) {
+            var r = ca[r] || r;
+            ka[r] ? !1 !== p && (c[++d] = " " + r) : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== r || "object" !== typeof p || (p = F(p, this, b)), p = J("" + p), p = 0 <= p.indexOf('"') ? 0 <= p.indexOf("'") ? '="' + p.split('"').join("&quot;") + '"' : "='" + p + "'" : '="' + p + '"', c[++d] = " " + r + p);
           }
         }
       }
-      C ||= l = !!ka[b];
-      H ||= h = !!ja[b];
-      I ||= m = !!aa[b];
-      this._childNodes && (p = X.call(this, a));
-      p ? c[++d] = ">" + p : c[++d] = I ? "/>" : ">";
-      l && (C = !1);
-      h && (H = !1);
-      m && (I = !1);
-      if (!ia[b] || H) {
-        if (p || !ha[b]) {
-          c[++d] = "</" + b + ">";
+      E ||= k = !!oa[a];
+      K ||= h = !!na[a];
+      L ||= m = !!ea[a];
+      this._childNodes && (n = aa.call(this, b));
+      n ? c[++d] = ">" + n : c[++d] = L ? "/>" : ">";
+      k && (E = !1);
+      h && (K = !1);
+      m && (L = !1);
+      if (!ma[a] || K) {
+        if (n || !la[a]) {
+          c[++d] = "</" + a + ">";
         }
       }
       return c.join("");
-    }, n.prototype.renderSSR = function(a) {
-      var b = this._renderer(a);
-      return "string" === typeof b ? C ? b : G(b) : "number" === typeof b ? "" + b : null != b ? b.renderSSR(a) : "";
+    }, q.prototype.renderSSR = function(b) {
+      var a = this._renderer(b);
+      return "string" === typeof a ? E ? a : J(a) : "number" === typeof a ? "" + a : null != a ? a.renderSSR(b) : "";
+    });
+    var t = !0;
+    DEFINE_TYTE__USE_RENDER_HTMLJSON && (g.prototype.renderHTMLJSON = function(b) {
+      return D(t, this.text);
+    }, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l.prototype.renderHTMLJSON = function(b) {
+      var a = t;
+      t = !1;
+      return D(a, ba.call(this, b));
+    }), e.prototype.renderHTMLJSON = function(b) {
+      var a = [this._tagName], c = this._attrs, d = t, f, k = {};
+      if (c) {
+        for (f in c) {
+          var h = c[f];
+          "id" === f ? a[0] = a[0] + "#" + h : "className" === f ? a[0] = a[0] + "." + h : (k[f] = h, a[1] = k);
+        }
+      }
+      this._childNodes && (t = !1, a.push.apply(a, ba.call(this, b)), t = d);
+      return a;
+    }, q.prototype.renderHTMLJSON = function(b) {
+      var a = t, c = this._renderer(b);
+      return "string" === typeof c ? D(a, c) : "number" === typeof c ? D(a, "" + c) : null != c ? (t = !1, b = c.renderHTMLJSON(b), t = a, b) : [3, ""];
     });
   })();
 })(void 0);

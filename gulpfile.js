@@ -45,7 +45,8 @@ gulp.task(
                                 'DEFINE_TYTE__DEBUG=true',
                                 'DEFINE_TYTE__EXPORT=true',
                                 'DEFINE_TYTE__USE_RENDER_SSR=true',
-                                'DEFINE_TYTE__USE_RENDER_DOM=true'
+                                'DEFINE_TYTE__USE_RENDER_DOM=true',
+                                'DEFINE_TYTE__USE_RENDER_HTMLJSON=true'
                             ],
                             // compilation_level : 'ADVANCED',
                             // compilation_level : 'WHITESPACE_ONLY',

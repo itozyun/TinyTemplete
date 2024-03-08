@@ -50,7 +50,8 @@ Tyte.Class;
 /** @typedef {!Object.<string,(string|number|!Tyte.AttributeRenderer|boolean)>} */
 Tyte.Attrs;
 
-/** @typedef {*} */
+/** TODO RenderingContext
+ * @typedef {*} */
 Tyte.RenderingParam;
 
 /** @typedef {!function(this:TyteElementBase,Tyte.RenderingParam,string):(!Object|string|number|null|undefined)} */

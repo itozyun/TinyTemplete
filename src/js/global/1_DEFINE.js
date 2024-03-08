@@ -18,3 +18,9 @@ var DEFINE_TYTE__USE_RENDER_SSR = true;
 
 /** @define {boolean} */
 var DEFINE_TYTE__USE_RENDER_DOM = false;
+
+/** @define {boolean} */
+var DEFINE_TYTE__USE_RENDER_HTMLJSON = false;
+
+/** @define {boolean} */
+var DEFINE_TYTE__FROM_VIRTUAL_DOM = false;
