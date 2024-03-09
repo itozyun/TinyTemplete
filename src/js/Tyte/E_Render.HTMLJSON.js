@@ -2,6 +2,7 @@
 //
 //  Render HTMLJSON
 //
+//  @see https://github.com/itozyun/html.json
 //=============================================================================
 
 var RenderHTMLJSON_isRoot = true;
@@ -74,21 +75,30 @@ if( DEFINE_TYTE__USE_RENDER_HTMLJSON ){
         var htmlJson = [ this._tagName ],
             attrs    = this._attrs,
             isRoot   = RenderHTMLJSON_isRoot,
-            attrName, attrValue, attrsCloned = {};
+            property, value, clonedAttrs = {};
 
         // attrs
         if( attrs ){
-            for( attrName in attrs ){
-                attrValue = attrs[ attrName ];
-                if( attrName === 'id' ){
-                    htmlJson[ 0 ] = htmlJson[ 0 ] + '#' + attrValue;
-                    continue;
-                } else if( attrName === 'className' ){
-                    htmlJson[ 0 ] = htmlJson[ 0 ] + '.' + attrValue;
-                    continue;
-                } else {
-                    attrsCloned[ attrName ] = attrValue;
-                    htmlJson[ 1 ] = attrsCloned;
+            for( property in attrs ){
+                value = attrs[ property ];
+                if( typeof value === 'function' ){
+                    value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
+                };
+                if( value != null ){
+                    if( property === 'id' ){
+                        htmlJson[ 0 ] = htmlJson[ 0 ] + '#' + value;
+                        continue;
+                    } else if( property === 'className' ){
+                        htmlJson[ 0 ] = htmlJson[ 0 ] + '.' + value;
+                        continue;
+                    } else {
+                        // object より cssText 形式にした方がファイルサイズが小さい html.json はファイルサイズの小ささを重視
+                        if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' && typeof value === 'object' ){
+                            value = m_objToCSSText( value, this, renderingParam );
+                        };
+                        clonedAttrs[ property ] = value;
+                        htmlJson[ 1 ] = clonedAttrs;
+                    };
                 };
             };
         };

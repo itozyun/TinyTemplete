@@ -1,10 +1,10 @@
 var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT = !1, DEFINE_TYTE__USE_VML = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, DEFINE_TYTE__USE_RENDER_HTMLJSON = !0, DEFINE_TYTE__FROM_VIRTUAL_DOM = !1, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
 (function(pa) {
-  function e(F, A) {
+  function e(A, B) {
   }
   var y, g, l, q;
   (function() {
-    function F(b, a, c) {
+    function A(b, a, c) {
       var d = [], f = -1, k;
       for (k in b) {
         var h = b[k];
@@ -19,7 +19,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
       return d.join(";");
     }
-    function A(b, a) {
+    function B(b, a) {
       if (3 === a.nodeType && b.nodeType !== TYTE_NODE_TYPE.TEXT_NODE) {
         throw "nodeType missmatch!";
       }
@@ -67,24 +67,24 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
     }
     function I(b, a, c) {
-      DEFINE_TYTE__DEBUG && c && A(b, c);
+      DEFINE_TYTE__DEBUG && c && B(b, c);
       return !0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b)) ? !0 : H(I, b, a, c);
     }
-    function B(b, a, c) {
-      DEFINE_TYTE__DEBUG && c && A(b, c);
+    function C(b, a, c) {
+      DEFINE_TYTE__DEBUG && c && B(b, c);
       if (b.nodeType === TYTE_NODE_TYPE.TEXT_NODE) {
         if (!0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b))) {
           return !0;
         }
       } else {
-        return H(B, b, a, c);
+        return H(C, b, a, c);
       }
     }
     function v(b, a, c) {
-      DEFINE_TYTE__DEBUG && c && A(b, c);
+      DEFINE_TYTE__DEBUG && c && B(b, c);
       return b.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && !0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b)) ? !0 : H(v, b, a, c);
     }
-    function C(b, a) {
+    function D(b, a) {
       b && b.constructor === a || (b = new a());
       return b;
     }
@@ -186,7 +186,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     }
     function Y() {
       var b = "";
-      B(this, function(a) {
+      C(this, function(a) {
         b += a.text;
       });
       return b;
@@ -198,7 +198,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     }
     function fa(b) {
       function a(d, f) {
-        var k = arguments, h = C(this, a);
+        var k = arguments, h = D(this, a);
         k = u(k);
         var m = k[0], n;
         if (m && "object" === typeof m && (!m || m.walkNodes !== g.prototype.walkNodes && m.getPrev !== g.prototype.getPrev)) {
@@ -218,7 +218,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     }
     function ha(b) {
       function a() {
-        var d = arguments, f = C(this, a);
+        var d = arguments, f = D(this, a);
         f.initialParams = u(d);
         return f;
       }
@@ -246,7 +246,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
       return a;
     }
-    function D(b, a) {
+    function E(b, a) {
       var c = a;
       b && ("string" === typeof a ? c = [3, a] : c.unshift(11), t = !0);
       return c;
@@ -264,7 +264,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     });
     var ca = {className:"class", htmlFor:"for"};
     g = function(b) {
-      var a = C(this, g);
+      var a = D(this, g);
       a.text = "" + b;
       return a;
     };
@@ -277,7 +277,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       return this;
     };
     g.prototype.walkTextNodes = function(b, a) {
-      DEFINE_TYTE__USE_RENDER_DOM ? B(this, b, a) : B(this, b);
+      DEFINE_TYTE__USE_RENDER_DOM ? C(this, b, a) : C(this, b);
       return this;
     };
     g.prototype.getPrev = function() {
@@ -328,7 +328,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       return new g(this.text);
     };
     DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l = function(b) {
-      var a = C(this, l);
+      var a = D(this, l);
       return a.appendNode.apply(a, u(arguments));
     }, y.DocumentFragment = l, l.prototype._childNodes = null, l.prototype.nodeType = TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE, l.prototype.parent = null, l.prototype.walkNodes = g.prototype.walkNodes, l.prototype.walkTextNodes = g.prototype.walkTextNodes, l.prototype.walkNodes = N, l.prototype.getElementByID = O, l.prototype.getElementListByTag = P, l.prototype.getElementListByClass = Q, l.prototype.getElementListByName = R, l.prototype.getFirstChild = S, l.prototype.getLastChild = T, l.prototype.getChildNodes = 
     U, l.prototype.appendNode = V, l.prototype.prependNode = W, l.prototype.empty = X, l.prototype.getTextContent = Y, l.prototype.setTextContent = Z, l.prototype.clone = function(b) {
@@ -512,7 +512,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
               var m = ca[m] || m;
               x ? a.setAttributeNS(null, m, "" + h) : a.setAttribute(m, "" + h);
             } else {
-              a.style.cssText = "object" === typeof h ? F(h, this, b) : h;
+              a.style.cssText = "object" === typeof h ? A(h, this, b) : h;
             }
           }
         }
@@ -534,9 +534,9 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
         }
       };
     }
-    var E, K, L;
+    var F, K, L;
     DEFINE_TYTE__USE_RENDER_SSR && (g.prototype.renderSSR = function(b) {
-      return E ? this.text : J(this.text);
+      return F ? this.text : J(this.text);
     }, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l.prototype.renderSSR = aa), e.prototype.renderSSR = function(b) {
       var a = this._tagName, c = ["<", a], d = 1, f = this._attrs, k, h, m, n;
       if (f) {
@@ -545,16 +545,16 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
           "function" === typeof p && (p = p.call(this, b, r));
           if (null != p) {
             var r = ca[r] || r;
-            ka[r] ? !1 !== p && (c[++d] = " " + r) : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== r || "object" !== typeof p || (p = F(p, this, b)), p = J("" + p), p = 0 <= p.indexOf('"') ? 0 <= p.indexOf("'") ? '="' + p.split('"').join("&quot;") + '"' : "='" + p + "'" : '="' + p + '"', c[++d] = " " + r + p);
+            ka[r] ? !1 !== p && (c[++d] = " " + r) : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== r || "object" !== typeof p || (p = A(p, this, b)), p = J("" + p), p = 0 <= p.indexOf('"') ? 0 <= p.indexOf("'") ? '="' + p.split('"').join("&quot;") + '"' : "='" + p + "'" : '="' + p + '"', c[++d] = " " + r + p);
           }
         }
       }
-      E ||= k = !!oa[a];
+      F ||= k = !!oa[a];
       K ||= h = !!na[a];
       L ||= m = !!ea[a];
       this._childNodes && (n = aa.call(this, b));
       n ? c[++d] = ">" + n : c[++d] = L ? "/>" : ">";
-      k && (E = !1);
+      k && (F = !1);
       h && (K = !1);
       m && (L = !1);
       if (!ma[a] || K) {
@@ -565,28 +565,29 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       return c.join("");
     }, q.prototype.renderSSR = function(b) {
       var a = this._renderer(b);
-      return "string" === typeof a ? E ? a : J(a) : "number" === typeof a ? "" + a : null != a ? a.renderSSR(b) : "";
+      return "string" === typeof a ? F ? a : J(a) : "number" === typeof a ? "" + a : null != a ? a.renderSSR(b) : "";
     });
     var t = !0;
     DEFINE_TYTE__USE_RENDER_HTMLJSON && (g.prototype.renderHTMLJSON = function(b) {
-      return D(t, this.text);
+      return E(t, this.text);
     }, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (l.prototype.renderHTMLJSON = function(b) {
       var a = t;
       t = !1;
-      return D(a, ba.call(this, b));
+      return E(a, ba.call(this, b));
     }), e.prototype.renderHTMLJSON = function(b) {
       var a = [this._tagName], c = this._attrs, d = t, f, k = {};
       if (c) {
         for (f in c) {
           var h = c[f];
-          "id" === f ? a[0] = a[0] + "#" + h : "className" === f ? a[0] = a[0] + "." + h : (k[f] = h, a[1] = k);
+          "function" === typeof h && (h = h.call(this, b, f));
+          null != h && ("id" === f ? a[0] = a[0] + "#" + h : "className" === f ? a[0] = a[0] + "." + h : (DEFINE_TYTE__DROP_INLINE_STYLE || "style" !== f || "object" !== typeof h || (h = A(h, this, b)), k[f] = h, a[1] = k));
         }
       }
       this._childNodes && (t = !1, a.push.apply(a, ba.call(this, b)), t = d);
       return a;
     }, q.prototype.renderHTMLJSON = function(b) {
       var a = t, c = this._renderer(b);
-      return "string" === typeof c ? D(a, c) : "number" === typeof c ? D(a, "" + c) : null != c ? (t = !1, b = c.renderHTMLJSON(b), t = a, b) : [3, ""];
+      return "string" === typeof c ? E(a, c) : "number" === typeof c ? E(a, "" + c) : null != c ? (t = !1, b = c.renderHTMLJSON(b), t = a, b) : [3, ""];
     });
   })();
 })(void 0);
