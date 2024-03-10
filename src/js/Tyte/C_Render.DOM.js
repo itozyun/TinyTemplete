@@ -46,8 +46,8 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
         var tagName = this._tagName;
         var isXMLRoot;
 
-        if( !RenderDOM_xmlns && !!IS_XML_ELEMENT[ tagName ] ){
-            RenderDOM_xmlns = isXMLRoot = tagName === 'svg' ? 'http://www.w3.org/2000/svg' : 'http://www.w3.org/1998/Math/MathML';
+        if( !RenderDOM_xmlns && TAGNAME_TO_NAMESPACE[ tagName ] ){
+            RenderDOM_xmlns = isXMLRoot = TAGNAME_TO_NAMESPACE[ tagName ];
         };
 
         var elm = RenderDOM_xmlns ? document.createElementNS( RenderDOM_xmlns, tagName ) : document.createElement( tagName ),

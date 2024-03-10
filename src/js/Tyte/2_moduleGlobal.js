@@ -348,3 +348,12 @@ function m_deepCopy( srcObject ){
 function m_escapeForHTML( text ){
     return text.split( '<' ).join( '&lt;' ).split( '>' ).join( '&gt;' );
 };
+
+/**
+ * <v:shape />
+ * @param {string} tagName 
+ * @return {boolean}
+ */
+function m_isNamespacedTag( tagName ){
+    return 0 < tagName.indexOf( ':' );
+};

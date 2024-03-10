@@ -90,7 +90,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
             RenderSSR_requireClosingTag = startToRequireClosingTag = !!REQUIRE_CLOSING_TAG[ tagName ];
         };
         if( !RenderSSR_isXML ){
-            RenderSSR_isXML = isXMLRoot = !!IS_XML_ELEMENT[ tagName ];
+            RenderSSR_isXML = isXMLRoot = !!TAGNAME_TO_NAMESPACE[ tagName ] || m_isNamespacedTag( tagName );
         };
 
         if( this._childNodes ){
