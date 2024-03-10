@@ -145,6 +145,8 @@ TyteElementBase.prototype.getLastChild          = m_CanHasChildren_getLastChild;
 
 TyteElementBase.prototype.getChildNodes         = m_CanHasChildren_getChildNodes;
 
+TyteElementBase.prototype.getChildElements      = m_CanHasChildren_getChildElements;
+
 //_____________________________________________________________________________
 //
 //  TyteElementBase Manipulation

@@ -121,12 +121,10 @@ function m_maybeRendered( tyteNode, node ){
         } else if( tyteNode._tagName.toUpperCase() !== node.tagName.toUpperCase() ){
             throw "tagName missmatch!";
         } else if( !tyteNode.getChildNodes() ){
-            if( node.childNodes.length ){
-                if( node.childNodes.length !== 1 || node.childNodes[ 0 ].nodeType !== 3 ){ // 1つのテキストノードは許容
-                    throw "childNodes.length missmatch!";
-                };
+            if( node.children.length ){
+                throw "childNodes.length missmatch!"; // Element が居たら不可, TextNode が居ても可
             };
-        } else if( tyteNode.getChildNodes().length < node.childNodes.length ){ // TextNode が Real DOM には居ないことを許容する
+        } else if( tyteNode.getChildElements().length !== node.children.length ){ // Element の数で一致を調査する
             throw "childNodes.length missmatch!";
         };
     };
@@ -139,7 +137,7 @@ function m_maybeRendered( tyteNode, node ){
  * @param {!Node|void} opt_node
  * @return {boolean|void}
  */
-function m_walkChildren( walkFunction, tyteNode, func, opt_node ){
+function m_walkChildNodes( walkFunction, tyteNode, func, opt_node ){
     var tyteChildNodes = tyteNode._childNodes,
         i = 0, l, realChildNodes, tyteChildNode, realChildNode, textNode;
 
@@ -187,7 +185,7 @@ function m_walkNodes( tyteNode, func, opt_node ){
         return true;
     };
 
-    return m_walkChildren(
+    return m_walkChildNodes(
             /** @type {!function(*,!Function,!Node=):(boolean|undefined)} */ (m_walkNodes),
             tyteNode,
             /** @type {!function(*,*=):(boolean|undefined)} */ (func),
@@ -212,7 +210,7 @@ function m_walkTextNodes( tyteNode, func, opt_node ){
             return true;
         };
     } else {
-        return m_walkChildren(
+        return m_walkChildNodes(
             /** @type {!function(*,!Function,!Node=):(boolean|undefined)} */ (m_walkTextNodes),
             tyteNode,
             /** @type {!function(*,*=):(boolean|undefined)} */ (func),
@@ -239,7 +237,7 @@ function m_walkElements( tyteNode, func, opt_node ){
         };
     };
 
-    return m_walkChildren(
+    return m_walkChildNodes(
         /** @type {!function(*,!Function,!Node=):(boolean|undefined)} */ (m_walkElements),
         tyteNode,
         /** @type {!function(*,*=):(boolean|undefined)} */ (func),

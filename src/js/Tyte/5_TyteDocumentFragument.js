@@ -102,6 +102,12 @@ TyteDocumentFragment.prototype.getLastChild = m_CanHasChildren_getLastChild;
  */
 TyteDocumentFragment.prototype.getChildNodes = m_CanHasChildren_getChildNodes;
 
+/**
+ * @this {!Tyte.CanHasChildren}
+ * @return {!Array.<!TyteElementBase>|null}
+ */
+TyteDocumentFragment.prototype.getChildElements = m_CanHasChildren_getChildElements;
+
 //_____________________________________________________________________________
 //
 //  TyteDocumentFragment Manipulation

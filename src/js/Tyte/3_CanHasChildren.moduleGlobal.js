@@ -121,6 +121,25 @@ function m_CanHasChildren_getChildNodes(){
     return this._childNodes;
 };
 
+/**
+ * @this {!Tyte.CanHasChildren}
+ * @return {!Array.<!TyteElementBase>}
+ */
+function m_CanHasChildren_getChildElements(){
+    var ret = [],
+        childNodes = this._childNodes,
+        i = 0, l = childNodes.length, childNode;
+
+    for( ; i < l; ++i ){
+        childNode = childNodes[ i ];
+        if( childNode.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE ){
+            ret.push( childNode );
+        };
+    };
+
+    return ret;
+};
+
 //_____________________________________________________________________________
 //
 //  CanHasChildren Manipulation
