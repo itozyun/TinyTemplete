@@ -141,10 +141,8 @@ function m_toSnakeCase( str ){
  * @return {boolean}
  */
 function m_isTyteNode( tyteNode ){
-    return !!tyteNode && (
-            tyteNode.walkNodes === TyteTextNode.prototype.walkNodes || // Text | Element | DocumentFragment
-            tyteNode.getPrev === TyteTextNode.prototype.getPrev // DynamicNode
-        );
+    return !!tyteNode &&
+            tyteNode.walkNodes === TyteTextNode.prototype.walkNodes;
 };
 
 /**

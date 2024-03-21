@@ -212,7 +212,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
         var l = arguments, h = D(this, a);
         l = u(l);
         var m = l[0], n;
-        if (m && y(m) && (!m || m.walkNodes !== g.prototype.walkNodes && m.getPrev !== g.prototype.getPrev)) {
+        if (m && y(m) && (!m || m.walkNodes !== g.prototype.walkNodes)) {
           for (n in m) {
             h.setAttr(n, m[n]);
           }
