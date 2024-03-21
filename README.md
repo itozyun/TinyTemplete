@@ -15,35 +15,31 @@ const i = $('i');
 const span = $('span');
 
 /**
- * <li
- *     className=mylistitem style=color:red>
- *     <i
- *         className=ico-twitter>
+ * <li class=mylistitem style=color:red>
+ *     <i class=ico-twitter>
  *         X
  *     </i>
  *     <span>
- *         --ITEM NAME--
+ *         ...
  *     </span>
  * </li>
  */
 const t_LIST_ITEM =
-    li(
-        { className : 'mylistitem', style : 'color:red' },
-        i(
-            { className : 'ico-twitter' },
+    li( { className : 'mylistitem', style : 'color:red' },
+        i( { className : 'ico-twitter' },
             'X'
         ),
         span(
-            '--ITEM NAME--'
+            '...'
         )
     );
 
 t_LIST_ITEM.getElementListByTag( 'span' )[ 0 ].setTextContent( 'Pineapple' );
 
 if( isNode ){
-    t_LIST_ITEM.renderSSR(); // => '<li class="mylistitem"><span>Pine apple</span>'
+    t_LIST_ITEM.renderSSR(); // => '<li class="mylistitem"><span>Pineapple</span>'
 } else if( isBrowser ){
-    t_LIST_ITEM.renderDOM(); // => HTMLListElement
+    t_LIST_ITEM.renderDOM(); // => HTMLLiElement
 };
 ~~~
 
