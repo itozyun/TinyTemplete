@@ -21,8 +21,8 @@ TyteElementBase.prototype.getAttr = function( attrName ){
  * @return {!TyteElementBase}
  */
 TyteElementBase.prototype.setAttr = function( attrName, value ){
-    if( !DEFINE_TYTE__DROP_INLINE_STYLE && attrName === 'style' && typeof value === 'string' ){
-        this.setCSSText( value );
+    if( !DEFINE_TYTE__DROP_INLINE_STYLE && attrName === 'style' && m_isString( value ) ){
+        this.setCSSText( /** @type {string} */ (value) );
     } else {
         var attrs = this._attrs = this._attrs || {};
 

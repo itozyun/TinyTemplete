@@ -72,7 +72,7 @@ function TyteElementBase_init( _instance, Class, _args ){
         args = m_argumentsToArray( _args ),
         attrs = args[ 0 ], property;
 
-    if( attrs && typeof attrs === 'object' && !m_isTyteNode( attrs ) ){
+    if( m_isAttrs( attrs ) && !m_isTyteNode( attrs ) ){
         for( property in attrs ){
             instance.setAttr( property, attrs[ property ] );
         };

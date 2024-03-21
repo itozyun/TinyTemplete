@@ -10,9 +10,9 @@
  * @return {!Tyte.Class|undefined}
  */
 p_Tyte = function( tagOrFunction ){
-    if( typeof tagOrFunction === 'function' ){
+    if( m_isFunction( tagOrFunction ) ){
         return m_createDynamicNodeClass( /** @type {!Tyte.DynamicNodeRenderer} */ (tagOrFunction) );
-    } else if( typeof tagOrFunction === 'string' ){
+    } else if( m_isString( tagOrFunction ) ){
         return m_createTyteElementClass( /** @type {string} */ (tagOrFunction) );
     };
 };
@@ -52,6 +52,46 @@ var m_RENAME_ATTRIBUTES = { className : 'class', htmlFor : 'for' };
 //=============================================================================
 
 /**
+ * @param {*} v 
+ * @return {boolean}
+ */
+function m_isNumber( v ){
+    return v === + v;
+};
+
+/**
+ * @param {*} v 
+ * @return {boolean}
+ */
+function m_isString( v ){
+    return v === v + '';
+};
+
+/**
+ * @param {*} v 
+ * @return {boolean}
+ */
+function m_isFunction( v ){
+    return typeof v === 'function';
+};
+
+/**
+ * @param {*} v 
+ * @return {boolean}
+ */
+function m_isAttrsOrNull( v ){
+    return typeof v === 'object';
+};
+
+/**
+ * @param {*} v 
+ * @return {boolean}
+ */
+function m_isAttrs( v ){
+    return !!v && m_isAttrsOrNull( v );
+};
+
+/**
  *
  * @param {!Object} style
  * @param {!TyteElementBase} tyteNode
@@ -63,7 +103,7 @@ function m_objToCSSText( style, tyteNode, renderingParam ){
 
     for( property in style ){
         value = style[ property ];
-        if( typeof value === 'function' ){
+        if( m_isFunction( value ) ){
             value = /** @type {!Tyte.StyleRenderer} */ (value).call( tyteNode, renderingParam, property );
         };
         if( value != null ){
@@ -285,8 +325,8 @@ function m_preprocessInsertNode( args, parentNode ){
 
     for( ; i; ){
         arg = args[ --i ];
-        if( typeof arg === 'string' || typeof arg === 'number' ){
-            args[ i ] = new TyteTextNode( arg );
+        if( m_isString( arg ) || m_isNumber( arg ) ){
+            args[ i ] = new TyteTextNode( /** @type {string|number} */ (arg) );
         } else if( !DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT && arg.nodeType === TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE ){
             childNodes = /** @type {!Array} */ (arg._childNodes);
             if( childNodes && childNodes.length ){
@@ -328,7 +368,7 @@ function m_deepCopy( srcObject ){
         newObject = {};
         for( key in srcObject ){
             value = srcObject[ key ];
-            if( value && typeof value === 'object' ){
+            if( m_isAttrs( value ) ){
                 newObject[ key ] = m_deepCopy( value );
             } else {
                 newObject[ key ] = value;

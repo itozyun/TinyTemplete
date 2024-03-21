@@ -35,7 +35,7 @@ function RenderHTMLJSON_toStrictHTMLJSON( isRoot, stringOrArray ){
     var htmlJson = stringOrArray;
 
     if( isRoot ){
-        if( typeof stringOrArray === 'string' ){
+        if( m_isString( stringOrArray ) ){
             htmlJson = [ 3, stringOrArray ];
         } else {
             htmlJson.unshift( 11 );
@@ -81,7 +81,7 @@ if( DEFINE_TYTE__USE_RENDER_HTMLJSON ){
         if( attrs ){
             for( property in attrs ){
                 value = attrs[ property ];
-                if( typeof value === 'function' ){
+                if( m_isFunction( value ) ){
                     value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
                 };
                 if( value != null ){
@@ -93,8 +93,8 @@ if( DEFINE_TYTE__USE_RENDER_HTMLJSON ){
                         continue;
                     } else {
                         // object より cssText 形式にした方がファイルサイズが小さい html.json はファイルサイズの小ささを重視
-                        if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' && typeof value === 'object' ){
-                            value = m_objToCSSText( value, this, renderingParam );
+                        if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' && m_isAttrsOrNull( value ) ){
+                            value = m_objToCSSText( /** @type {!Object} */ (value), this, renderingParam );
                         };
                         clonedAttrs[ property ] = value;
                         htmlJson[ 1 ] = clonedAttrs;
@@ -120,9 +120,9 @@ if( DEFINE_TYTE__USE_RENDER_HTMLJSON ){
             staticTyteNode = this._renderer( renderingParam ),
             htmlJson;
 
-        if( typeof staticTyteNode === 'string' ){
+        if( m_isString( staticTyteNode ) ){
             return RenderHTMLJSON_toStrictHTMLJSON( isRoot, staticTyteNode );
-        } else if( typeof staticTyteNode === 'number' ){
+        } else if( m_isNumber( staticTyteNode ) ){
             return RenderHTMLJSON_toStrictHTMLJSON( isRoot, '' + staticTyteNode );
         } else if( staticTyteNode != null ){
             RenderHTMLJSON_isRoot = false;

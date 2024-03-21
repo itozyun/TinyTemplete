@@ -58,12 +58,14 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
         // attrs
         for( property in attrs ){
             value = attrs[ property ];
-            if( typeof value === 'function' ){
+            if( m_isFunction( value ) ){
                 value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
             };
             if( value != null ){
                 if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' ){
-                    elm.style.cssText = typeof value === 'object' ? m_objToCSSText( value, this, renderingParam ) : /** @type {string} */ (value);
+                    elm.style.cssText = m_isAttrsOrNull( value )
+                                            ? m_objToCSSText( /** @type {!Object} */ (value), this, renderingParam )
+                                            : /** @type {string} */ (value);
                 } else {
                     property = m_RENAME_ATTRIBUTES[ property ] || property;
                     if( RenderDOM_xmlns ){
@@ -98,7 +100,7 @@ if( DEFINE_TYTE__USE_RENDER_DOM ){
     TyteDynamicNodeBase.prototype.renderDOM = function( renderingParam ){
         var staticTyteNode = this._renderer( renderingParam );
 
-        if( typeof staticTyteNode === 'string' || typeof staticTyteNode === 'number'  ){
+        if( m_isString( staticTyteNode ) || m_isNumber( staticTyteNode ) ){
             return document.createTextNode( '' + staticTyteNode );
         } else if( staticTyteNode != null ){
             return staticTyteNode.renderDOM( renderingParam );

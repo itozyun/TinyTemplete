@@ -54,7 +54,7 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
         if( attrs ){
             for( property in attrs ){
                 value = attrs[ property ];
-                if( typeof value === 'function' ){
+                if( m_isFunction( value ) ){
                     value = /** @type {!Tyte.AttributeRenderer} */ (value).call( this, renderingParam, property );
                 };
                 if( value != null ){
@@ -64,8 +64,8 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
                             htmlString[ ++i ] = ' ' + property;
                         };
                     } else {
-                        if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' && typeof value === 'object' ){
-                            value = m_objToCSSText( value, this, renderingParam );
+                        if( !DEFINE_TYTE__DROP_INLINE_STYLE && property === 'style' && m_isAttrsOrNull( value ) ){
+                            value = m_objToCSSText( /** @type {!Object} */ (value), this, renderingParam );
                         };
                         value = m_escapeForHTML( '' + value );
                         if( 0 <= value.indexOf( '"' ) ){
@@ -129,9 +129,9 @@ if( DEFINE_TYTE__USE_RENDER_SSR ){
     TyteDynamicNodeBase.prototype.renderSSR = function( renderingParam ){
         var staticTyteNode = this._renderer( renderingParam );
 
-        if( typeof staticTyteNode === 'string' ){
+        if( m_isString( staticTyteNode ) ){
             return RenderSSR_skipHTMLEscape ? staticTyteNode : m_escapeForHTML( staticTyteNode );
-        } else if( typeof staticTyteNode === 'number' ){
+        } else if( m_isNumber( staticTyteNode ) ){
             return '' + staticTyteNode;
         } else if( staticTyteNode != null ){
             return staticTyteNode.renderSSR( renderingParam );
