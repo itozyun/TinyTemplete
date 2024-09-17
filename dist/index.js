@@ -1,8 +1,8 @@
-var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, DEFINE_TYTE__USE_RENDER_HTMLJSON = !0, DEFINE_TYTE__FROM_VIRTUAL_DOM = !1, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4};
+var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_STYLE = !1, DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT = !1, DEFINE_TYTE__USE_RENDER_SSR = !0, DEFINE_TYTE__USE_RENDER_DOM = !0, DEFINE_TYTE__USE_RENDER_HTMLJSON = !0, DEFINE_TYTE__FROM_VIRTUAL_DOM = !1, TYTE_NODE_TYPE = {ELEMENT_NODE:1, DOCUMENT_FRAGMENT_NODE:DEFINE_TYTE__DEBUG ? 11 : 2, TEXT_NODE:3, DYNAMIC_NODE:4, DOCUMENT_TYPE_NODE:DEFINE_TYTE__DEBUG ? 10 : 5, PROCESSING_INSTRUCTION:7};
 (function(sa) {
   function f(x, y) {
   }
-  var A, g, k, q;
+  var B, g, k, q;
   (function() {
     function x(b) {
       return "function" === typeof b;
@@ -90,15 +90,18 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       DEFINE_TYTE__DEBUG && c && I(b, c);
       return b.nodeType === TYTE_NODE_TYPE.ELEMENT_NODE && !0 === (DEFINE_TYTE__USE_RENDER_DOM ? a(b, c) : a(b)) ? !0 : J(v, b, a, c);
     }
-    function D(b, a) {
-      b && b.constructor === a || (b = new a());
+    function D(b, a, c) {
+      if (!b || b.constructor !== c && b.constructor !== a) {
+        b = new a();
+      }
+      b.constructor = a;
       return b;
     }
     function w(b) {
       var a = b.parent;
       return a ? (a = a._childNodes, a.indexOf(b)) : -1;
     }
-    function B(b, a) {
+    function A(b, a) {
       for (var c = b.length, d, e; c;) {
         d = b[--c], d === d + "" || d === +d ? b[c] = new g(d) : DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || d.nodeType !== TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE || (d = d._childNodes) && d.length && (d.unshift(c, 1), b.splice.apply(b, d));
       }
@@ -174,12 +177,12 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       return b;
     }
     function Z(b) {
-      var a = this._childNodes = this._childNodes || [], c = B(u(arguments), this);
+      var a = this._childNodes = this._childNodes || [], c = A(u(arguments), this);
       a.push.apply(a, c);
       return this;
     }
     function aa(b) {
-      var a = this._childNodes = this._childNodes || [], c = B(u(arguments), this);
+      var a = this._childNodes = this._childNodes || [], c = A(u(arguments), this);
       c.unshift(0, 0);
       a.splice.apply(a, c);
       return this;
@@ -209,7 +212,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     }
     function ja(b) {
       function a(d, e) {
-        var l = arguments, h = D(this, a);
+        var l = arguments, h = D(this, a, f);
         l = u(l);
         var m = l[0], n;
         if (m && y(m) && (!m || m.walkNodes !== g.prototype.walkNodes)) {
@@ -223,19 +226,17 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       }
       var c = new f();
       c._tagName = b;
-      c.constructor = a;
       a.prototype = c;
       return a;
     }
     function ka(b) {
       function a() {
-        var d = arguments, e = D(this, a);
+        var d = arguments, e = D(this, a, q);
         e.initialParams = u(d);
         return e;
       }
       var c = new q();
       c._renderer = b;
-      c.constructor = a;
       a.prototype = c;
       return a;
     }
@@ -262,7 +263,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       b && (a === a + "" ? c = [3, a] : c.unshift(11), t = !0);
       return c;
     }
-    A = function(b) {
+    B = function(b) {
       if (x(b)) {
         return la(b);
       }
@@ -270,16 +271,14 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
         return ma(b);
       }
     };
-    DEFINE_TYTE__EXPORT && (module.exports = A);
-    DEFINE_TYTE__FROM_VIRTUAL_DOM && (A.fromVDOM = function(b) {
-    });
+    DEFINE_TYTE__EXPORT && (module.exports = B);
     var ha = {className:"class", htmlFor:"for"};
     g = function(b) {
       var a = D(this, g);
       a.text = "" + b;
       return a;
     };
-    A.Text = g;
+    B.Text = g;
     g.prototype.nodeType = TYTE_NODE_TYPE.TEXT_NODE;
     g.prototype.text = "";
     g.prototype.parent = null;
@@ -298,7 +297,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     g.prototype.setPrev = function(b) {
       var a = this.parent;
       if (a) {
-        var c = B(u(arguments), a);
+        var c = A(u(arguments), a);
         c.unshift(w(this), 0);
         a = a._childNodes;
         a.splice.apply(a, c);
@@ -314,7 +313,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
       if (a) {
         var c = a._childNodes;
         var d = w(this) + 1;
-        a = B(u(arguments), a);
+        a = A(u(arguments), a);
         d < c.length ? (a.unshift(d, 0), c.splice.apply(c, a)) : c.push.apply(c, a);
       }
       return this;
@@ -322,7 +321,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     g.prototype.swap = function(b) {
       var a = this.parent;
       if (a) {
-        var c = B(u(arguments), a);
+        var c = A(u(arguments), a);
         c.unshift(w(this), 1);
         a = a._childNodes;
         a.splice.apply(a, c);
@@ -341,7 +340,7 @@ var DEFINE_TYTE__DEBUG = !0, DEFINE_TYTE__EXPORT = !0, DEFINE_TYTE__DROP_INLINE_
     DEFINE_TYTE__DROP_DOCUMENT_FRAGMENT || (k = function(b) {
       var a = D(this, k);
       return a.appendNode.apply(a, u(arguments));
-    }, A.DocumentFragment = k, k.prototype._childNodes = null, k.prototype.nodeType = TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE, k.prototype.parent = null, k.prototype.walkNodes = g.prototype.walkNodes, k.prototype.walkTextNodes = g.prototype.walkTextNodes, k.prototype.walkNodes = Q, k.prototype.getElementByID = R, k.prototype.getElementListByTag = S, k.prototype.getElementListByClass = T, k.prototype.getElementListByName = U, k.prototype.getFirstChild = V, k.prototype.getLastChild = W, k.prototype.getChildNodes = 
+    }, B.DocumentFragment = k, k.prototype._childNodes = null, k.prototype.nodeType = TYTE_NODE_TYPE.DOCUMENT_FRAGMENT_NODE, k.prototype.parent = null, k.prototype.walkNodes = g.prototype.walkNodes, k.prototype.walkTextNodes = g.prototype.walkTextNodes, k.prototype.walkNodes = Q, k.prototype.getElementByID = R, k.prototype.getElementListByTag = S, k.prototype.getElementListByClass = T, k.prototype.getElementListByName = U, k.prototype.getFirstChild = V, k.prototype.getLastChild = W, k.prototype.getChildNodes = 
     X, k.prototype.getChildElements = Y, k.prototype.appendNode = Z, k.prototype.prependNode = aa, k.prototype.empty = ba, k.prototype.getTextContent = ca, k.prototype.setTextContent = da, k.prototype.clone = function(b) {
       var a = new k();
       if (b) {

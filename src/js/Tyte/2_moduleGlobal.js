@@ -21,16 +21,6 @@ if( DEFINE_TYTE__EXPORT ){
     module.exports = p_Tyte;
 };
 
-if( DEFINE_TYTE__FROM_VIRTUAL_DOM ){
-    /**
-     * parse5 の Virtual DOM Object を取り込んで Tyte Style の DOM API で操作できるようにする
-     * @param {!Object} vdom
-     * @return {!TyteTextNode|!TyteElementBase|!TyteDocumentFragment}
-     */
-    p_Tyte.fromVDOM = function( vdom ){
-
-    };
-};
 
 //=============================================================================
 //
@@ -287,12 +277,14 @@ function m_walkElements( tyteNode, func, opt_node ){
  *
  * @param {!Tyte.AllNode|*} instance
  * @param {!Tyte.Class} Class
+ * @param {!Tyte.Class=} opt_SuperClass
  * @return {!Tyte.AllNode}
  */
-function m_getInstance( instance, Class ){
-    if( !instance || instance.constructor !== Class ){
+function m_getInstance( instance, Class, opt_SuperClass ){
+    if( !instance || instance.constructor !== opt_SuperClass && instance.constructor !== Class ){
         instance = new Class();
     };
+    instance.constructor = Class;
     return /** @type {!Tyte.AllNode} */ (instance);
 };
 

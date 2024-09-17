@@ -54,7 +54,6 @@ function TyteElementBase_createClass( tagName ){
 
     var traits = new TyteElementBase;
     traits._tagName    = tagName;
-    traits.constructor = TyteElement;
 
     TyteElement.prototype = traits;
     return TyteElement;
@@ -68,7 +67,7 @@ function TyteElementBase_createClass( tagName ){
  * @return {!TyteElementBase}
  */
 function TyteElementBase_init( _instance, Class, _args ){
-    var instance = /** @type {!TyteElementBase} */ (m_getInstance( _instance, Class )),
+    var instance = /** @type {!TyteElementBase} */ (m_getInstance( _instance, Class, TyteElementBase )),
         args = m_argumentsToArray( _args ),
         attrs = args[ 0 ], property;
 

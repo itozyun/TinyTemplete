@@ -41,7 +41,6 @@ function TyteDynamicNodeBase_createClass( func ){
 
     var traits = new TyteDynamicNodeBase;
     traits._renderer   = func;
-    traits.constructor = TyteDynamicNode;
 
     TyteDynamicNode.prototype = traits;
     return TyteDynamicNode;
@@ -55,7 +54,7 @@ function TyteDynamicNodeBase_createClass( func ){
  * @return {!TyteDynamicNodeBase}
  */
 function TyteDynamicNodeBase_init( _instance, Class, _initialParams ){
-    var instance = /** @type {!TyteDynamicNodeBase} */ (m_getInstance( _instance, Class ));
+    var instance = /** @type {!TyteDynamicNodeBase} */ (m_getInstance( _instance, Class, TyteDynamicNodeBase ));
 
     instance.initialParams = /** @type {!Array} */ (m_argumentsToArray( _initialParams ));
     return instance;
